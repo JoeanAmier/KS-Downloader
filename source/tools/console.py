@@ -1,0 +1,64 @@
+from typing import Any, Optional, Union
+
+from rich.console import Console
+from rich.style import Style
+from rich.text import Text
+from rich.text import TextType
+
+
+# import logging
+# from rich.logging import RichHandler
+
+
+class ColorConsole(Console):
+    # LOG_FORMAT = "%(message)s"
+    # DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
+    MASTER = "b #fff200"
+    PROMPT = "b turquoise2"
+    GENERAL = "b bright_white"
+    PROGRESS = "b bright_magenta"
+    ERROR = "b bright_red"
+    WARNING = "b bright_yellow"
+    INFO = "b bright_green"
+
+    def __init__(self):
+        super().__init__()
+        # logging.basicConfig(
+        #     level=logging.INFO,
+        #     format=self.LOG_FORMAT,
+        #     datefmt=self.DATE_FORMAT,
+        #     handlers=[RichHandler(
+        #         show_path=False,
+        #         omit_repeated_times=False,
+        #     )]
+        # )
+        # self.log = logging.getLogger("rich")
+
+    def print(
+            self,
+            *objects: Any,
+            style: Optional[Union[str, Style]] = None,
+            highlight: Optional[bool] = False,
+            **kwargs,
+    ) -> None:
+        super().print(*objects, style=style or self.GENERAL, highlight=highlight, **kwargs)
+
+    def input(
+            self,
+            prompt: TextType = "",
+            style: Optional[Union[str, Style]] = None,
+            **kwargs,
+    ) -> str:
+        return super().input(Text(prompt, style=style or self.PROMPT), **kwargs)
+
+    def info(self, message: str):
+        self.print(message, style=self.INFO)
+        # self.log.info(message)
+
+    def warning(self, message: str):
+        self.print(message, style=self.WARNING)
+        # self.log.warning(message)
+
+    def error(self, message: str):
+        self.print(message, style=self.ERROR)
+        # self.log.error(message)
