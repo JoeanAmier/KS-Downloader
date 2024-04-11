@@ -13,13 +13,16 @@ if TYPE_CHECKING:
 
 class Config:
     default = {
-        # "cookie": "",
+        "work_path": "",
+        "folder_name": "Download",
+        "proxy": None,
+        "download_record": True,
+        "data_record": False,
+        "max_workers": 4,
+        "cover": "",
         "max_retry": RETRY,
         "timeout": TIMEOUT,
-        "proxy": None,
-        "folder_name": "Download",
-        "work_path": "",
-        "cover": "",
+        # "cookie": "",
     }
 
     def __init__(self, console: "ColorConsole", ):

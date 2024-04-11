@@ -14,15 +14,113 @@
 <p>🔥 <b>快手作品下载工具：</b>完全开源，基于 AIOHTTP 模块实现，下载快手无水印视频、图片文件！</p>
 </div>
 <hr>
+<h1>📑 项目功能</h1>
+<ul>
+<li>✅ 采集快手作品数据</li>
+<li>✅ 下载快手无水印作品文件</li>
+<li>✅ 下载快手作品封面图片</li>
+<li>✅ 自动跳过已下载的作品文件</li>
+<li>✅ 作品文件完整性处理机制</li>
+<li>✅ 持久化储存作品信息至文件</li>
+<li>☑️ 作品文件储存至单独文件夹</li>
+<li>☑️ 下载快手作品音乐文件</li>
+<li>☑️ 后台监听剪贴板下载作品</li>
+<li>☑️ 记录已下载作品 ID</li>
+<li>☑️ 支持命令行下载作品文件</li>
+<li>☑️ 支持 API 调用功能</li>
+</ul>
+<h1>📸 程序截图</h1>
+<img src="docs/项目运行截图.png" alt="">
 <h1>🔗 支持链接</h1>
 <ul>
 <li><code>https://www.kuaishou.com/f/分享码</code></li>
 <li><code>https://v.kuaishou.com/分享码</code></li>
+<li><code>https://www.kuaishou.com/short-video/作品ID</code></li>
 <br/>
 <p><b>支持单次输入多个作品链接，链接之间使用空格分隔。</b></p>
 </ul>
 <h1>🪟 关于终端</h1>
 <p>⭐ 推荐使用 <a href="https://learn.microsoft.com/zh-cn/windows/terminal/install">Windows 终端</a> （Windows 11 默认终端）运行程序以便获得最佳显示效果！</p>
+<h1>⚙️ 配置文件</h1>
+<p>项目根目录下的 <code>config.yaml</code> 文件，首次运行自动生成，可以自定义部分运行参数。</p>
+<table>
+<thead>
+<tr>
+<th align="center">参数</th>
+<th align="center">类型</th>
+<th align="center">含义</th>
+<th align="center">默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">work_path</td>
+<td align="center">str</td>
+<td align="center">作品数据 / 文件保存根路径</td>
+<td align="center">项目根路径</td>
+</tr>
+<tr>
+<td align="center">folder_name</td>
+<td align="center">str</td>
+<td align="center">作品文件储存文件夹名称</td>
+<td align="center">Download</td>
+</tr>
+<tr>
+<td align="center">proxy</td>
+<td align="center">str</td>
+<td align="center">设置程序代理</td>
+<td align="center">null</td>
+</tr>
+<tr>
+<td align="center">download_record</td>
+<td align="center">bool</td>
+<td align="center">是否记录已下载作品 ID，如果启用，将会自动跳过已下载的作品</td>
+<td align="center">true</td>
+</tr>
+<tr>
+<td align="center">data_record</td>
+<td align="center">bool</td>
+<td align="center">是否保存作品数据至文件，文件类型：<code>SQLite</code></td>
+<td align="center">false</td>
+</tr>
+<tr>
+<td align="center">max_workers</td>
+<td align="center">int</td>
+<td align="center">同时下载作品文件的最大任务数</td>
+<td align="center">4</td>
+</tr>
+<tr>
+<td align="center">cover</td>
+<td align="center">str</td>
+<td align="center">作品封面下载格式，支持：<code>JPEG</code>、<code>WEBP</code>；设置为空字符串代表不下载</td>
+<td align="center">空字符串</td>
+</tr>
+<tr>
+<td align="center">max_retry</td>
+<td align="center">int</td>
+<td align="center">请求数据失败时，重试的最大次数，单位：秒</td>
+<td align="center">5</td>
+</tr>
+<tr>
+<td align="center">timeout</td>
+<td align="center">int</td>
+<td align="center">请求数据超时限制，单位：秒</td>
+<td align="center">10</td>
+</tr>
+<tr>
+<td align="center">chunk（未生效）</td>
+<td align="center">int</td>
+<td align="center">下载文件时，每次从服务器获取的数据块大小，单位：字节</td>
+<td align="center">1048576(1 MB)</td>
+</tr>
+<tr>
+<td align="center">folder_mode（未生效）</td>
+<td align="center">bool</td>
+<td align="center">是否将每个作品的文件储存至单独的文件夹；文件夹名称与文件名称保持一致</td>
+<td align="center">false</td>
+</tr>
+</tbody>
+</table>
 
 # ⚠️ 免责声明\(Disclaimers\)
 

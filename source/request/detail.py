@@ -40,9 +40,13 @@ class Detail:
         params = parse_qs(link.query)
         if not (id_ := params.get("photoId", self.__extract_id(url))[0]):
             self.console.warning("提取作品 ID 失败")
+            return None
         self.headers["Referer"] = url
         self.__update_params(params, id_)
-        return await self.__get_data()
+        if not (d := await self.__get_data()):
+            self.console.warning("获取作品数据失败")
+            return None
+        return d
 
     @retry_request
     @capture_error_request
@@ -56,7 +60,8 @@ class Detail:
     def __update_params(self, params: dict, id_: str):
         self.params["fid"] = self.__extract_key(params, "fid")
         self.params["shareToken"] = self.__extract_key(params, "shareToken")
-        self.params["shareObjectId"] = self.__extract_key(params, "shareObjectId")
+        self.params["shareObjectId"] = self.__extract_key(
+            params, "shareObjectId")
         self.params["shareId"] = self.__extract_key(params, "shareId")
         self.params["photoId"] = id_
 

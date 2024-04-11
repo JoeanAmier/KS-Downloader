@@ -4,12 +4,12 @@ from .sqlite import SQLite
 class RecordManager:
     # detail = (
     #     ("collection_time", "采集日期", "TEXT"),
-    #     ("detailID", "作品ID", "TEXT"),
+    #     ("detailID", "作品ID", "TEXT PRIMARY KEY"),
     #     ("caption", "作品文案", "TEXT"),
     #     ("coverUrl", "封面地址", "TEXT"),
     #     ("duration", "视频时长", "TEXT"),
     #     ("realLikeCount", "点赞数量", "TEXT"),
-    #     ("photoUrl", "下载地址", "TEXT"),
+    #     ("download", "下载地址", "TEXT"),
     #     ("timestamp", "发布日期", "TEXT"),
     #     ("viewCount", "浏览数量", "TEXT"),
     #     ("authorID", "作者ID", "TEXT"),
@@ -27,7 +27,7 @@ class RecordManager:
         ("followCount", "关注数量", "INTEGER"),
         ("photoCount", "作品数量", "INTEGER"),
         ("timestamp", "发布日期", "TEXT"),
-        ("detailID", "作品ID", "TEXT"),
+        ("detailID", "作品ID", "TEXT PRIMARY KEY"),
         ("duration", "作品时长", "TEXT"),
         ("caption", "作品文案", "TEXT"),
         ("height", "作品高度", "INTEGER"),

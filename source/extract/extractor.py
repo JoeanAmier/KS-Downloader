@@ -14,7 +14,7 @@ if TYPE_CHECKING:
     from source.manager import Manager
 
 
-class __PageExtractor:
+class PageExtractor:
     APOLLO_STATE = "//script/text()"
 
     def __init__(self, manager: "Manager"):
@@ -46,44 +46,31 @@ class __PageExtractor:
     def __extract_detail(self, data: Namespace, id_: str) -> dict:
         container = {
             "collection_time": datetime.now().strftime(
-                self.date_format), }
+                self.date_format),
+            "photoType": "视频",
+        }
         data = data.safe_extract("defaultClient")
         detail = f"VisionVideoDetailPhoto:{id_}"
+        if not Namespace.object_extract(data, detail):
+            return {}
         container["detailID"] = id_
         container["caption"] = Namespace.object_extract(
             data, f"{detail}.caption")
         container["coverUrl"] = Namespace.object_extract(
             data, f"{detail}.coverUrl")
-        container["duration"] = self.time_conversion(
-            Namespace.object_extract(data, f"{detail}.duration"))
+        container["duration"] = APIExtractor.time_conversion(
+            Namespace.object_extract(data, f"{detail}.duration", 0))
         container["realLikeCount"] = Namespace.object_extract(
             data, f"{detail}.realLikeCount")
-        container["photoUrl"] = Namespace.object_extract(
+        container["download"] = Namespace.object_extract(
             data, f"{detail}.photoUrl")
-        container["timestamp"] = self.__format_date(
-            Namespace.object_extract(data, f"{detail}.timestamp"))
+        container["timestamp"] = APIExtractor.format_date(
+            Namespace.object_extract(
+                data, f"{detail}.timestamp", 0), self.date_format, )
         container["viewCount"] = Namespace.object_extract(
             data, f"{detail}.viewCount")
         self.__extract_author(container, data)
         return container
-
-    def __format_date(self, timestamp: int) -> str:
-        return strftime(
-            self.date_format,
-            localtime(timestamp / 1000))
-
-    @staticmethod
-    def time_conversion(time_: int) -> str:
-        second = time_ // 1000
-        return f"{
-        second //
-        3600:0>2d}:{
-        second %
-        3600 //
-        60:0>2d}:{
-        second %
-        3600 %
-        60:0>2d}"
 
     @staticmethod
     def __extract_author(container: dict, data: Namespace) -> None:
@@ -145,9 +132,12 @@ class APIExtractor:
 
     def run(self, data: list[dict], type_="detail") -> list[dict]:
         container = []
+        if not data:
+            return container
         match type_:
             case "detail":
-                [self.__extract_items(container, self.generate_data_object(item)) for item in data]
+                [self.__extract_items(
+                    container, self.generate_data_object(item)) for item in data]
             case "user":
                 pass
             case _:
@@ -176,13 +166,16 @@ class APIExtractor:
     def __extract_counts(self, item: dict, data: SimpleNamespace) -> None:
         item["fanCount"] = self.safe_extract(data, "counts.fanCount", -1)
         item["followCount"] = self.safe_extract(data, "counts.followCount", -1)
-        item["collectionCount"] = self.safe_extract(data, "counts.collectionCount", -1)
+        item["collectionCount"] = self.safe_extract(
+            data, "counts.collectionCount", -1)
         item["photoCount"] = self.safe_extract(data, "counts.photoCount", -1)
 
     def __extract_photo(self, item: dict, data: SimpleNamespace) -> None:
         photo = self.safe_extract(data, "photo")
-        item["timestamp"] = self.__format_date(self.safe_extract(photo, "timestamp", 0))
-        item["duration"] = self.time_conversion(self.safe_extract(photo, "duration", 0))
+        item["timestamp"] = self.format_date(
+            self.safe_extract(photo, "timestamp", 0), self.date_format, )
+        item["duration"] = self.time_conversion(
+            self.safe_extract(photo, "duration", 0))
         item["userName"] = self.safe_extract(photo, "userName")
         item["userId"] = self.safe_extract(photo, "userId")
         item["commentCount"] = self.safe_extract(photo, "commentCount", 0)
@@ -192,17 +185,23 @@ class APIExtractor:
         item["width"] = self.safe_extract(photo, "width", -1)
         item["likeCount"] = self.safe_extract(photo, "likeCount", -1)
         item["userSex"] = self.safe_extract(photo, "userSex")
-        item["photoType"] = self.PHOTO_TYPE.get(self.safe_extract(photo, "photoType"), "未知")
+        item["photoType"] = self.PHOTO_TYPE.get(
+            self.safe_extract(photo, "photoType"), "未知")
         item["caption"] = self.safe_extract(photo, "caption")
         item["userEid"] = self.safe_extract(photo, "userEid")
-        item["detailID"] = self.__extract_id(self.safe_extract(photo, "share_info"))
+        item["detailID"] = self.__extract_id(
+            self.safe_extract(photo, "share_info"))
 
     @staticmethod
     def __extract_id(share: str):
         parsed = parse_qs(share)
         return parsed.get("photoId", ["Unknown"])[0]
 
-    def __extract_cover(self, item: dict, photo: SimpleNamespace, index=0) -> None:
+    def __extract_cover(
+            self,
+            item: dict,
+            photo: SimpleNamespace,
+            index=0) -> None:
         cover_urls = self.safe_extract(photo, "coverUrls", )
         item["coverUrls"] = cover_urls[index].url if cover_urls else ""
         webp_cover_urls = self.safe_extract(photo, "webpCoverUrls", )
@@ -213,7 +212,11 @@ class APIExtractor:
     def __extract_mp4(self, item: dict, data: SimpleNamespace) -> None:
         item["download"] = self.safe_extract(data, "mp4Url")
 
-    def __extract_atlas(self, item: dict, data: SimpleNamespace, index=0) -> None:
+    def __extract_atlas(
+            self,
+            item: dict,
+            data: SimpleNamespace,
+            index=0) -> None:
         try:
             cdn = self.safe_extract(data, "atlas.cdn")
             cdn = cdn[index]
@@ -226,10 +229,11 @@ class APIExtractor:
         urls = [f"https://{cdn}{i}" for i in atlas]
         item["download"] = " ".join(urls)
 
-    def __format_date(self, timestamp: int) -> str:
+    @staticmethod
+    def format_date(timestamp: int, format_: str, ) -> str:
         if timestamp > 0:
             return strftime(
-                self.date_format,
+                format_,
                 localtime(timestamp / 1000))
         return "unknown"
 

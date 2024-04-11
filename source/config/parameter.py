@@ -16,14 +16,17 @@ if TYPE_CHECKING:
 class Parameter:
     def __init__(self,
                  console: "ColorConsole",
-                 # cookie: str,
-                 folder_name: str,
-                 work_path: str,
                  cleaner: "Cleaner",
+                 # cookie: str,
+                 folder_name: str = "Download",
+                 work_path: str = "",
                  timeout=TIMEOUT,
                  max_retry=RETRY,
                  proxy: str = None,
                  cover="",
+                 download_record: bool = True,
+                 data_record: bool = False,
+                 max_workers=4,
                  ):
         self.root = PROJECT_ROOT
         self.cleaner = cleaner
@@ -35,6 +38,9 @@ class Parameter:
         self.work_path = self.__check_work_path(work_path)
         # self.cookie = self.__check_cookie(cookie)
         self.cover = self.__check_cover(cover)
+        self.download_record = self.check_bool(download_record, True)
+        self.data_record = self.check_bool(data_record, False)
+        self.max_workers = self.__check_max_workers(max_workers)
 
     def run(self) -> dict:
         return {
@@ -48,6 +54,9 @@ class Parameter:
             "folder_name": self.folder_name,
             # "cookie": self.cookie,
             "cover": self.cover,
+            "download_record": self.download_record,
+            "data_record": self.data_record,
+            "max_workers": self.max_workers,
         }
 
     def __check_timeout(self, timeout: int) -> int:
@@ -65,6 +74,12 @@ class Parameter:
     async def check_proxy(self) -> None:
         if self.proxy:
             self.proxy = await self.__check_proxy(self.proxy)
+
+    def __check_max_workers(self, max_workers: int) -> int:
+        if isinstance(max_workers, int) and max_workers > 0:
+            return max_workers
+        self.console.warning("max_workers 参数错误")
+        return 4
 
     @retry_request
     @capture_error_request
@@ -111,3 +126,7 @@ class Parameter:
             return c
         self.console.warning("cover 参数错误")
         return ""
+
+    @staticmethod
+    def check_bool(value: bool, default: bool) -> bool:
+        return value if isinstance(value, bool) else default

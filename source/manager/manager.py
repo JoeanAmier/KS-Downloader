@@ -26,8 +26,11 @@ class Manager:
                  proxy: str | None,
                  work_path: "Path",
                  folder_name: str,
-                 # cookie: str = "",
+                 # cookie: str,
                  cover: str,
+                 download_record: bool,
+                 data_record: bool,
+                 max_workers: int,
                  ):
         self.console = console
         self.cleaner = cleaner
@@ -47,6 +50,9 @@ class Manager:
         self.max_retry = max_retry
         self.proxy = proxy
         self.cover = cover
+        self.download_record = download_record
+        self.data_record = data_record
+        self.max_workers = max_workers
         self.__create_folder()
 
     def __create_folder(self):

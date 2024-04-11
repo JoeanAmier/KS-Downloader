@@ -17,45 +17,75 @@ class Examiner:
 
     def __init__(self, manager: "Manager"):
         self.session = manager.session
-        self.headers = manager.app_headers
-        self.data_headers = manager.app_data_headers
+        self.app_headers = manager.app_headers
+        self.app_data_headers = manager.app_data_headers
+        self.pc_headers = manager.pc_headers
+        self.pc_data_headers = manager.pc_data_headers
         self.console = manager.console
         self.retry = manager.max_retry
         self.proxy = manager.proxy
+        self.app_url = (
+            self.V_SHORT_URL,
+            self.F_SHORT_URL,
+        )
+        self.pc_url = (
+            self.PC_COMPLETE_URL,
+        )
 
-    async def run(self, text: str, key="detail") -> list:
-        urls = await self.__request_redirect(text)
+    async def run(self, text: str, key="detail"):
+        app = True
+        if not (urls := await self.__request_redirect(text, app, )):
+            app = not app
+            urls = await self.__request_redirect(text, app, )
         if not urls:
-            return []
+            self.console.warning("提取作品链接失败")
+            return None, []
         match key:
             case "detail":
-                return [i.group() for i in self.DETAIL_URL.finditer(urls)]
+                return self.__link_judgment(urls, app, )
             case "user":
                 pass
         raise ValueError
 
-    async def __request_redirect(self, text: str) -> str:
-        urls = chain(
-            self.V_SHORT_URL.finditer(text),
-            self.F_SHORT_URL.finditer(text),
-            # self.COMPLETE_URL.finditer(text),
-        )
+    def __link_judgment(self, urls: str, app: bool, ) -> [bool, list]:
+        if app:
+            urls = [i.group() for i in chain(
+                self.DETAIL_URL.finditer(urls),
+                self.PC_COMPLETE_URL.finditer(urls),
+            )]
+        else:
+            urls = [i.group() for i in self.PC_COMPLETE_URL.finditer(urls)]
+        return app, urls
+
+    async def __request_redirect(self, text: str, app=True, ) -> str:
+        match app:
+            case True:
+                urls = chain(*(i.finditer(text) for i in self.app_url))
+            case False:
+                urls = chain(*(i.finditer(text) for i in self.pc_url))
+            case _:
+                raise TypeError
         result = []
         for i in urls:
-            result.append(await self.__request_url(i.group()))
+            result.append(await self.__request_url(i.group(), ))
         return " ".join(i for i in result if i)
 
     @retry_request
     @capture_error_request
-    async def __request_url(self, url: str) -> str:
-        async with self.session.get(url, headers=self.headers, proxy=self.proxy) as response:
-            self.__update_cookie(response.cookies.items())
+    async def __request_url(self, url: str, ) -> str:
+        async with self.session.get(url,
+                                    headers=self.app_headers if (
+                                            p := "https://v.kuaishou.com/" in url) else self.pc_headers,
+                                    proxy=self.proxy) as response:
+            self.__update_cookie(response.cookies.items(), )
             return str(response.url)
 
-    def __update_cookie(self, cookies) -> None:
+    def __update_cookie(self, cookies, ) -> None:
         if cookies := self.__format_cookie(cookies):
-            self.headers["Cookie"] = cookies
-            self.data_headers["Cookie"] = cookies
+            self.app_headers["Cookie"] = cookies
+            self.app_data_headers["Cookie"] = cookies
+            self.pc_headers["Cookie"] = cookies
+            self.pc_data_headers["Cookie"] = cookies
 
     @staticmethod
     def __format_cookie(cookies):

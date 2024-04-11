@@ -1,3 +1,4 @@
+from asyncio import Semaphore
 from asyncio import gather
 from shutil import move
 from typing import TYPE_CHECKING
@@ -41,6 +42,7 @@ class Downloader:
         self.retry = manager.max_retry
         self.temp = manager.temp
         self.chunk = 1024 * 1024
+        self.semaphore = Semaphore(manager.max_workers)
 
     def __general_progress_object(self) -> Progress:
         return Progress(
@@ -61,20 +63,20 @@ class Downloader:
             expand=True,
         )
 
-    async def run(self, data: list[dict], type_="detail", ):
+    async def run(self, data: list[dict], type_="detail", app=True, ):
         match type_:
             case "detail":
-                await self.__handle_detail(data)
+                await self.__handle_detail(data, app, )
             case "user":
                 pass
             case _:
                 raise ValueError
 
-    async def __handle_detail(self, data: list[dict]):
+    async def __handle_detail(self, data: list[dict], app: bool, ):
         tasks = []
         with self.__general_progress_object() as progress:
             for item in data:
-                name = self.__generate_name(item)
+                name = self.__generate_name(item, app, )
                 match item["photoType"]:
                     case "视频":
                         await self.__handle_video(tasks, name, item, progress, )
@@ -106,42 +108,59 @@ class Downloader:
             case "WEBP":
                 if not self.__file_exists(path, "webp"):
                     tasks.append(
-                        self.__download_file(data["webpCoverUrls"], path, progress, "封面", )
-                    )
+                        self.__download_file(
+                            data.get("webpCoverUrls"),
+                            path,
+                            progress,
+                            "封面",
+                        ))
             case "JPEG":
                 if not self.__file_exists(path, "jpeg"):
                     tasks.append(
-                        self.__download_file(data["coverUrls"], path, progress, "封面", )
-                    )
+                        self.__download_file(
+                            data.get("coverUrls"),
+                            path,
+                            progress,
+                            "封面",
+                        ))
             case "":
                 pass
 
     @retry_request
     @capture_error_request
     async def __download_file(self, url: str, path: "Path", progress: Progress, tip: str = ""):
-        if not url:
-            self.console.warning(f"{path.name} {tip} 下载链接为空")
+        async with self.semaphore:
+            if not url:
+                self.console.warning(f"{path.name} {tip}下载链接为空")
+                return True
+            async with self.session.get(url, headers=self.headers, proxy=self.proxy, ) as response:
+                if response.status != 200:
+                    self.console.error(f"{path.name} 响应码异常：{response.status}")
+                    return False
+                temp = self.temp.joinpath(path.name)
+                suffix = self.__extract_type(
+                    response.headers.get("Content-Type"))
+                path = path.with_name(f"{path.name}.{suffix}")
+                task_id = progress.add_task(
+                    path.name, total=int(
+                        response.headers.get(
+                            "Content-Length", "0")) or None)
+                with temp.open("wb") as f:
+                    async for chunk in response.content.iter_chunked(self.chunk):
+                        f.write(chunk)
+                        progress.update(task_id, advance=len(chunk))
+            self.move(temp, path)
+            self.console.info(f"{path.name} 下载完成")
             return True
-        async with self.session.get(url, headers=self.headers, proxy=self.proxy, ) as response:
-            if response.status != 200:
-                self.console.error(f"{path.name} 响应码异常：{response.status}")
-                return False
-            temp = self.temp.joinpath(path.name)
-            suffix = self.__extract_type(response.headers.get("Content-Type"))
-            path = path.with_name(f"{path.name}.{suffix}")
-            task_id = progress.add_task(
-                path.name, total=int(response.headers.get("Content-Length", "0")) or None)
-            with temp.open("wb") as f:
-                async for chunk in response.content.iter_chunked(self.chunk):
-                    f.write(chunk)
-                    progress.update(task_id, advance=len(chunk))
-        self.move(temp, path)
-        self.console.info(f"{path.name} 下载完成")
-        return True
 
-    @classmethod
-    def __extract_type(cls, content: str) -> str:
-        return cls.CONTENT_TYPE_MAP.get(content, "")
+    def __extract_type(self, content: str) -> str:
+        if not (s := self.CONTENT_TYPE_MAP.get(content)):
+            return self.__unknown_type(content)
+        return s
+
+    def __unknown_type(self, content: str) -> str:
+        self.console.error(f"未知的文件类型：{content}")
+        return ""
 
     @staticmethod
     def move(temp: "Path", path: "Path"):
@@ -155,11 +174,18 @@ class Downloader:
     def __generate_path(self):
         pass
 
-    def __generate_name(self, data: dict) -> str:
+    def __generate_name(self, data: dict, app: bool, ) -> str:
         type_ = data["photoType"]
         date = data["timestamp"].replace(":", ".")
-        author = self.cleaner.filter_name(data["userName"]) or data["userEid"]
+        author = self.__generate_author_info(data, app, )
         caption = self.cleaner.filter_name(
             self.cleaner.clear_spaces(
                 data["caption"])) or data["detailID"]
         return f"{type_}-{date}-{author}-{caption}"
+
+    def __generate_author_info(self, data: dict, app: bool, ) -> str:
+        return (
+            self.cleaner.filter_name(data["userName"]) or data["userEid"]
+            if app
+            else self.cleaner.filter_name(data["name"]) or data["authorId"]
+        )
