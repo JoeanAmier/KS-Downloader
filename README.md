@@ -1,4 +1,5 @@
 <div align="center">
+<img src="docs/KS-Downloader.png" alt="TikTokDownloader" height="256" width="256"><br>
 <h1>KS-Downloader</h1>
 <img alt="GitHub" src="https://img.shields.io/github/license/JoeanAmier/KS-Downloader?style=for-the-badge&color=ff7a45">
 <img alt="GitHub forks" src="https://img.shields.io/github/forks/JoeanAmier/KS-Downloader?style=for-the-badge&color=fa8c16">
@@ -22,10 +23,10 @@
 <li>✅ 自动跳过已下载的作品文件</li>
 <li>✅ 作品文件完整性处理机制</li>
 <li>✅ 持久化储存作品信息至文件</li>
+<li>✅ 记录已下载作品 ID</li>
 <li>☑️ 作品文件储存至单独文件夹</li>
 <li>☑️ 下载快手作品音乐文件</li>
 <li>☑️ 后台监听剪贴板下载作品</li>
-<li>☑️ 记录已下载作品 ID</li>
 <li>☑️ 支持命令行下载作品文件</li>
 <li>☑️ 支持 API 调用功能</li>
 </ul>
@@ -144,6 +145,7 @@
 <ul>
 <li>微信: Downloader_Tools</li>
 <li>微信公众号: Downloader Tools</li>
+<li><b>Discord 社区</b>: <a href="https://discord.com/invite/ZYtmgKud9Y">点击加入社区</a></li>
 </ul>
 <p>✨ <b>作者的其他开源项目：</b></p>
 <ul>

@@ -18,6 +18,7 @@ from source.tools import retry_request
 
 if TYPE_CHECKING:
     from source.manager import Manager
+    from source.module import Database
     from pathlib import Path
 
 
@@ -30,7 +31,7 @@ class Downloader:
         "video/quicktime": "mov",
     }
 
-    def __init__(self, manager: "Manager"):
+    def __init__(self, manager: "Manager", database: "Database"):
         self.path = manager.path
         self.folder = manager.folder
         self.session = manager.session
@@ -43,6 +44,7 @@ class Downloader:
         self.temp = manager.temp
         self.chunk = 1024 * 1024
         self.semaphore = Semaphore(manager.max_workers)
+        self.database = database
 
     def __general_progress_object(self) -> Progress:
         return Progress(
@@ -76,12 +78,15 @@ class Downloader:
         tasks = []
         with self.__general_progress_object() as progress:
             for item in data:
+                if await self.database.has_download_data(i := item["detailID"]):
+                    self.console.info(f"作品 {i} 存在下载记录，跳过下载！")
+                    continue
                 name = self.__generate_name(item, app, )
                 match item["photoType"]:
                     case "视频":
                         await self.__handle_video(tasks, name, item, progress, )
                     case "图片":
-                        await self.__handle_atlas(tasks, name, item["download"], progress, )
+                        await self.__handle_atlas(tasks, name, item, progress, )
                     case _:
                         self.console.error("未知的作品类型")
             await gather(*tasks)
@@ -89,19 +94,17 @@ class Downloader:
     async def __handle_video(self, tasks: list, name: str, data: dict, progress: Progress, ):
         file = self.folder.joinpath(name)
         if not self.__file_exists(file, "mp4"):
-            tasks.append(
-                self.__download_file(data["download"], file, progress, "视频", )
-            )
+            tasks.append(self.__download_file(
+                data["download"], file, progress, data["detailID"], "视频", ))
         await self.__handle_cover(tasks, file, data, progress, )
 
-    async def __handle_atlas(self, tasks: list, name: str, urls: str, progress: Progress, ):
-        urls = urls.split()
+    async def __handle_atlas(self, tasks: list, name: str, data: dict, progress: Progress, ):
+        urls = data["download"].split()
         for index, url in enumerate(urls, start=1):
             file = self.folder.joinpath(f"{name}_{index}")
             if not self.__file_exists(file, ):
-                tasks.append(
-                    self.__download_file(url, file, progress, "图片", )
-                )
+                tasks.append(self.__download_file(
+                    url, file, progress, progress, data["detailID"], "图片", ))
 
     async def __handle_cover(self, tasks: list, path: "Path", data: dict, progress: Progress, ):
         match self.cover:
@@ -112,6 +115,7 @@ class Downloader:
                             data.get("webpCoverUrls"),
                             path,
                             progress,
+                            data["detailID"],
                             "封面",
                         ))
             case "JPEG":
@@ -121,6 +125,7 @@ class Downloader:
                             data.get("coverUrls"),
                             path,
                             progress,
+                            data["detailID"],
                             "封面",
                         ))
             case "":
@@ -128,29 +133,36 @@ class Downloader:
 
     @retry_request
     @capture_error_request
-    async def __download_file(self, url: str, path: "Path", progress: Progress, tip: str = ""):
+    async def __download_file(self, url: str, path: "Path", progress: Progress, id_: str, tip: str = ""):
         async with self.semaphore:
             if not url:
                 self.console.warning(f"{path.name} {tip}下载链接为空")
                 return True
-            async with self.session.get(url, headers=self.headers, proxy=self.proxy, ) as response:
-                if response.status != 200:
-                    self.console.error(f"{path.name} 响应码异常：{response.status}")
-                    return False
-                temp = self.temp.joinpath(path.name)
-                suffix = self.__extract_type(
-                    response.headers.get("Content-Type"))
-                path = path.with_name(f"{path.name}.{suffix}")
-                task_id = progress.add_task(
-                    path.name, total=int(
-                        response.headers.get(
-                            "Content-Length", "0")) or None)
-                with temp.open("wb") as f:
-                    async for chunk in response.content.iter_chunked(self.chunk):
-                        f.write(chunk)
-                        progress.update(task_id, advance=len(chunk))
+            try:
+                async with self.session.get(url, headers=self.headers, proxy=self.proxy, ) as response:
+                    if response.status != 200:
+                        self.console.error(f"{path.name} 响应码异常：{
+                        response.status}")
+                        return False
+                    temp = self.temp.joinpath(path.name)
+                    suffix = self.__extract_type(
+                        response.headers.get("Content-Type"))
+                    path = path.with_name(f"{path.name}.{suffix}")
+                    task_id = progress.add_task(
+                        path.name, total=int(
+                            response.headers.get(
+                                "Content-Length", "0")) or None)
+                    with temp.open("wb") as f:
+                        async for chunk in response.content.iter_chunked(self.chunk):
+                            f.write(chunk)
+                            progress.update(task_id, advance=len(chunk))
+            except StopAsyncIteration:
+                self.console.error(f"网络异常，{path.name} 下载中断！")
+                await self.database.delete_download_data(id_)
+                return False
             self.move(temp, path)
             self.console.info(f"{path.name} 下载完成")
+            await self.database.write_download_data(id_)
             return True
 
     def __extract_type(self, content: str) -> str:
