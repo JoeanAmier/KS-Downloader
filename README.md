@@ -24,7 +24,7 @@
 <li>✅ 作品文件完整性处理机制</li>
 <li>✅ 持久化储存作品信息至文件</li>
 <li>✅ 记录已下载作品 ID</li>
-<li>☑️ 作品文件储存至单独文件夹</li>
+<li>✅ 作品文件储存至单独文件夹</li>
 <li>☑️ 下载快手作品音乐文件</li>
 <li>☑️ 后台监听剪贴板下载作品</li>
 <li>☑️ 支持命令行下载作品文件</li>
@@ -109,13 +109,13 @@
 <td align="center">10</td>
 </tr>
 <tr>
-<td align="center">chunk（未生效）</td>
+<td align="center">chunk</td>
 <td align="center">int</td>
 <td align="center">下载文件时，每次从服务器获取的数据块大小，单位：字节</td>
 <td align="center">1048576(1 MB)</td>
 </tr>
 <tr>
-<td align="center">folder_mode（未生效）</td>
+<td align="center">folder_mode</td>
 <td align="center">bool</td>
 <td align="center">是否将每个作品的文件储存至单独的文件夹；文件夹名称与文件名称保持一致</td>
 <td align="center">false</td>

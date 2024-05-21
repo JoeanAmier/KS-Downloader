@@ -30,6 +30,8 @@ class Manager:
                  cover: str,
                  download_record: bool,
                  data_record: bool,
+                 chunk: int,
+                 folder_mode: bool,
                  max_workers: int,
                  ):
         self.console = console
@@ -52,6 +54,8 @@ class Manager:
         self.cover = cover
         self.download_record = download_record
         self.data_record = data_record
+        self.folder_mode = folder_mode
+        self.chunk = chunk
         self.max_workers = max_workers
         self.__create_folder()
 

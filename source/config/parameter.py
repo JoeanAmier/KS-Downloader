@@ -24,8 +24,12 @@ class Parameter:
                  max_retry=RETRY,
                  proxy: str = None,
                  cover="",
+                 music=False,
                  download_record: bool = True,
                  data_record: bool = False,
+                 chunk=1024 * 1024,
+                 folder_mode: bool = False,
+                 server=False,
                  max_workers=4,
                  ):
         self.root = PROJECT_ROOT
@@ -40,6 +44,8 @@ class Parameter:
         self.cover = self.__check_cover(cover)
         self.download_record = self.check_bool(download_record, True)
         self.data_record = self.check_bool(data_record, False)
+        self.chunk = self.__check_chunk(chunk)
+        self.folder_mode = self.check_bool(folder_mode, False)
         self.max_workers = self.__check_max_workers(max_workers)
 
     def run(self) -> dict:
@@ -57,6 +63,8 @@ class Parameter:
             "download_record": self.download_record,
             "data_record": self.data_record,
             "max_workers": self.max_workers,
+            "folder_mode": self.folder_mode,
+            "chunk": self.chunk,
         }
 
     def __check_timeout(self, timeout: int) -> int:
@@ -130,3 +138,9 @@ class Parameter:
     @staticmethod
     def check_bool(value: bool, default: bool) -> bool:
         return value if isinstance(value, bool) else default
+
+    def __check_chunk(self, chunk: int) -> int:
+        if isinstance(chunk, int) and chunk > 1024:
+            return chunk
+        self.console.warning("chunk 参数错误")
+        return 1024 * 1024

@@ -1,5 +1,6 @@
 from asyncio import Semaphore
 from asyncio import gather
+from pathlib import Path
 from shutil import move
 from typing import TYPE_CHECKING
 
@@ -19,7 +20,6 @@ from source.tools import retry_request
 if TYPE_CHECKING:
     from source.manager import Manager
     from source.module import Database
-    from pathlib import Path
 
 
 class Downloader:
@@ -42,7 +42,8 @@ class Downloader:
         self.proxy = manager.proxy
         self.retry = manager.max_retry
         self.temp = manager.temp
-        self.chunk = 1024 * 1024
+        self.folder_mode = manager.folder_mode
+        self.chunk = manager.chunk
         self.semaphore = Semaphore(manager.max_workers)
         self.database = database
 
@@ -92,7 +93,7 @@ class Downloader:
             await gather(*tasks)
 
     async def __handle_video(self, tasks: list, name: str, data: dict, progress: Progress, ):
-        file = self.folder.joinpath(name)
+        file = self.__generate_path(name)
         if not self.__file_exists(file, "mp4"):
             tasks.append(self.__download_file(
                 data["download"], file, progress, data["detailID"], "视频", ))
@@ -101,7 +102,7 @@ class Downloader:
     async def __handle_atlas(self, tasks: list, name: str, data: dict, progress: Progress, ):
         urls = data["download"].split()
         for index, url in enumerate(urls, start=1):
-            file = self.folder.joinpath(f"{name}_{index}")
+            file = self.__generate_path(f"{name}_{index}")
             if not self.__file_exists(file, ):
                 tasks.append(self.__download_file(
                     url, file, progress, progress, data["detailID"], "图片", ))
@@ -183,9 +184,6 @@ class Downloader:
             self.console.info(f"{n} 已存在，跳过下载")
         return e
 
-    def __generate_path(self):
-        pass
-
     def __generate_name(self, data: dict, app: bool, ) -> str:
         type_ = data["photoType"]
         date = data["timestamp"].replace(":", ".")
@@ -201,3 +199,11 @@ class Downloader:
             if app
             else self.cleaner.filter_name(data["name"]) or data["authorId"]
         )
+
+    def __generate_root(self, name: str, ) -> Path:
+        return self.folder.joinpath(name) if self.folder_mode else self.folder
+
+    def __generate_path(self, name: str, ) -> Path:
+        root = self.__generate_root(name)
+        root.mkdir(exist_ok=True)
+        return root.joinpath(name)

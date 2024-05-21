@@ -20,8 +20,12 @@ class Config:
         "data_record": False,
         "max_workers": 4,
         "cover": "",
+        "music": False,
         "max_retry": RETRY,
         "timeout": TIMEOUT,
+        "chunk": 1024 * 1024,
+        "folder_mode": False,
+        "server": False,
         # "cookie": "",
     }
 
