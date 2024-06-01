@@ -13,7 +13,9 @@ from rich.progress import (
     TimeRemainingColumn,
 )
 
-from source.tools import ColorConsole
+from source.tools import (
+    PROGRESS,
+)
 from source.tools import capture_error_request
 from source.tools import retry_request
 
@@ -51,7 +53,7 @@ class Downloader:
         return Progress(
             TextColumn(
                 "[progress.description]{task.description}",
-                style=ColorConsole.PROGRESS,
+                style=PROGRESS,
                 justify="left"),
             SpinnerColumn(),
             BarColumn(),
@@ -105,7 +107,7 @@ class Downloader:
             file = self.__generate_path(f"{name}_{index}")
             if not self.__file_exists(file, ):
                 tasks.append(self.__download_file(
-                    url, file, progress, progress, data["detailID"], "图片", ))
+                    url, file, progress, data["detailID"], "图片", ))
 
     async def __handle_cover(self, tasks: list, path: "Path", data: dict, progress: Progress, ):
         match self.cover:

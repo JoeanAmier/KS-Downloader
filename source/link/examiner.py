@@ -75,7 +75,7 @@ class Examiner:
     async def __request_url(self, url: str, ) -> str:
         async with self.session.get(url,
                                     headers=self.app_headers if (
-                                            p := "https://v.kuaishou.com/" in url) else self.pc_headers,
+                                            "https://v.kuaishou.com/" in url) else self.pc_headers,
                                     proxy=self.proxy) as response:
             self.__update_cookie(response.cookies.items(), )
             return str(response.url)

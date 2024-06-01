@@ -10,7 +10,8 @@ if TYPE_CHECKING:
 
 
 class Detail:
-    API = "https://v.m.chenzhongtech.com/rest/wd/photo/info?kpn=KUAISHOU"
+    # API = "https://v.m.chenzhongtech.com/rest/wd/photo/info?kpn=KUAISHOU"
+    API = "https://m.gifshow.com/rest/wd/photo/info?kpn=undefined&captchaToken=&__NS_sig3="
     ID = compile(r"short-video/(\S+)\?")
 
     def __init__(self, manager: "Manager"):
@@ -20,18 +21,19 @@ class Detail:
         self.console = manager.console
         self.retry = manager.max_retry
         self.params = {
-            "fid": None,
-            "shareToken": None,
-            "shareObjectId": None,
-            "shareMethod": "TOKEN",
-            "shareId": None,
-            "shareResourceType": "PHOTO_OTHER",
-            "shareChannel": "share_copylink",
-            "kpn": "KUAISHOU",
-            "subBiz": "BROWSE_SLIDE_PHOTO",
+            # "fid": None,
+            # "shareToken": None,
+            # "shareObjectId": None,
+            # "shareMethod": "TOKEN",
+            # "shareId": None,
+            # "shareResourceType": "PHOTO_OTHER",
+            # "shareChannel": "share_copylink",
+            # "kpn": "KUAISHOU",
+            # "subBiz": "BROWSE_SLIDE_PHOTO",
             "env": "SHARE_VIEWER_ENV_TX_TRICK",
-            "h5Domain": "v.m.chenzhongtech.com",
-            "photoId": None,
+            # "h5Domain": "v.m.chenzhongtech.com",
+            "h5Domain": "m.gifshow.com",
+            "photoId": "",
             "isLongVideo": False,
         }
 
@@ -58,11 +60,11 @@ class Detail:
         return [i.group(1)] if (i := self.ID.search(url)) else [None]
 
     def __update_params(self, params: dict, id_: str):
-        self.params["fid"] = self.__extract_key(params, "fid")
-        self.params["shareToken"] = self.__extract_key(params, "shareToken")
-        self.params["shareObjectId"] = self.__extract_key(
-            params, "shareObjectId")
-        self.params["shareId"] = self.__extract_key(params, "shareId")
+        # self.params["fid"] = self.__extract_key(params, "fid")
+        # self.params["shareToken"] = self.__extract_key(params, "shareToken")
+        # self.params["shareObjectId"] = self.__extract_key(
+        #     params, "shareObjectId")
+        # self.params["shareId"] = self.__extract_key(params, "shareId")
         self.params["photoId"] = id_
 
     @staticmethod

@@ -2,7 +2,12 @@ from contextlib import suppress
 
 from source.config import Config
 from source.config import Parameter
-from source.custom import PROJECT_NAME
+from source.custom import (
+    PROJECT_NAME,
+    VERSION_MAJOR,
+    VERSION_MINOR,
+    VERSION_BETA,
+)
 from source.downloader import Downloader
 from source.extract import APIExtractor
 from source.extract import PageExtractor
@@ -14,7 +19,14 @@ from source.module import choose
 from source.record import RecordManager
 from source.request import Detail
 from source.tools import Cleaner
-from source.tools import ColorConsole
+from source.tools import (
+    ColorConsole,
+    ERROR,
+    INFO,
+    WARNING,
+    MASTER,
+)
+from source.tools import Version
 
 
 class KS:
@@ -41,6 +53,7 @@ class KS:
         self.config = None
         self.record = RecordManager()
         self.manager = Manager(**self.params.run())
+        self.version = Version(self.manager)
         self.examiner = Examiner(self.manager)
         self.detail_request = Detail(self.manager)
         self.detail_page = DetailPage(self.manager)
@@ -50,20 +63,22 @@ class KS:
         self.running = True
         self.__function = None
 
-    async def async_init(self):
-        await self.params.check_proxy()
-        self.config = await self.database.read_config()
-        self.manager = Manager(**self.params.run())
-        self.examiner = Examiner(self.manager)
-        self.detail_request = Detail(self.manager)
-        self.detail_page = DetailPage(self.manager)
-        self.api_extractor = APIExtractor(self.manager)
-        self.detail_extractor = PageExtractor(self.manager)
-        self.download = Downloader(self.manager, database=self.database)
+    # async def async_init(self):
+    #     await self.params.check_proxy()
+    #     self.config = await self.database.read_config()
+    #     self.manager = Manager(**self.params.run())
+    #     self.version = Version(self.manager)
+    #     self.examiner = Examiner(self.manager)
+    #     self.detail_request = Detail(self.manager)
+    #     self.detail_page = DetailPage(self.manager)
+    #     self.api_extractor = APIExtractor(self.manager)
+    #     self.detail_extractor = PageExtractor(self.manager)
+    #     self.download = Downloader(self.manager, self.database)
 
     async def run(self):
         self.config = await self.database.read_config()
         self.__welcome()
+        await self.__update_version()
         # await self.async_init()
         await self.__main_menu()
 
@@ -98,25 +113,39 @@ class KS:
             (f"{self.MENU_TIP[self.config["Record"]]}下载记录功能", self.__modify_record),
         )
 
+    async def __update_version(self):
+        if not self.config["Update"]:
+            return
+        if target := await self.version.get_target_version():
+            state = self.version.compare_versions(
+                f"{VERSION_MAJOR}.{VERSION_MINOR}", target, VERSION_BETA)
+            self.console.print(
+                self.version.STATUS_CODE[state],
+                INFO if state == 1 else WARNING)
+        else:
+            self.console.print("检测新版本失败", style=ERROR)
+        self.console.print()
+
     async def __modify_update(self):
         await self.__update_config("Update", 0 if self.config["Update"] else 1)
 
     async def __modify_record(self):
         await self.__update_config("Record", 0 if self.config["Record"] else 1)
+        self.database.record = self.config["Record"]
 
     async def __update_config(self, key: str, value: int):
         self.config[key] = value
         await self.database.update_config_data(key, value)
 
     def __welcome(self):
-        self.console.print(self.LINE, style=ColorConsole.MASTER)
-        self.console.print("\n\n")
+        self.console.print(self.LINE, style=MASTER)
+        self.console.print("\n")
         self.console.print(
             self.NAME.center(
                 self.WIDTH),
-            style=ColorConsole.MASTER)
-        self.console.print("\n\n")
-        self.console.print(self.LINE, style=ColorConsole.MASTER)
+            style=MASTER)
+        self.console.print("\n")
+        self.console.print(self.LINE, style=MASTER)
         self.console.print()
 
     async def detail(self, detail: str):

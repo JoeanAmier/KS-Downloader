@@ -2,7 +2,7 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 VERSION_MAJOR = 0
-VERSION_MINOR = 4
+VERSION_MINOR = 5
 VERSION_BETA = True
 PROJECT_NAME = f"KS-Downloader V{VERSION_MAJOR}.{
 VERSION_MINOR}{" Beta" if VERSION_BETA else ""}"
