@@ -7,6 +7,7 @@ from source.custom import (
     VERSION_MAJOR,
     VERSION_MINOR,
     VERSION_BETA,
+    DISCLAIMER_TEXT,
 )
 from source.downloader import Downloader
 from source.extract import APIExtractor
@@ -80,7 +81,8 @@ class KS:
         self.__welcome()
         await self.__update_version()
         # await self.async_init()
-        await self.__main_menu()
+        if await self.disclaimer():
+            await self.__main_menu()
 
     async def __detail_enquire(self):
         while self.running:
@@ -121,7 +123,7 @@ class KS:
                 f"{VERSION_MAJOR}.{VERSION_MINOR}", target, VERSION_BETA)
             self.console.print(
                 self.version.STATUS_CODE[state],
-                INFO if state == 1 else WARNING)
+                style=INFO if state == 1 else WARNING)
         else:
             self.console.print("检测新版本失败", style=ERROR)
         self.console.print()
@@ -156,12 +158,14 @@ class KS:
             case True:
                 items = [await self.detail_request.run(i) for i in urls]
                 data = self.api_extractor.run([i for i in items if i])
+                data = self.__check_extract_data(data)
                 await self.__save_data(data, "Download")
             case False:
                 items = await self.detail_page.run(urls)
                 data = [
                     self.detail_extractor.run(
                         h, i, ) for i, h in items if h]
+                data = self.__check_extract_data(data)
             case _:
                 return
         await self.__download_file(data, app=app, )
@@ -178,8 +182,27 @@ class KS:
         if data:
             await self.download.run(data, type_, app, )
 
+    def __check_extract_data(self, data: list) -> list:
+        if data := [i for i in data if i]:
+            return data
+        self.console.error("获取数据失败")
+        return []
+
     async def user(self):
         pass
+
+    async def disclaimer(self):
+        if self.config["Disclaimer"]:
+            return True
+        self.console.print(
+            "\n".join(DISCLAIMER_TEXT),
+            style=MASTER)
+        if self.console.input(
+                "是否已仔细阅读上述免责声明(YES/NO): ").upper() != "YES":
+            return False
+        await self.database.update_config_data("Disclaimer", 1)
+        self.console.print()
+        return True
 
     async def close(self):
         await self.manager.close()

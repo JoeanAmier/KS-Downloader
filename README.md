@@ -6,39 +6,48 @@
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/JoeanAmier/KS-Downloader?style=for-the-badge&color=ff4d4f">
 <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/JoeanAmier/KS-Downloader?style=for-the-badge&color=13c2c2">
 <br>
-
-[//]: # (<img alt="GitHub release &#40;with filter&#41;" src="https://img.shields.io/github/v/release/JoeanAmier/KS-Downloader?style=for-the-badge&color=f759ab">)
+<img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/JoeanAmier/KS-Downloader?style=for-the-badge&color=f759ab">
 <img src="https://img.shields.io/badge/Sourcery-enabled-884898?style=for-the-badge&color=1890ff" alt="">
-
-[//]: # (<img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/KS-Downloader/total?style=for-the-badge&color=52c41a">)
+<img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/KS-Downloader/total?style=for-the-badge&color=52c41a">
 <br>
 <p>🔥 <b>快手作品下载工具：</b>完全开源，基于 AIOHTTP 模块实现，下载快手无水印视频、图片文件！</p>
 </div>
 <hr>
 <h1>📑 项目功能</h1>
 <ul>
-<li>✅ 采集快手作品数据</li>
 <li>✅ 下载快手无水印作品文件</li>
 <li>✅ 下载快手作品封面图片</li>
+<li>✅ 下载快手作品音乐文件</li>
 <li>✅ 自动跳过已下载的作品文件</li>
 <li>✅ 作品文件完整性处理机制</li>
 <li>✅ 持久化储存作品信息至文件</li>
 <li>✅ 记录已下载作品 ID</li>
 <li>✅ 作品文件储存至单独文件夹</li>
-<li>☑️ 下载快手作品音乐文件</li>
+<li>☑️ 自定义作品文件名称格式</li>
 <li>☑️ 后台监听剪贴板下载作品</li>
 <li>☑️ 支持命令行下载作品文件</li>
 <li>☑️ 支持 API 调用功能</li>
 </ul>
 <h1>📸 程序截图</h1>
 <img src="docs/项目运行截图.png" alt="">
+<h1>🥣 使用方法</h1>
+<h2>🖱 程序运行</h2>
+<p>Windows 10 及以上用户可前往 <a href="https://github.com/JoeanAmier/KS-Downloader/releases/latest">Releases</a> 下载程序压缩包，解压后打开程序文件夹，双击运行 <code>main.exe</code> 即可使用。</p>
+<p>若通过此方式使用程序，文件默认下载路径为：<code>.\_internal\Download</code>；配置文件路径为：<code>.\_internal\config.yaml</code></p>
+<h2>⌨️ 源码运行</h2>
+<ol>
+<li>安装版本号不低于 <code>3.12</code> 的 Python 解释器</li>
+<li>运行 <code>pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt</code> 命令安装程序所需模块</li>
+<li>下载本项目最新的源码或 <a href="https://github.com/JoeanAmier/KS-Downloader/releases/latest">Releases</a> 发布的源码至本地</li>
+<li>运行 <code>main.py</code> 即可使用</li>
+</ol>
 <h1>🔗 支持链接</h1>
 <ul>
 <li><code>https://www.kuaishou.com/f/分享码</code></li>
 <li><code>https://v.kuaishou.com/分享码</code></li>
 <li><code>https://www.kuaishou.com/short-video/作品ID</code></li>
 <br/>
-<p><b>支持单次输入多个作品链接，链接之间使用空格分隔。</b></p>
+<p><b>推荐使用分享链接；支持单次输入多个作品链接，链接之间使用空格分隔。</b></p>
 </ul>
 <h1>🪟 关于终端</h1>
 <p>⭐ 推荐使用 <a href="https://learn.microsoft.com/zh-cn/windows/terminal/install">Windows 终端</a> （Windows 11 默认终端）运行程序以便获得最佳显示效果！</p>
@@ -95,6 +104,12 @@
 <td align="center">str</td>
 <td align="center">作品封面下载格式，支持：<code>JPEG</code>、<code>WEBP</code>；设置为空字符串代表不下载</td>
 <td align="center">空字符串</td>
+</tr>
+<tr>
+<td align="center">music</td>
+<td align="center">bool</td>
+<td align="center">是否下载作品音乐</td>
+<td align="center">false</td>
 </tr>
 <tr>
 <td align="center">max_retry</td>

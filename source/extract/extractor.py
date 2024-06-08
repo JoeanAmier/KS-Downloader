@@ -153,8 +153,10 @@ class APIExtractor:
         self.__extract_photo(item, data)
         match item["photoType"]:
             case "视频":
+                self.__extract_music(item, data, True)
                 self.__extract_mp4(item, data)
             case "图片":
+                self.__extract_music(item, data, False)
                 self.__extract_atlas(item, data)
             case _:
                 item["download"] = ""
@@ -191,6 +193,17 @@ class APIExtractor:
         item["userEid"] = self.safe_extract(photo, "userEid")
         item["detailID"] = self.__extract_id(
             self.safe_extract(photo, "share_info"))
+
+    def __extract_music(self, item: dict, data: SimpleNamespace, video=True, ) -> None:
+        if video:
+            music = self.safe_extract(data, "photo.soundTrack")
+        else:
+            music = self.safe_extract(data, "photo.music")
+        item["music_name"] = self.safe_extract(music, "name")
+        item["audioUrls"] = []
+        for i in self.safe_extract(music, "audioUrls", []):
+            item["audioUrls"].append(i.url)
+        item["audioUrls"] = " ".join(i for i in item["audioUrls"] if i)
 
     @staticmethod
     def __extract_id(share: str):

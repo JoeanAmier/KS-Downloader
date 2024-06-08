@@ -35,6 +35,8 @@ class RecordManager:
         ("download", "下载链接", "TEXT"),
         ("coverUrls", "封面链接", "TEXT"),
         ("webpCoverUrls", "WEBP封面链接", "TEXT"),
+        ("music_name", "音乐标题", "TEXT"),
+        ("audioUrls", "音乐链接", "TEXT"),
         ("collectionCount", "收藏数量", "INTEGER"),
         ("commentCount", "评论数量", "INTEGER"),
         ("viewCount", "浏览数量", "INTEGER"),

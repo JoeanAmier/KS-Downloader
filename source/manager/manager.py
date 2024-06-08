@@ -28,6 +28,7 @@ class Manager:
                  folder_name: str,
                  # cookie: str,
                  cover: str,
+                 music: bool,
                  download_record: bool,
                  data_record: bool,
                  chunk: int,
@@ -52,6 +53,7 @@ class Manager:
         self.max_retry = max_retry
         self.proxy = proxy
         self.cover = cover
+        self.music = music
         self.download_record = download_record
         self.data_record = data_record
         self.folder_mode = folder_mode

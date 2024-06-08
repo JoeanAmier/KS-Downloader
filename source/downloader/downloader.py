@@ -18,6 +18,7 @@ from source.tools import (
 )
 from source.tools import capture_error_request
 from source.tools import retry_request
+from source.tools import truncation
 
 if TYPE_CHECKING:
     from source.manager import Manager
@@ -31,6 +32,7 @@ class Downloader:
         "image/webp": "webp",
         "video/mp4": "mp4",
         "video/quicktime": "mov",
+        "audio/mp4": "m4a"
     }
 
     def __init__(self, manager: "Manager", database: "Database"):
@@ -40,6 +42,7 @@ class Downloader:
         self.headers = manager.app_download_headers
         self.cleaner = manager.cleaner
         self.cover = manager.cover
+        self.music = manager.music
         self.console = manager.console
         self.proxy = manager.proxy
         self.retry = manager.max_retry
@@ -92,7 +95,21 @@ class Downloader:
                         await self.__handle_atlas(tasks, name, item, progress, )
                     case _:
                         self.console.error("未知的作品类型")
+                await self.__handle_music(tasks, name, item, progress, )
             await gather(*tasks)
+
+    async def __handle_music(self, tasks: list, name: str, data: dict, progress: Progress, ):
+        if not (m := data.get("audioUrls")):
+            return
+        file = self.__generate_path(name)
+        if not self.__file_exists(file, "m4a"):
+            tasks.append(self.__download_file(
+                m.split()[0],
+                file,
+                progress,
+                data["detailID"],
+                "音乐",
+            ))
 
     async def __handle_video(self, tasks: list, name: str, data: dict, progress: Progress, ):
         file = self.__generate_path(name)
@@ -139,20 +156,20 @@ class Downloader:
     async def __download_file(self, url: str, path: "Path", progress: Progress, id_: str, tip: str = ""):
         async with self.semaphore:
             if not url:
-                self.console.warning(f"{path.name} {tip}下载链接为空")
+                self.console.warning(f"【{tip}】{truncation(path.name)} 下载链接为空")
                 return True
             try:
                 async with self.session.get(url, headers=self.headers, proxy=self.proxy, ) as response:
                     if response.status != 200:
-                        self.console.error(f"{path.name} 响应码异常：{
+                        self.console.error(f"【{tip}】{truncation(path.name)} 响应码异常：{
                         response.status}")
                         return False
-                    temp = self.temp.joinpath(path.name)
                     suffix = self.__extract_type(
                         response.headers.get("Content-Type"))
+                    temp = self.temp.joinpath(f"{path.name}.{suffix}")
                     path = path.with_name(f"{path.name}.{suffix}")
                     task_id = progress.add_task(
-                        path.name, total=int(
+                        f"【{tip}】{truncation(path.name)}", total=int(
                             response.headers.get(
                                 "Content-Length", "0")) or None)
                     with temp.open("wb") as f:
@@ -160,11 +177,12 @@ class Downloader:
                             f.write(chunk)
                             progress.update(task_id, advance=len(chunk))
             except StopAsyncIteration:
-                self.console.error(f"网络异常，{path.name} 下载中断！")
+                self.console.error(
+                    f"【{tip}】{truncation(path.name)} 网络异常，下载中断！")
                 await self.database.delete_download_data(id_)
                 return False
             self.move(temp, path)
-            self.console.info(f"{path.name} 下载完成")
+            self.console.info(f"【{tip}】{truncation(path.name)} 下载完成")
             await self.database.write_download_data(id_)
             return True
 

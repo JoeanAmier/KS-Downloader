@@ -29,7 +29,6 @@ class Parameter:
                  data_record: bool = False,
                  chunk=1024 * 1024,
                  folder_mode: bool = False,
-                 server=False,
                  max_workers=4,
                  ):
         self.root = PROJECT_ROOT
@@ -42,6 +41,7 @@ class Parameter:
         self.work_path = self.__check_work_path(work_path)
         # self.cookie = self.__check_cookie(cookie)
         self.cover = self.__check_cover(cover)
+        self.music = self.check_bool(music, False)
         self.download_record = self.check_bool(download_record, True)
         self.data_record = self.check_bool(data_record, False)
         self.chunk = self.__check_chunk(chunk)
@@ -60,6 +60,7 @@ class Parameter:
             "folder_name": self.folder_name,
             # "cookie": self.cookie,
             "cover": self.cover,
+            "music": self.music,
             "download_record": self.download_record,
             "data_record": self.data_record,
             "max_workers": self.max_workers,
@@ -80,8 +81,7 @@ class Parameter:
         return max_retry
 
     async def check_proxy(self) -> None:
-        if self.proxy:
-            self.proxy = await self.__check_proxy(self.proxy)
+        self.proxy = await self.__check_proxy(self.proxy) if self.proxy else None
 
     def __check_max_workers(self, max_workers: int) -> int:
         if isinstance(max_workers, int) and max_workers > 0:

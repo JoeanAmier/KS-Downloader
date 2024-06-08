@@ -25,7 +25,6 @@ class Config:
         "timeout": TIMEOUT,
         "chunk": 1024 * 1024,
         "folder_mode": False,
-        "server": False,
         # "cookie": "",
     }
 
