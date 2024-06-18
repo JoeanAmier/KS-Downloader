@@ -135,6 +135,12 @@
 <td align="center">是否将每个作品的文件储存至单独的文件夹；文件夹名称与文件名称保持一致</td>
 <td align="center">false</td>
 </tr>
+<tr>
+<td align="center">cookie</td>
+<td align="center">str</td>
+<td align="center">增加cookie可以避免快手弹出验证码导致链接获取失败问题</td>
+<td align="center">false</td>
+</tr>
 </tbody>
 </table>
 
