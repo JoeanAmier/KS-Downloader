@@ -5,7 +5,7 @@ def is_chinese_char(char):
     return False
 
 
-def truncation(string: str, length=64) -> str:
+def truncation(string: str, length=256) -> str:
     result = ""
     for s in string:
         result += s

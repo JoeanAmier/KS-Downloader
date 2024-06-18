@@ -10,6 +10,7 @@ from source.custom import (
     DISCLAIMER_TEXT,
 )
 from source.downloader import Downloader
+from source.downloader.kuaishou import Kuaishou
 from source.extract import APIExtractor
 from source.extract import PageExtractor
 from source.link import DetailPage
@@ -93,7 +94,23 @@ class KS:
                 self.running = False
                 break
             await self.detail(text)
-
+    async def __detail_uservideo(self):
+        while self.running:
+            text = self.console.input("请输入用户快手作品链接：")
+            if not text:
+                break
+            downloader = Kuaishou(
+                cookie="kpf=PC_WEB; clientid=3; did=web_eda1a93f1f2a99778b3dea2ed60fc496; arp_scroll_position=0; userId=3568785353; kpn=KUAISHOU_VISION; kuaishou.server.web_st=ChZrdWFpc2hvdS5zZXJ2ZXIud2ViLnN0EqABudUVe1aunIWZSj6PE3uzs67cNzH-u5iyM44cD-NrZMfYX3CxZhlerbs70kawwFNxwO_THqC0Nf4gJX8NLg72iiXDKhf2WyPRNrL-JplI6wpbEMT_hQld8muKZD679iFrkGtXHiCA4391rkmAE2COAE8E2wf6_mY43fH7Ccbbaqks3K1hBdx62P-xvWbRjj0714LEf09TPgN-W8BkJeNdgxoStEyT9S95saEmiR8Dg-bb1DKRIiBsiinsiplsExnD2Hh-ZL1z_pdtWpKi_aIQWjmGfN17MigFMAE; kuaishou.server.web_ph=ad0f7ffe552ff2aa87ae7270235d15d81d32",
+                user_id=text,
+                time_min=None,
+                time_max=None,
+            )
+            videos = downloader.getVideos()
+            for index, video in enumerate(videos):
+                videourl = "https://www.kuaishou.com/short-video/%s" % video['video_id']
+                # print(video['video_id'])
+                print(videourl)
+                await self.detail(videourl)
     async def __main_menu(self):
         while self.running:
             self.__update_menu()
@@ -111,6 +128,7 @@ class KS:
     def __update_menu(self):
         self.__function = (
             ("批量下载快手作品", self.__detail_enquire),
+            ("批量下载快手用户作品", self.__detail_uservideo),
             (f"{self.MENU_TIP[self.config["Update"]]}检查更新功能", self.__modify_update),
             (f"{self.MENU_TIP[self.config["Record"]]}下载记录功能", self.__modify_record),
         )

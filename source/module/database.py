@@ -22,7 +22,7 @@ class Database:
         await self.database.commit()
 
     async def __create_table(self):
-        await self.database.execute("CREATE TABLE IF NOT EXISTS download_data (ID TEXT PRIMARY KEY);")
+        await self.database.execute("CREATE TABLE IF NOT EXISTS download_data (ID TEXT PRIMARY KEY, title TEXT);")
         await self.database.execute(
             """CREATE TABLE IF NOT EXISTS config_data (
             NAME TEXT PRIMARY KEY,
@@ -59,12 +59,19 @@ class Database:
         await self.cursor.execute("SELECT ID FROM download_data WHERE ID=?", (id_,))
         return bool(await self.cursor.fetchone())
 
-    async def write_download_data(self, id_: str):
+    async def write_download_data(self, id_: str, title_: str):
         if self.record:
             await self.database.execute(
-                "INSERT OR IGNORE INTO download_data (ID) VALUES (?);", (id_,))
+                "INSERT OR IGNORE INTO download_data (ID, title) VALUES (?, ?);",(id_, title_))
             await self.database.commit()
 
+    async def update_download_data(self, id_: str, title_: str):
+        if self.record:
+            await self.database.execute(
+                "UPDATE download_data SET ID = ?, title = ? WHERE ID = ?;",
+                (id_, title_, id_)
+            )
+            await self.database.commit()
     async def delete_download_data(self, ids: list | tuple | str):
         if not self.record:
             return

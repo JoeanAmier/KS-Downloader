@@ -86,6 +86,8 @@ class Downloader:
             for item in data:
                 if await self.database.has_download_data(i := item["detailID"]):
                     self.console.info(f"作品 {i} 存在下载记录，跳过下载！")
+                    await self.database.update_download_data(i, i := item["caption"])
+
                     continue
                 name = self.__generate_name(item, app, )
                 match item["photoType"]:
@@ -183,7 +185,7 @@ class Downloader:
                 return False
             self.move(temp, path)
             self.console.info(f"【{tip}】{truncation(path.name)} 下载完成")
-            await self.database.write_download_data(id_)
+            await self.database.write_download_data(id_,path.name)
             return True
 
     def __extract_type(self, content: str) -> str:

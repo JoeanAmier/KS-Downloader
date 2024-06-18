@@ -17,7 +17,7 @@ class Parameter:
     def __init__(self,
                  console: "ColorConsole",
                  cleaner: "Cleaner",
-                 # cookie: str,
+                 cookie: str = "kpf=PC_WEB; clientid=3; did=web_eda1a93f1f2a99778b3dea2ed60fc496; arp_scroll_position=0; userId=3568785353; kpn=KUAISHOU_VISION; kuaishou.server.web_st=ChZrdWFpc2hvdS5zZXJ2ZXIud2ViLnN0EqABudUVe1aunIWZSj6PE3uzs67cNzH-u5iyM44cD-NrZMfYX3CxZhlerbs70kawwFNxwO_THqC0Nf4gJX8NLg72iiXDKhf2WyPRNrL-JplI6wpbEMT_hQld8muKZD679iFrkGtXHiCA4391rkmAE2COAE8E2wf6_mY43fH7Ccbbaqks3K1hBdx62P-xvWbRjj0714LEf09TPgN-W8BkJeNdgxoStEyT9S95saEmiR8Dg-bb1DKRIiBsiinsiplsExnD2Hh-ZL1z_pdtWpKi_aIQWjmGfN17MigFMAE; kuaishou.server.web_ph=ad0f7ffe552ff2aa87ae7270235d15d81d32",
                  folder_name: str = "Download",
                  work_path: str = "",
                  timeout=TIMEOUT,
@@ -39,7 +39,7 @@ class Parameter:
         self.proxy = proxy
         self.folder_name = self.__check_folder_name(folder_name)
         self.work_path = self.__check_work_path(work_path)
-        # self.cookie = self.__check_cookie(cookie)
+        self.cookie = self.__check_cookie(cookie)
         self.cover = self.__check_cover(cover)
         self.music = self.check_bool(music, False)
         self.download_record = self.check_bool(download_record, True)
@@ -58,7 +58,7 @@ class Parameter:
             "proxy": self.proxy,
             "work_path": self.work_path,
             "folder_name": self.folder_name,
-            # "cookie": self.cookie,
+            "cookie": self.cookie,
             "cover": self.cover,
             "music": self.music,
             "download_record": self.download_record,

@@ -26,7 +26,7 @@ class Manager:
                  proxy: str | None,
                  work_path: "Path",
                  folder_name: str,
-                 # cookie: str,
+                 cookie: str,
                  cover: str,
                  music: bool,
                  download_record: bool,
