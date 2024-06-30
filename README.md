@@ -10,7 +10,7 @@
 <img src="https://img.shields.io/badge/Sourcery-enabled-884898?style=for-the-badge&color=1890ff" alt="">
 <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/KS-Downloader/total?style=for-the-badge&color=52c41a">
 <br>
-<p>🔥 <b>快手作品下载工具：</b>完全开源，基于 AIOHTTP 模块实现，下载快手无水印视频、图片文件！</p>
+<p>🔥 <b>快手作品下载工具：</b>完全开源，基于 HTTPX 模块实现，下载快手无水印视频、图片文件！</p>
 </div>
 <hr>
 <h1>📑 项目功能</h1>
@@ -28,6 +28,7 @@
 <li>☑️ 支持命令行下载作品文件</li>
 <li>☑️ 支持 API 调用功能</li>
 </ul>
+<p>⭐ KS-Downloader 开发计划及进度可前往 <a href="https://github.com/users/JoeanAmier/projects/6">Projects</a> 查阅</p>
 <h1>📸 程序截图</h1>
 <img src="docs/项目运行截图.png" alt="">
 <h1>🥣 使用方法</h1>
@@ -189,7 +190,7 @@
 # 💡 项目参考\(Refer\)
 
 * https://github.com/moyada/stealer
-* https://docs.aiohttp.org/en/stable/
+* https://github.com/encode/httpx/
 * https://github.com/Textualize/rich
 * https://github.com/omnilib/aiosqlite
 * https://github.com/pyinstaller/pyinstaller

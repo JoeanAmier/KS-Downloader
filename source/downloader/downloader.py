@@ -4,6 +4,7 @@ from pathlib import Path
 from shutil import move
 from typing import TYPE_CHECKING
 
+from httpx import HTTPError
 from rich.progress import (
     SpinnerColumn,
     BarColumn,
@@ -38,13 +39,12 @@ class Downloader:
     def __init__(self, manager: "Manager", database: "Database"):
         self.path = manager.path
         self.folder = manager.folder
-        self.session = manager.session
+        self.client = manager.client
         self.headers = manager.app_download_headers
         self.cleaner = manager.cleaner
         self.cover = manager.cover
         self.music = manager.music
         self.console = manager.console
-        self.proxy = manager.proxy
         self.retry = manager.max_retry
         self.temp = manager.temp
         self.folder_mode = manager.folder_mode
@@ -159,11 +159,8 @@ class Downloader:
                 self.console.warning(f"【{tip}】{truncation(path.name)} 下载链接为空")
                 return True
             try:
-                async with self.session.get(url, headers=self.headers, proxy=self.proxy, ) as response:
-                    if response.status != 200:
-                        self.console.error(f"【{tip}】{truncation(path.name)} 响应码异常：{
-                        response.status}")
-                        return False
+                async with self.client.stream("GET", url, headers=self.headers, ) as response:
+                    response.raise_for_status()
                     suffix = self.__extract_type(
                         response.headers.get("Content-Type"))
                     temp = self.temp.joinpath(f"{path.name}.{suffix}")
@@ -173,12 +170,12 @@ class Downloader:
                             response.headers.get(
                                 "Content-Length", "0")) or None)
                     with temp.open("wb") as f:
-                        async for chunk in response.content.iter_chunked(self.chunk):
+                        async for chunk in response.aiter_bytes(self.chunk):
                             f.write(chunk)
                             progress.update(task_id, advance=len(chunk))
-            except StopAsyncIteration:
+            except HTTPError as e:
                 self.console.error(
-                    f"【{tip}】{truncation(path.name)} 网络异常，下载中断！")
+                    f"【{tip}】{truncation(path.name)} 网络异常: {e}")
                 await self.database.delete_download_data(id_)
                 return False
             self.move(temp, path)

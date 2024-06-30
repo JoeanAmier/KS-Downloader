@@ -64,23 +64,10 @@ class KS:
         self.running = True
         self.__function = None
 
-    # async def async_init(self):
-    #     await self.params.check_proxy()
-    #     self.config = await self.database.read_config()
-    #     self.manager = Manager(**self.params.run())
-    #     self.version = Version(self.manager)
-    #     self.examiner = Examiner(self.manager)
-    #     self.detail_request = Detail(self.manager)
-    #     self.detail_page = DetailPage(self.manager)
-    #     self.api_extractor = APIExtractor(self.manager)
-    #     self.detail_extractor = PageExtractor(self.manager)
-    #     self.download = Downloader(self.manager, self.database)
-
     async def run(self):
         self.config = await self.database.read_config()
         self.__welcome()
         await self.__update_version()
-        # await self.async_init()
         if await self.disclaimer():
             await self.__main_menu()
 

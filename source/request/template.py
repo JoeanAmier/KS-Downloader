@@ -6,7 +6,7 @@ if TYPE_CHECKING:
 
 class API:
     def __init__(self, manager: "Manager"):
-        self.session = manager.session
+        self.client = manager.client
         self.headers = manager.pc_data_headers
 
     def run(self):

@@ -15,9 +15,8 @@ class Detail:
     ID = compile(r"short-video/(\S+)\?")
 
     def __init__(self, manager: "Manager"):
-        self.session = manager.session
+        self.client = manager.client
         self.headers = manager.app_data_headers
-        self.proxy = manager.proxy
         self.console = manager.console
         self.retry = manager.max_retry
         self.params = {
@@ -53,8 +52,9 @@ class Detail:
     @retry_request
     @capture_error_request
     async def __get_data(self):
-        async with self.session.post(self.API, headers=self.headers, json=self.params, proxy=self.proxy) as response:
-            return await response.json()
+        response = await self.client.post(self.API, headers=self.headers, json=self.params, )
+        response.raise_for_status()
+        return response.json()
 
     def __extract_id(self, url: str) -> list:
         return [i.group(1)] if (i := self.ID.search(url)) else [None]

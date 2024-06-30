@@ -1,10 +1,11 @@
 from pathlib import Path
 from typing import TYPE_CHECKING
 
+from httpx import HTTPError
+from httpx import TimeoutException
+from httpx import get
+
 from source.custom import PROJECT_ROOT
-from source.tools import base_session
-from source.tools import capture_error_request
-from source.tools import retry_request
 from source.variable import RETRY
 from source.variable import TIMEOUT
 
@@ -14,6 +15,11 @@ if TYPE_CHECKING:
 
 
 class Parameter:
+    NO_PROXY = {
+        "http://": None,
+        "https://": None,
+    }
+
     def __init__(self,
                  console: "ColorConsole",
                  cleaner: "Cleaner",
@@ -22,7 +28,7 @@ class Parameter:
                  work_path: str = "",
                  timeout=TIMEOUT,
                  max_retry=RETRY,
-                 proxy: str = None,
+                 proxy: str | dict = None,
                  cover="",
                  music=False,
                  download_record: bool = True,
@@ -36,7 +42,7 @@ class Parameter:
         self.console = console
         self.timeout = self.__check_timeout(timeout)
         self.retry = self.__check_max_retry(max_retry)
-        self.proxy = proxy
+        self.proxy = self.__check_proxy(proxy)
         self.folder_name = self.__check_folder_name(folder_name)
         self.work_path = self.__check_work_path(work_path)
         # self.cookie = self.__check_cookie(cookie)
@@ -80,25 +86,37 @@ class Parameter:
             return 5
         return max_retry
 
-    async def check_proxy(self) -> None:
-        self.proxy = await self.__check_proxy(self.proxy) if self.proxy else None
-
     def __check_max_workers(self, max_workers: int) -> int:
         if isinstance(max_workers, int) and max_workers > 0:
             return max_workers
         self.console.warning("max_workers 参数错误")
         return 4
 
-    @retry_request
-    @capture_error_request
-    async def __check_proxy(self, proxy: str | None) -> str | None:
-        async with base_session() as session:
-            async with session.get("https://www.baidu.com/", proxy=proxy) as response:
-                if response.status == 200:
-                    self.console.info(f"代理 {proxy} 测试成功")
-                    return proxy
-                self.console.error(f"代理 {proxy} 测试失败")
-                return None
+    def __check_proxy(
+            self,
+            proxy: str | dict,
+            url="https://www.baidu.com/") -> dict:
+        if not proxy:
+            return {"proxies": self.NO_PROXY}
+        if isinstance(proxy, str):
+            kwarg = {"proxy": proxy}
+        elif isinstance(proxy, dict):
+            kwarg = {"proxies": proxy}
+        else:
+            self.console.warning(f"proxy 参数 {proxy} 设置错误，程序将不会使用代理", )
+            return {"proxies": self.NO_PROXY}
+        try:
+            response = get(
+                url,
+                **kwarg, )
+            response.raise_for_status()
+            self.console.info(f"代理 {proxy} 测试成功")
+            return kwarg
+        except TimeoutException:
+            self.console.warning(f"代理 {proxy} 测试超时")
+        except HTTPError as e:
+            self.console.warning(f"代理 {proxy} 测试失败：{e}")
+        return {"proxies": self.NO_PROXY}
 
     def __check_work_path(self, work_path: str) -> Path:
         if not work_path:

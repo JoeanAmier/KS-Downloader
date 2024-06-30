@@ -1,7 +1,5 @@
 from typing import TYPE_CHECKING
 
-from aiohttp import ClientTimeout
-
 from source.custom import RELEASES
 from source.tools import capture_error_request
 from source.tools import retry_request
@@ -21,7 +19,7 @@ class Version:
     }
 
     def __init__(self, manager: "Manager"):
-        self.session = manager.session
+        self.client = manager.client
         self.console = manager.console
         self.retry = manager.max_retry
 
@@ -45,9 +43,8 @@ class Version:
     @retry_request
     @capture_error_request
     async def get_target_version(self, ):
-        async with self.session.get(
-                RELEASES,
-                timeout=ClientTimeout(connect=5), ) as response:
-            version = str(response.url).split("/")
-            if len(v := version[-1]) == 3:
-                return v
+        response = await self.client.get(RELEASES, timeout=5, )
+        response.raise_for_status()
+        version = str(response.url).split("/")
+        if len(v := version[-1]) == 3:
+            return v

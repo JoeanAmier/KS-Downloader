@@ -10,11 +10,10 @@ if TYPE_CHECKING:
 
 class DetailPage:
     def __init__(self, manager: "Manager"):
-        self.session = manager.session
+        self.client = manager.client
         self.headers = manager.pc_headers
         self.console = manager.console
         self.retry = manager.max_retry
-        self.proxy = manager.proxy
 
     async def run(self, urls: list[str]) -> list[[str, str]]:
         result = []
@@ -26,5 +25,6 @@ class DetailPage:
     @retry_request
     @capture_error_request
     async def request_url(self, url: str, ) -> str:
-        async with self.session.get(url, headers=self.headers, proxy=self.proxy) as response:
-            return await response.text()
+        response = await self.client.get(url, headers=self.headers, )
+        response.raise_for_status()
+        return response.text

@@ -1,7 +1,7 @@
 from shutil import rmtree
 from typing import TYPE_CHECKING
 
-from source.tools import base_session
+from source.tools import base_client
 from source.variable import (
     APP_HEADERS,
     APP_DATA_HEADERS,
@@ -23,7 +23,7 @@ class Manager:
                  root: "Path",
                  timeout: int,
                  max_retry: int,
-                 proxy: str | None,
+                 proxy: dict,
                  work_path: "Path",
                  folder_name: str,
                  # cookie: str,
@@ -43,7 +43,7 @@ class Manager:
         self.data = self.path.joinpath("Data")
         self.folder = self.root.joinpath(folder_name)
         self.timeout = timeout
-        self.session = base_session(timeout=timeout)
+        self.client = base_client(timeout=timeout, **proxy)
         self.pc_headers = PC_PAGE_HEADERS
         self.pc_data_headers = PC_DATA_HEADERS
         self.pc_download_headers = None
@@ -51,7 +51,7 @@ class Manager:
         self.app_data_headers = APP_DATA_HEADERS
         self.app_download_headers = APP_DOWNLOAD_HEADERS
         self.max_retry = max_retry
-        self.proxy = proxy
+        # self.proxy = proxy
         self.cover = cover
         self.music = music
         self.download_record = download_record
@@ -70,5 +70,5 @@ class Manager:
         rmtree(self.temp.resolve())
 
     async def close(self):
-        await self.session.close()
+        await self.client.aclose()
         self.__clear_temp()

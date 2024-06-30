@@ -1,5 +1,6 @@
 from .capture import capture_error_request
 from .cleaner import Cleaner
+from .client import base_client
 from .console import (
     ColorConsole,
     MASTER,
@@ -12,7 +13,6 @@ from .console import (
 )
 from .namespace import Namespace
 from .retry import retry_request
-from .session import base_session
 from .string import is_chinese_char
 from .string import truncation
 from .version import Version

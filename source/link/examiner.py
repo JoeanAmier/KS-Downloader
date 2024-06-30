@@ -16,14 +16,13 @@ class Examiner:
     DETAIL_URL = compile(r"(https?://v\.m\.chenzhongtech\.com/fw/photo/\S+)")
 
     def __init__(self, manager: "Manager"):
-        self.session = manager.session
+        self.client = manager.client
         self.app_headers = manager.app_headers
         self.app_data_headers = manager.app_data_headers
         self.pc_headers = manager.pc_headers
         self.pc_data_headers = manager.pc_data_headers
         self.console = manager.console
         self.retry = manager.max_retry
-        self.proxy = manager.proxy
         self.app_url = (
             self.V_SHORT_URL,
             self.F_SHORT_URL,
@@ -73,12 +72,13 @@ class Examiner:
     @retry_request
     @capture_error_request
     async def __request_url(self, url: str, ) -> str:
-        async with self.session.get(url,
-                                    headers=self.app_headers if (
-                                            "https://v.kuaishou.com/" in url) else self.pc_headers,
-                                    proxy=self.proxy) as response:
-            self.__update_cookie(response.cookies.items(), )
-            return str(response.url)
+        response = await self.client.get(url,
+                                         headers=self.app_headers if (
+                                                 "https://v.kuaishou.com/" in url) else self.pc_headers,
+                                         )
+        response.raise_for_status()
+        self.__update_cookie(response.cookies.items(), )
+        return str(response.url)
 
     def __update_cookie(self, cookies, ) -> None:
         if cookies := self.__format_cookie(cookies):
@@ -89,4 +89,4 @@ class Examiner:
 
     @staticmethod
     def __format_cookie(cookies):
-        return "; ".join([f"{key}={value.value}" for key, value in cookies])
+        return "; ".join([f"{key}={value}" for key, value in cookies])
