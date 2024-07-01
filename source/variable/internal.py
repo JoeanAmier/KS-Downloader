@@ -5,6 +5,7 @@ APP_USERAGENT = (
     "Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) "
     "Version/16.6 Mobile/15E148 Safari/604.1")
 SEC_CH_UA = '"Google Chrome";v="125", "Chromium";v="125", "Not.A/Brand";v="24"'
+Cookie = '"kpf=PC_WEB; clientid=3; did=web_eda1a93f1f2a99778b3dea2ed60fc496; arp_scroll_position=0; userId=3568785353; kpn=KUAISHOU_VISION; kuaishou.server.web_st=ChZrdWFpc2hvdS5zZXJ2ZXIud2ViLnN0EqABudUVe1aunIWZSj6PE3uzs67cNzH-u5iyM44cD-NrZMfYX3CxZhlerbs70kawwFNxwO_THqC0Nf4gJX8NLg72iiXDKhf2WyPRNrL-JplI6wpbEMT_hQld8muKZD679iFrkGtXHiCA4391rkmAE2COAE8E2wf6_mY43fH7Ccbbaqks3K1hBdx62P-xvWbRjj0714LEf09TPgN-W8BkJeNdgxoStEyT9S95saEmiR8Dg-bb1DKRIiBsiinsiplsExnD2Hh-ZL1z_pdtWpKi_aIQWjmGfN17MigFMAE; kuaishou.server.web_ph=ad0f7ffe552ff2aa87ae7270235d15d81d32"'
 PC_PAGE_HEADERS = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,'
               'application/signed-exchange;v=b3;q=0.7',
@@ -18,6 +19,7 @@ PC_PAGE_HEADERS = {
     'Upgrade-Insecure-Requests': '1',
     'User-Agent': PC_USERAGENT,
     'sec-ch-ua': SEC_CH_UA,
+    "Cookie": Cookie,
     'sec-ch-ua-mobile': '?0',
     'sec-ch-ua-platform': '"Windows"',
 }
@@ -30,6 +32,7 @@ PC_DATA_HEADERS = {
     'Sec-Fetch-Dest': 'empty',
     'Sec-Fetch-Mode': 'cors',
     'Sec-Fetch-Site': 'same-origin',
+    "Cookie": Cookie,
     'User-Agent': PC_USERAGENT,
     'Accept': '*/*',
     'sec-ch-ua': SEC_CH_UA,
@@ -45,6 +48,7 @@ APP_HEADERS = {
     "Sec-Fetch-Dest": "document",
     "Sec-Fetch-Mode": "navigate",
     "Sec-Fetch-Site": "none",
+    "Cookie": Cookie,
     "Upgrade-Insecure-Requests": "1",
     "User-Agent": APP_USERAGENT,
 }
@@ -63,6 +67,7 @@ APP_DATA_HEADERS = {
     "Sec-Fetch-Dest": "empty",
     "Sec-Fetch-Mode": "cors",
     "Sec-Fetch-Site": "same-origin",
+    "Cookie": Cookie,
     # "Sec-Fetch-User": "?1",
     "User-Agent": APP_USERAGENT,
 }
@@ -70,8 +75,9 @@ APP_DOWNLOAD_HEADERS = {
     "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,"
               "application/signed-exchange;v=b3;q=0.9",
     "accept-encoding": "gzip, deflate, br",
+    "Cookie": Cookie,
     "Upgrade-Insecure-Requests": '1',
     "user-agent": APP_USERAGENT,
 }
 TIMEOUT = 10
-RETRY = 5
+RETRY = 2
