@@ -17,6 +17,7 @@ class Examiner:
 
     def __init__(self, manager: "Manager"):
         self.client = manager.client
+        self.cookie = manager.cookie
         self.app_headers = manager.app_headers
         self.app_data_headers = manager.app_data_headers
         self.pc_headers = manager.pc_headers
@@ -81,6 +82,8 @@ class Examiner:
         return str(response.url)
 
     def __update_cookie(self, cookies, ) -> None:
+        if self.cookie:
+            return
         if cookies := self.__format_cookie(cookies):
             self.app_headers["Cookie"] = cookies
             self.app_data_headers["Cookie"] = cookies

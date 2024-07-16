@@ -15,6 +15,7 @@ class Config:
     default = {
         "work_path": "",
         "folder_name": "Download",
+        "cookie": "",
         "proxy": None,
         "download_record": True,
         "data_record": False,
@@ -25,7 +26,6 @@ class Config:
         "timeout": TIMEOUT,
         "chunk": 1024 * 1024,
         "folder_mode": False,
-        # "cookie": "",
     }
 
     def __init__(self, console: "ColorConsole", ):

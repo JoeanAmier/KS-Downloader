@@ -1,18 +1,41 @@
-def is_chinese_char(char):
-    """判断一个字符是否是中文字符"""
-    if "\u4e00" <= char <= "\u9fff":
-        return True
-    return False
+from unicodedata import name
 
 
-def truncation(string: str, length=64) -> str:
+def is_chinese_char(char: str) -> bool:
+    return 'CJK' in name(char, "")
+
+
+def truncate_string(s: str, length: int) -> str:
+    count = 0
     result = ""
-    for s in string:
-        result += s
-        if is_chinese_char(s):
-            length -= 2
+    for char in s:
+        if is_chinese_char(char):  # 判断是否为中文字符
+            count += 2
         else:
-            length -= 1
-        if length < 1:
+            count += 1
+        if count > length:
             break
+        result += char
     return result
+
+
+def trim_string(s: str, length: int) -> str:
+    length = length // 2 - 2
+    return f"{s[:length]}...{s[-length:]}" if len(s) > length else s
+
+
+def beautify_string(s: str, length: int) -> str:
+    count = 0
+    for char in s:
+        if is_chinese_char(char):  # 判断是否为中文字符
+            count += 2
+        else:
+            count += 1
+        if count > length:
+            break
+    else:
+        return s
+    length = length // 2
+    start = truncate_string(s, length)
+    end = truncate_string(s[::-1], length)[::-1]
+    return f"{start}...{end}"

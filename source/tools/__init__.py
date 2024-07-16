@@ -13,6 +13,8 @@ from .console import (
 )
 from .namespace import Namespace
 from .retry import retry_request
+from .string import beautify_string
 from .string import is_chinese_char
-from .string import truncation
+from .string import trim_string
+from .string import truncate_string
 from .version import Version

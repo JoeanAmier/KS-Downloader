@@ -26,7 +26,7 @@ class Manager:
                  proxy: dict,
                  work_path: "Path",
                  folder_name: str,
-                 # cookie: str,
+                 cookie: str,
                  cover: str,
                  music: bool,
                  download_record: bool,
@@ -44,14 +44,15 @@ class Manager:
         self.folder = self.root.joinpath(folder_name)
         self.timeout = timeout
         self.client = base_client(timeout=timeout, **proxy)
-        self.pc_headers = PC_PAGE_HEADERS
-        self.pc_data_headers = PC_DATA_HEADERS
+        self.cookie = cookie
+        self.pc_headers = PC_PAGE_HEADERS | {"Cookie": cookie}
+        self.pc_data_headers = PC_DATA_HEADERS | {"Cookie": cookie}
         self.pc_download_headers = None
-        self.app_headers = APP_HEADERS
-        self.app_data_headers = APP_DATA_HEADERS
+        self.app_headers = APP_HEADERS | {"Cookie": cookie}
+        self.app_data_headers = APP_DATA_HEADERS | {"Cookie": cookie}
         self.app_download_headers = APP_DOWNLOAD_HEADERS
         self.max_retry = max_retry
-        # self.proxy = proxy
+        self.proxy = proxy
         self.cover = cover
         self.music = music
         self.download_record = download_record

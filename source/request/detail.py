@@ -45,7 +45,7 @@ class Detail:
         self.headers["Referer"] = url
         self.__update_params(params, id_)
         if not (d := await self.__get_data()):
-            self.console.warning("获取作品数据失败")
+            self.console.warning("请求作品数据失败")
             return None
         return d
 

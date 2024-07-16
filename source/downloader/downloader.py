@@ -17,9 +17,9 @@ from rich.progress import (
 from source.tools import (
     PROGRESS,
 )
+from source.tools import beautify_string
 from source.tools import capture_error_request
 from source.tools import retry_request
-from source.tools import truncation
 
 if TYPE_CHECKING:
     from source.manager import Manager
@@ -99,7 +99,7 @@ class Downloader:
             await gather(*tasks)
 
     async def __handle_music(self, tasks: list, name: str, data: dict, progress: Progress, ):
-        if not (m := data.get("audioUrls")):
+        if not self.music or not (m := data.get("audioUrls")):
             return
         file = self.__generate_path(name)
         if not self.__file_exists(file, "m4a"):
@@ -155,8 +155,9 @@ class Downloader:
     @capture_error_request
     async def __download_file(self, url: str, path: "Path", progress: Progress, id_: str, tip: str = ""):
         async with self.semaphore:
+            text = beautify_string(path.name, 32)
             if not url:
-                self.console.warning(f"【{tip}】{truncation(path.name)} 下载链接为空")
+                self.console.warning(f"【{tip}】{text} 下载链接为空")
                 return True
             try:
                 async with self.client.stream("GET", url, headers=self.headers, ) as response:
@@ -166,7 +167,7 @@ class Downloader:
                     temp = self.temp.joinpath(f"{path.name}.{suffix}")
                     path = path.with_name(f"{path.name}.{suffix}")
                     task_id = progress.add_task(
-                        f"【{tip}】{truncation(path.name)}", total=int(
+                        f"【{tip}】{text}", total=int(
                             response.headers.get(
                                 "Content-Length", "0")) or None)
                     with temp.open("wb") as f:
@@ -175,11 +176,11 @@ class Downloader:
                             progress.update(task_id, advance=len(chunk))
             except HTTPError as e:
                 self.console.error(
-                    f"【{tip}】{truncation(path.name)} 网络异常: {e}")
+                    f"【{tip}】{text} 网络异常: {e}")
                 await self.database.delete_download_data(id_)
                 return False
             self.move(temp, path)
-            self.console.info(f"【{tip}】{truncation(path.name)} 下载完成")
+            self.console.info(f"【{tip}】{text} 下载完成")
             await self.database.write_download_data(id_)
             return True
 

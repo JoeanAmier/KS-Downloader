@@ -24,7 +24,7 @@ class PageExtractor:
 
     def run(self, html: str, id_: str, ) -> dict:
         if not (data := self.__convert_object(self.__extract_object(html))):
-            self.console.warning("提取数据失败")
+            self.console.warning("提取网页数据失败")
             return {}
         data = Namespace(data)
         return self.__extract_detail(data, id_)

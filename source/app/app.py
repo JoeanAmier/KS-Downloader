@@ -1,5 +1,3 @@
-from contextlib import suppress
-
 from source.config import Config
 from source.config import Parameter
 from source.custom import (
@@ -89,11 +87,14 @@ class KS:
                 [i for i, _ in self.__function],
                 self.console,
             )
-            with suppress(ValueError):
-                if function in {"Q", "q", ""}:
-                    self.running = False
-                elif (n := int(function) - 1) in range(len(self.__function)):
-                    await self.__function[n][1]()
+            if function.upper() == "Q":
+                self.running = False
+            try:
+                n = int(function) - 1
+            except ValueError:
+                break
+            if n in range(len(self.__function)):
+                await self.__function[n][1]()
 
     def __update_menu(self):
         self.__function = (
@@ -172,7 +173,7 @@ class KS:
     def __check_extract_data(self, data: list) -> list:
         if data := [i for i in data if i]:
             return data
-        self.console.error("获取数据失败")
+        self.console.error("获取作品数据失败")
         return []
 
     async def user(self):

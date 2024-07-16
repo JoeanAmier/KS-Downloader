@@ -23,7 +23,7 @@ class Parameter:
     def __init__(self,
                  console: "ColorConsole",
                  cleaner: "Cleaner",
-                 # cookie: str,
+                 cookie: str,
                  folder_name: str = "Download",
                  work_path: str = "",
                  timeout=TIMEOUT,
@@ -45,7 +45,7 @@ class Parameter:
         self.proxy = self.__check_proxy(proxy)
         self.folder_name = self.__check_folder_name(folder_name)
         self.work_path = self.__check_work_path(work_path)
-        # self.cookie = self.__check_cookie(cookie)
+        self.cookie = self.__check_cookie(cookie)
         self.cover = self.__check_cover(cover)
         self.music = self.check_bool(music, False)
         self.download_record = self.check_bool(download_record, True)
@@ -64,7 +64,7 @@ class Parameter:
             "proxy": self.proxy,
             "work_path": self.work_path,
             "folder_name": self.folder_name,
-            # "cookie": self.cookie,
+            "cookie": self.cookie,
             "cover": self.cover,
             "music": self.music,
             "download_record": self.download_record,

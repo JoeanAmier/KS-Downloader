@@ -54,6 +54,7 @@
 <p>⭐ 推荐使用 <a href="https://learn.microsoft.com/zh-cn/windows/terminal/install">Windows 终端</a> （Windows 11 默认终端）运行程序以便获得最佳显示效果！</p>
 <h1>⚙️ 配置文件</h1>
 <p>项目根目录下的 <code>config.yaml</code> 文件，首次运行自动生成，可以自定义部分运行参数。</p>
+<p><b>如果项目功能无法正常使用，请尝试手动复制 Cookie 并写入配置文件后重新运行项目！</b></p>
 <table>
 <thead>
 <tr>
@@ -75,6 +76,12 @@
 <td align="center">str</td>
 <td align="center">作品文件储存文件夹名称</td>
 <td align="center">Download</td>
+</tr>
+<tr>
+<td align="center">cookie</td>
+<td align="center">str</td>
+<td align="center">快手网页版 Cookie，<b>无需登录</b></td>
+<td align="center">动态获取</td>
 </tr>
 <tr>
 <td align="center">proxy</td>
