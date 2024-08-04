@@ -24,7 +24,7 @@ class Config:
         "music": False,
         "max_retry": RETRY,
         "timeout": TIMEOUT,
-        "chunk": 1024 * 1024,
+        "chunk": 2 * 1024 * 1024,
         "folder_mode": False,
     }
 

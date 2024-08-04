@@ -2,6 +2,7 @@ from shutil import rmtree
 from typing import TYPE_CHECKING
 
 from source.tools import base_client
+from source.tools import remove_empty_directories
 from source.variable import (
     APP_HEADERS,
     APP_DATA_HEADERS,
@@ -72,4 +73,5 @@ class Manager:
 
     async def close(self):
         await self.client.aclose()
-        self.__clear_temp()
+        # self.__clear_temp()
+        remove_empty_directories(self.root)

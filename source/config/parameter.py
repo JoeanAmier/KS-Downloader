@@ -141,9 +141,11 @@ class Parameter:
         self.console.warning("folder_name 参数不是有效的文件夹名称，程序将使用默认值：Download")
         return "Download"
 
-    def __check_cookie(self, cookie: str) -> str:
+    def __check_cookie(self, cookie: str | dict) -> str:
         if isinstance(cookie, str):
             return cookie
+        # elif isinstance(cookie, dict):
+        #     pass
         self.console.warning("cookie 参数错误")
         return ""
 
@@ -158,7 +160,7 @@ class Parameter:
         return value if isinstance(value, bool) else default
 
     def __check_chunk(self, chunk: int) -> int:
-        if isinstance(chunk, int) and chunk > 1024:
+        if isinstance(chunk, int) and chunk >= 256 * 1024:
             return chunk
         self.console.warning("chunk 参数错误")
-        return 1024 * 1024
+        return 2 * 1024 * 1024

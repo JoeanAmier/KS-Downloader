@@ -85,6 +85,7 @@ class Examiner:
         if self.cookie:
             return
         if cookies := self.__format_cookie(cookies):
+            self.cookie = cookies
             self.app_headers["Cookie"] = cookies
             self.app_data_headers["Cookie"] = cookies
             self.pc_headers["Cookie"] = cookies

@@ -4,6 +4,7 @@ from pathlib import Path
 from shutil import move
 from typing import TYPE_CHECKING
 
+from aiofiles import open
 from httpx import HTTPError
 from rich.progress import (
     SpinnerColumn,
@@ -155,30 +156,26 @@ class Downloader:
     @capture_error_request
     async def __download_file(self, url: str, path: "Path", progress: Progress, id_: str, tip: str = ""):
         async with self.semaphore:
-            text = beautify_string(path.name, 32)
+            text = beautify_string(path.name, 50)
             if not url:
                 self.console.warning(f"【{tip}】{text} 下载链接为空")
                 return True
+            length, suffix = await self.__hand_file(url)
+            temp = self.temp.joinpath(f"{path.name}.{suffix}")
+            path = path.with_name(f"{path.name}.{suffix}")
+            self.__update_headers_range(temp)
             try:
                 async with self.client.stream("GET", url, headers=self.headers, ) as response:
                     response.raise_for_status()
-                    suffix = self.__extract_type(
-                        response.headers.get("Content-Type"))
-                    temp = self.temp.joinpath(f"{path.name}.{suffix}")
-                    path = path.with_name(f"{path.name}.{suffix}")
                     task_id = progress.add_task(
-                        f"【{tip}】{text}", total=int(
-                            response.headers.get(
-                                "Content-Length", "0")) or None)
-                    with temp.open("wb") as f:
+                        f"【{tip}】{text}", total=int(length) or None)
+                    async with open(temp, "ab") as f:
                         async for chunk in response.aiter_bytes(self.chunk):
-                            f.write(chunk)
+                            await f.write(chunk)
                             progress.update(task_id, advance=len(chunk))
             except HTTPError as e:
-                self.console.error(
-                    f"【{tip}】{text} 网络异常: {e}")
                 await self.database.delete_download_data(id_)
-                return False
+                raise HTTPError from e
             self.move(temp, path)
             self.console.info(f"【{tip}】{text} 下载完成")
             await self.database.write_download_data(id_)
@@ -225,3 +222,19 @@ class Downloader:
         root = self.__generate_root(name)
         root.mkdir(exist_ok=True)
         return root.joinpath(name)
+
+    async def __hand_file(self, url: str, ):
+        response = await self.client.head(url, headers=self.headers, )
+        response.raise_for_status()
+        suffix = self.__extract_type(
+            response.headers.get("Content-Type"))
+        length = response.headers.get(
+            "Content-Length", 0)
+        return length, suffix
+
+    @staticmethod
+    def __get_resume_byte_position(file: Path) -> int:
+        return file.stat().st_size if file.is_file() else 0
+
+    def __update_headers_range(self, file: Path) -> None:
+        self.headers["Range"] = f"bytes={self.__get_resume_byte_position(file)}-"

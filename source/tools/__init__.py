@@ -12,9 +12,9 @@ from .console import (
     INFO,
 )
 from .namespace import Namespace
+from .remove import remove_empty_directories
 from .retry import retry_request
-from .string import beautify_string
-from .string import is_chinese_char
-from .string import trim_string
-from .string import truncate_string
+from .truncate import beautify_string
+from .truncate import trim_string
+from .truncate import truncate_string
 from .version import Version

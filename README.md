@@ -3,7 +3,7 @@
 <h1>KS-Downloader</h1>
 <img alt="GitHub" src="https://img.shields.io/github/license/JoeanAmier/KS-Downloader?style=for-the-badge&color=ff7a45">
 <img alt="GitHub forks" src="https://img.shields.io/github/forks/JoeanAmier/KS-Downloader?style=for-the-badge&color=fa8c16">
-<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/JoeanAmier/KS-Downloader?style=for-the-badge&color=ff4d4f">
+<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/JoeanAmier/KS-Downloader?style=for-the-badge&color=ffee6f">
 <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/JoeanAmier/KS-Downloader?style=for-the-badge&color=13c2c2">
 <br>
 <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/JoeanAmier/KS-Downloader?style=for-the-badge&color=f759ab">
@@ -22,6 +22,7 @@
 <li>✅ 作品文件完整性处理机制</li>
 <li>✅ 持久化储存作品信息至文件</li>
 <li>✅ 记录已下载作品 ID</li>
+<li>✅ 支持文件断点续传下载</li>
 <li>✅ 作品文件储存至单独文件夹</li>
 <li>☑️ 自定义作品文件名称格式</li>
 <li>☑️ 后台监听剪贴板下载作品</li>
@@ -135,7 +136,7 @@
 <td align="center">chunk</td>
 <td align="center">int</td>
 <td align="center">下载文件时，每次从服务器获取的数据块大小，单位：字节</td>
-<td align="center">1048576(1 MB)</td>
+<td align="center">2097152(2 MB)</td>
 </tr>
 <tr>
 <td align="center">folder_mode</td>
@@ -194,10 +195,17 @@
 </table>
 <p>如果您愿意，可以考虑提供资助为 <b>KS-Downloader</b> 提供额外的支持！</p>
 
+# 💰 项目赞助\(Sponsor\)
+
+![PyCharm logo](https://resources.jetbrains.com/storage/products/company/brand/logos/PyCharm.svg)
+
+**JetBrains** 支持全球开源社区认可的活跃项目，并为非商业开发提供免费许可证。
+
 # 💡 项目参考\(Refer\)
 
 * https://github.com/moyada/stealer
 * https://github.com/encode/httpx/
 * https://github.com/Textualize/rich
+* https://github.com/Tinche/aiofiles
 * https://github.com/omnilib/aiosqlite
 * https://github.com/pyinstaller/pyinstaller

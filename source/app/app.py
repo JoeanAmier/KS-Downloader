@@ -29,6 +29,10 @@ from source.tools import Version
 
 
 class KS:
+    VERSION_MAJOR = VERSION_MAJOR
+    VERSION_MINOR = VERSION_MINOR
+    VERSION_BETA = VERSION_BETA
+
     cleaner = Cleaner()
 
     NAME = PROJECT_NAME
@@ -108,7 +112,7 @@ class KS:
             return
         if target := await self.version.get_target_version():
             state = self.version.compare_versions(
-                f"{VERSION_MAJOR}.{VERSION_MINOR}", target, VERSION_BETA)
+                f"{self.VERSION_MAJOR}.{self.VERSION_MINOR}", target, self.VERSION_BETA)
             self.console.print(
                 self.version.STATUS_CODE[state],
                 style=INFO if state == 1 else WARNING)
