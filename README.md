@@ -10,7 +10,7 @@
 <img src="https://img.shields.io/badge/Sourcery-enabled-884898?style=for-the-badge&color=1890ff" alt="">
 <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/KS-Downloader/total?style=for-the-badge&color=52c41a">
 <br>
-<p>🔥 <b>快手作品下载工具：</b>完全开源，基于 HTTPX 模块实现，下载快手无水印视频、图片文件！</p>
+<p>🔥 <b>快手作品下载工具：</b>完全免费开源，基于 HTTPX 模块实现，下载快手无水印视频、图片文件！</p>
 </div>
 <hr>
 <h1>📑 项目功能</h1>

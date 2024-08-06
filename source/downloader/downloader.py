@@ -163,12 +163,15 @@ class Downloader:
             length, suffix = await self.__hand_file(url)
             temp = self.temp.joinpath(f"{path.name}.{suffix}")
             path = path.with_name(f"{path.name}.{suffix}")
-            self.__update_headers_range(temp)
+            position = self.__update_headers_range(temp)
             try:
                 async with self.client.stream("GET", url, headers=self.headers, ) as response:
                     response.raise_for_status()
                     task_id = progress.add_task(
-                        f"【{tip}】{text}", total=int(length) or None)
+                        f"【{tip}】{text}",
+                        total=length or None,
+                        completed=position,
+                    )
                     async with open(temp, "ab") as f:
                         async for chunk in response.aiter_bytes(self.chunk):
                             await f.write(chunk)
@@ -223,18 +226,19 @@ class Downloader:
         root.mkdir(exist_ok=True)
         return root.joinpath(name)
 
-    async def __hand_file(self, url: str, ):
+    async def __hand_file(self, url: str, ) -> [int, str]:
         response = await self.client.head(url, headers=self.headers, )
         response.raise_for_status()
         suffix = self.__extract_type(
             response.headers.get("Content-Type"))
         length = response.headers.get(
             "Content-Length", 0)
-        return length, suffix
+        return int(length), suffix
 
     @staticmethod
     def __get_resume_byte_position(file: Path) -> int:
         return file.stat().st_size if file.is_file() else 0
 
-    def __update_headers_range(self, file: Path) -> None:
-        self.headers["Range"] = f"bytes={self.__get_resume_byte_position(file)}-"
+    def __update_headers_range(self, file: Path) -> int:
+        self.headers["Range"] = f"bytes={(p := self.__get_resume_byte_position(file))}-"
+        return p
