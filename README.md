@@ -11,6 +11,7 @@
 <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/KS-Downloader/total?style=for-the-badge&color=52c41a">
 <br>
 <p>🔥 <b>快手作品下载工具：</b>完全免费开源，基于 HTTPX 模块实现，下载快手无水印视频、图片文件！</p>
+<p>⭐ 本项目完全免费开源，无任何收费功能，请勿上当受骗！</p>
 </div>
 <hr>
 <h1>📑 项目功能</h1>
@@ -34,13 +35,14 @@
 <img src="docs/项目运行截图.png" alt="">
 <h1>🥣 使用方法</h1>
 <h2>🖱 程序运行</h2>
-<p>Windows 10 及以上用户可前往 <a href="https://github.com/JoeanAmier/KS-Downloader/releases/latest">Releases</a> 下载程序压缩包，解压后打开程序文件夹，双击运行 <code>main.exe</code> 即可使用。</p>
+<p>Mac OS(ARM)、Windows 10 及以上用户可前往 <a href="https://github.com/JoeanAmier/KS-Downloader/releases/latest">Releases</a> 下载程序压缩包，解压后打开程序文件夹，双击运行 <code>main.exe</code> 即可使用。</p>
 <p>若通过此方式使用程序，文件默认下载路径为：<code>.\_internal\Download</code>；配置文件路径为：<code>.\_internal\config.yaml</code></p>
 <h2>⌨️ 源码运行</h2>
 <ol>
 <li>安装版本号不低于 <code>3.12</code> 的 Python 解释器</li>
-<li>运行 <code>pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt</code> 命令安装程序所需模块</li>
 <li>下载本项目最新的源码或 <a href="https://github.com/JoeanAmier/KS-Downloader/releases/latest">Releases</a> 发布的源码至本地</li>
+<li>打开终端，切换至项目根路径</li>
+<li>运行 <code>pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt</code> 命令安装程序所需模块</li>
 <li>运行 <code>main.py</code> 即可使用</li>
 </ol>
 <h1>🔗 支持链接</h1>
@@ -167,7 +169,8 @@
 # ✉️ 联系作者\(Contact\)
 
 <ul>
-<li>微信: Downloader_Tools</li>
+<li>作者邮箱：yonglelolu@foxmail.com</li>
+<li>作者微信: Downloader_Tools</li>
 <li>微信公众号: Downloader Tools</li>
 <li><b>Discord 社区</b>: <a href="https://discord.com/invite/ZYtmgKud9Y">点击加入社区</a></li>
 </ul>

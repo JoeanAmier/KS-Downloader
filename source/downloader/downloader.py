@@ -227,7 +227,10 @@ class Downloader:
         return root.joinpath(name)
 
     async def __hand_file(self, url: str, ) -> [int, str]:
-        response = await self.client.head(url, headers=self.headers, )
+        response = await self.client.head(url,
+                                          headers=self.headers | {
+                                              "Range": "bytes=0-",
+                                          }, )
         response.raise_for_status()
         suffix = self.__extract_type(
             response.headers.get("Content-Type"))
