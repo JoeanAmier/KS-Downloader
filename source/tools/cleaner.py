@@ -1,9 +1,8 @@
 from platform import system
 from string import whitespace
+from warnings import warn
 
 from emoji import replace_emoji
-
-__all__ = ["Cleaner"]
 
 
 class Cleaner:
@@ -35,12 +34,12 @@ class Cleaner:
                 "\x00": "",
             }  # Linux 系统
         else:
-            print("不受支持的操作系统类型，可能无法正常去除非法字符！")
+            warn("不受支持的操作系统类型，可能无法正常去除非法字符！")
             rule = {}
         cache = {i: "" for i in whitespace[1:]}  # 补充换行符等非法字符
         return rule | cache
 
-    def set_rule(self, rule: dict[str, str], update=False):
+    def set_rule(self, rule: dict[str, str], update=True):
         """
         设置非法字符字典
 
@@ -63,15 +62,19 @@ class Cleaner:
     def filter_name(
             self,
             text: str,
-            default: str = "") -> str:
+            replace: str = "",
+            default: str = "",
+    ) -> str:
         """过滤文件夹名称中的非法字符"""
         text = text.replace(":", ".")
 
         text = self.filter(text)
 
-        text = replace_emoji(text)
+        text = replace_emoji(text, replace, )
 
-        text = text.strip().strip(".")
+        text = self.clear_spaces(text)
+
+        text = text.strip().strip(".").strip("_")
 
         return text or default
 
@@ -79,3 +82,9 @@ class Cleaner:
     def clear_spaces(string: str):
         """将连续的空格转换为单个空格"""
         return " ".join(string.split())
+
+
+if __name__ == "__main__":
+    demo = Cleaner()
+    print(demo.rule)
+    print(demo.filter_name(""))

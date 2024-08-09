@@ -160,12 +160,13 @@ class Downloader:
             if not url:
                 self.console.warning(f"【{tip}】{text} 下载链接为空")
                 return True
-            length, suffix = await self.__hand_file(url)
+            headers = self.headers.copy()
+            length, suffix = await self.__head_file(url, headers, )
             temp = self.temp.joinpath(f"{path.name}.{suffix}")
             path = path.with_name(f"{path.name}.{suffix}")
-            position = self.__update_headers_range(temp)
+            position = self.__update_headers_range(headers, temp, )
             try:
-                async with self.client.stream("GET", url, headers=self.headers, ) as response:
+                async with self.client.stream("GET", url, headers=headers, ) as response:
                     response.raise_for_status()
                     task_id = progress.add_task(
                         f"【{tip}】{text}",
@@ -226,11 +227,14 @@ class Downloader:
         root.mkdir(exist_ok=True)
         return root.joinpath(name)
 
-    async def __hand_file(self, url: str, ) -> [int, str]:
+    async def __head_file(
+            self,
+            url: str,
+            headers: dict,
+    ) -> [int, str]:
         response = await self.client.head(url,
-                                          headers=self.headers | {
-                                              "Range": "bytes=0-",
-                                          }, )
+                                          headers=headers,
+                                          )
         response.raise_for_status()
         suffix = self.__extract_type(
             response.headers.get("Content-Type"))
@@ -242,6 +246,6 @@ class Downloader:
     def __get_resume_byte_position(file: Path) -> int:
         return file.stat().st_size if file.is_file() else 0
 
-    def __update_headers_range(self, file: Path) -> int:
-        self.headers["Range"] = f"bytes={(p := self.__get_resume_byte_position(file))}-"
+    def __update_headers_range(self, headers: dict, file: Path) -> int:
+        headers["Range"] = f"bytes={(p := self.__get_resume_byte_position(file))}-"
         return p
