@@ -145,6 +145,7 @@ class KS:
     async def detail(self, detail: str):
         app, urls = await self.examiner.run(detail)
         if not urls:
+            self.console.warning("提取作品链接失败")
             return
         match app:
             case True:

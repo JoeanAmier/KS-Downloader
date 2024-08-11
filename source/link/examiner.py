@@ -13,7 +13,7 @@ class Examiner:
     V_SHORT_URL = compile(r"(https?://v\.kuaishou\.com/\S+)")
     F_SHORT_URL = compile(r"(https?://www\.kuaishou\.com/f/\S+)")
     PC_COMPLETE_URL = compile(r"(https?://www\.kuaishou\.com/short-video/\S+)")
-    DETAIL_URL = compile(r"(https?://v\.m\.chenzhongtech\.com/fw/photo/\S+)")
+    DETAIL_URL = compile(r"(https?://\S+\.m\.chenzhongtech\.com/fw/photo/\S+)")
 
     def __init__(self, manager: "Manager"):
         self.client = manager.client
@@ -38,7 +38,6 @@ class Examiner:
             app = not app
             urls = await self.__request_redirect(text, app, )
         if not urls:
-            self.console.warning("提取作品链接失败")
             return None, []
         match key:
             case "detail":
@@ -73,10 +72,11 @@ class Examiner:
     @retry_request
     @capture_error_request
     async def __request_url(self, url: str, ) -> str:
-        response = await self.client.get(url,
-                                         headers=self.app_headers if (
-                                                 "https://v.kuaishou.com/" in url) else self.pc_headers,
-                                         )
+        response = await self.client.head(
+            url,
+            headers=self.app_headers if (
+                    "https://v.kuaishou.com/" in url) else self.pc_headers,
+        )
         response.raise_for_status()
         self.__update_cookie(response.cookies.items(), )
         return str(response.url)
