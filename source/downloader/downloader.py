@@ -52,6 +52,7 @@ class Downloader:
         self.chunk = manager.chunk
         self.semaphore = Semaphore(manager.max_workers)
         self.database = database
+        self.name_format = manager.name_format
 
     def __general_progress_object(self) -> Progress:
         return Progress(
@@ -204,20 +205,50 @@ class Downloader:
         return e
 
     def __generate_name(self, data: dict, app: bool, ) -> str:
-        type_ = data["photoType"]
-        date = data["timestamp"].replace(":", ".")
-        author = self.__generate_author_info(data, app, )
-        caption = self.cleaner.filter_name(
-            self.cleaner.clear_spaces(
-                data["caption"])) or data["detailID"]
-        return f"{type_}-{date}-{author}-{caption}"
+        name = []
+        for i in self.name_format:
+            match i:
+                case "作品类型":
+                    name.append(self.__get_type(data))
+                case "发布日期":
+                    name.append(self.__get_date(data))
+                case "作者昵称":
+                    name.append(self.__get_author_nickname(data, app, ))
+                case "作者ID":
+                    name.append(self.__get_author_id(data, app, ))
+                case "作品描述":
+                    name.append(self.__get_caption(data) or self.__get_detail_id(data))
+                case "作品ID":
+                    name.append(self.__get_detail_id(data))
+        return "_".join(name)
 
-    def __generate_author_info(self, data: dict, app: bool, ) -> str:
+    @staticmethod
+    def __get_type(data: dict, ):
+        return data["photoType"]
+
+    @staticmethod
+    def __get_date(data: dict, ):
+        return data["timestamp"].replace(":", ".")
+
+    def __get_author_nickname(self, data: dict, app: bool, ) -> str:
         return (
             self.cleaner.filter_name(data["userName"]) or data["userEid"]
             if app
             else self.cleaner.filter_name(data["name"]) or data["authorId"]
         )
+
+    @staticmethod
+    def __get_author_id(data: dict, app: bool, ) -> str:
+        return data["userEid"] if app else data["authorId"]
+
+    def __get_caption(self, data: dict, ):
+        return self.cleaner.filter_name(
+            self.cleaner.clear_spaces(
+                data["caption"]))
+
+    @staticmethod
+    def __get_detail_id(data: dict, ):
+        return data["detailID"]
 
     def __generate_root(self, name: str, ) -> Path:
         return self.folder.joinpath(name) if self.folder_mode else self.folder

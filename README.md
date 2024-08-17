@@ -6,6 +6,7 @@
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/JoeanAmier/KS-Downloader?style=for-the-badge&color=ffee6f">
 <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/JoeanAmier/KS-Downloader?style=for-the-badge&color=13c2c2">
 <br>
+<img alt="Static Badge" src="https://img.shields.io/badge/Python-3.12-3498db?style=for-the-badge&logo=python&labelColor=fffa65">
 <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/JoeanAmier/KS-Downloader?style=for-the-badge&color=f759ab">
 <img src="https://img.shields.io/badge/Sourcery-enabled-884898?style=for-the-badge&color=1890ff" alt="">
 <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/KS-Downloader/total?style=for-the-badge&color=52c41a">
@@ -25,7 +26,7 @@
 <li>✅ 记录已下载作品 ID</li>
 <li>✅ 支持文件断点续传下载</li>
 <li>✅ 作品文件储存至单独文件夹</li>
-<li>☑️ 自定义作品文件名称格式</li>
+<li>✅ 自定义作品文件名称格式</li>
 <li>☑️ 后台监听剪贴板下载作品</li>
 <li>☑️ 支持命令行下载作品文件</li>
 <li>☑️ 支持 API 调用功能</li>
@@ -79,6 +80,12 @@
 <td align="center">str</td>
 <td align="center">作品文件储存文件夹名称</td>
 <td align="center">Download</td>
+</tr>
+<tr>
+<td align="center">name_format</td>
+<td align="center">str</td>
+<td align="center">作品文件名称格式，使用空格分隔字段；支持字段：<code>作品类型</code>、<code>作者昵称</code>、<code>作者ID</code>、<code>作品描述</code>、<code>作品ID</code>、<code>发布日期</code></td>
+<td align="center"><code>发布日期 作者昵称 作品描述</code></td>
 </tr>
 <tr>
 <td align="center">cookie</td>
@@ -212,3 +219,6 @@
 * https://github.com/Tinche/aiofiles
 * https://github.com/omnilib/aiosqlite
 * https://github.com/pyinstaller/pyinstaller
+* https://github.com/lxml/lxml
+* https://github.com/yaml/pyyaml
+* https://github.com/carpedm20/emoji/

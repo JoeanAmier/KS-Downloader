@@ -19,12 +19,21 @@ class Parameter:
         "http://": None,
         "https://": None,
     }
+    NAME_KEYS = {
+        "作品类型",
+        "作者昵称",
+        "作者ID",
+        "作品描述",
+        "作品ID",
+        "发布日期",
+    }
 
     def __init__(self,
                  console: "ColorConsole",
                  cleaner: "Cleaner",
                  cookie: str,
                  folder_name: str = "Download",
+                 name_format: str = "发布日期 作者昵称 作品描述",
                  work_path: str = "",
                  timeout=TIMEOUT,
                  max_retry=RETRY,
@@ -44,6 +53,7 @@ class Parameter:
         self.retry = self.__check_max_retry(max_retry)
         self.proxy = self.__check_proxy(proxy)
         self.folder_name = self.__check_folder_name(folder_name)
+        self.name_format = self.__check_name_format(name_format)
         self.work_path = self.__check_work_path(work_path)
         self.cookie = self.__check_cookie(cookie)
         self.cover = self.__check_cover(cover)
@@ -72,6 +82,7 @@ class Parameter:
             "max_workers": self.max_workers,
             "folder_mode": self.folder_mode,
             "chunk": self.chunk,
+            "name_format": self.name_format,
         }
 
     def __check_timeout(self, timeout: int) -> int:
@@ -164,3 +175,13 @@ class Parameter:
             return chunk
         self.console.warning("chunk 参数错误")
         return 2 * 1024 * 1024
+
+    def __check_name_format(self, name_format: str) -> list[str]:
+        if not name_format:
+            return ["发布日期", "作者昵称", "作品描述"]
+        name_format = name_format.split()
+        for i in name_format:
+            if i not in self.NAME_KEYS:
+                self.console.warning(f"name_format 参数包含未知字段: {i}")
+                return ["发布日期", "作者昵称", "作品描述"]
+        return name_format

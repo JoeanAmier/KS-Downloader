@@ -27,6 +27,7 @@ class Manager:
                  proxy: dict,
                  work_path: "Path",
                  folder_name: str,
+                 name_format: str,
                  cookie: str,
                  cover: str,
                  music: bool,
@@ -52,6 +53,7 @@ class Manager:
         self.app_headers = APP_HEADERS | {"Cookie": cookie}
         self.app_data_headers = APP_DATA_HEADERS | {"Cookie": cookie}
         self.app_download_headers = APP_DOWNLOAD_HEADERS
+        self.name_format = name_format
         self.max_retry = max_retry
         self.proxy = proxy
         self.cover = cover
