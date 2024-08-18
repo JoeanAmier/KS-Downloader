@@ -36,7 +36,7 @@
 <img src="docs/项目运行截图.png" alt="">
 <h1>🥣 使用方法</h1>
 <h2>🖱 程序运行</h2>
-<p>Mac OS(ARM)、Windows 10 及以上用户可前往 <a href="https://github.com/JoeanAmier/KS-Downloader/releases/latest">Releases</a> 下载程序压缩包，解压后打开程序文件夹，双击运行 <code>main.exe</code> 即可使用。</p>
+<p>Mac OS、Windows 10 及以上用户可前往 <a href="https://github.com/JoeanAmier/KS-Downloader/releases/latest">Releases</a> 下载程序压缩包，解压后打开程序文件夹，双击运行 <code>main.exe</code> 即可使用。</p>
 <p>若通过此方式使用程序，文件默认下载路径为：<code>.\_internal\Download</code>；配置文件路径为：<code>.\_internal\config.yaml</code></p>
 <h2>⌨️ 源码运行</h2>
 <ol>
