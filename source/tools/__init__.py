@@ -1,3 +1,4 @@
+from .browser import BrowserCookie
 from .capture import capture_error_request
 from .cleaner import Cleaner
 from .client import base_client

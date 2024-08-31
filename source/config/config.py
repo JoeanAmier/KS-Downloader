@@ -56,4 +56,4 @@ class Config:
 
     def write(self, data: dict = None) -> None:
         with self.file.open('w', encoding=self.encode) as file:
-            dump(data or self.data, file, default_flow_style=False)
+            dump(data or self.data, file, default_flow_style=False, allow_unicode=True, )

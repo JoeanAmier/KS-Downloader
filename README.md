@@ -27,6 +27,7 @@
 <li>✅ 支持文件断点续传下载</li>
 <li>✅ 作品文件储存至单独文件夹</li>
 <li>✅ 自定义作品文件名称格式</li>
+<li>✅ 从浏览器读取 Cookie</li>
 <li>☑️ 后台监听剪贴板下载作品</li>
 <li>☑️ 支持命令行下载作品文件</li>
 <li>☑️ 支持 API 调用功能</li>
@@ -220,6 +221,7 @@
 * https://github.com/Tinche/aiofiles
 * https://github.com/omnilib/aiosqlite
 * https://github.com/pyinstaller/pyinstaller
+* https://github.com/thewh1teagle/rookie
 * https://github.com/lxml/lxml
 * https://github.com/yaml/pyyaml
 * https://github.com/carpedm20/emoji/

@@ -17,6 +17,7 @@ from source.module import Database
 from source.module import choose
 from source.record import RecordManager
 from source.request import Detail
+from source.tools import BrowserCookie
 from source.tools import Cleaner
 from source.tools import (
     ColorConsole,
@@ -44,13 +45,17 @@ class KS:
         1: "禁用",
     }
 
+    DOMAINS: list[str] = [
+        "kuaishou.com",
+    ]
+
     def __init__(self):
         self.console = ColorConsole()
-        self.config = Config(self.console)
+        self.config_obj = Config(self.console)
         self.params = Parameter(
             console=self.console,
             cleaner=self.cleaner,
-            **self.config.read(),
+            **self.config_obj.read(),
         )
         self.database = Database()
         self.config = None
@@ -83,6 +88,11 @@ class KS:
                 break
             await self.detail(text)
 
+    async def __read_cookie(self):
+        if c := BrowserCookie.run(self.DOMAINS, self.console, ):
+            self.config_obj.write(self.config_obj.read() | {"cookie": c})
+            self.console.print("读取并写入 Cookie 成功！", style=INFO)
+
     async def __main_menu(self):
         while self.running:
             self.__update_menu()
@@ -102,6 +112,7 @@ class KS:
 
     def __update_menu(self):
         self.__function = (
+            ("从浏览器读取 Cookie", self.__read_cookie),
             ("批量下载快手作品", self.__detail_enquire),
             (f"{self.MENU_TIP[self.config["Update"]]}检查更新功能", self.__modify_update),
             (f"{self.MENU_TIP[self.config["Record"]]}下载记录功能", self.__modify_record),
