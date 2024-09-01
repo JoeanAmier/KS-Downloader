@@ -34,7 +34,9 @@
 </ul>
 <p>⭐ KS-Downloader 开发计划及进度可前往 <a href="https://github.com/users/JoeanAmier/projects/6">Projects</a> 查阅</p>
 <h1>📸 程序截图</h1>
-<img src="docs/项目运行截图.png" alt="">
+<img src="docs/项目运行截图1.png" alt="">
+<hr>
+<img src="docs/项目运行截图2.png" alt="">
 <h1>🥣 使用方法</h1>
 <h2>🖱 程序运行</h2>
 <p>Mac OS、Windows 10 及以上用户可前往 <a href="https://github.com/JoeanAmier/KS-Downloader/releases/latest">Releases</a> 下载程序压缩包，解压后打开程序文件夹，双击运行 <code>main</code> 即可使用。</p>
@@ -53,6 +55,7 @@
 <li><code>https://www.kuaishou.com/f/分享码</code></li>
 <li><code>https://v.kuaishou.com/分享码</code></li>
 <li><code>https://www.kuaishou.com/short-video/作品ID</code></li>
+<li><code>https://kuaishou.cn/short-video/作品ID</code></li>
 <br/>
 <p><b>推荐使用分享链接；支持单次输入多个作品链接，链接之间使用空格分隔。</b></p>
 </ul>
@@ -60,7 +63,7 @@
 <p>⭐ 推荐使用 <a href="https://learn.microsoft.com/zh-cn/windows/terminal/install">Windows 终端</a> （Windows 11 默认终端）运行程序以便获得最佳显示效果！</p>
 <h1>⚙️ 配置文件</h1>
 <p>项目根目录下的 <code>config.yaml</code> 文件，首次运行自动生成，可以自定义部分运行参数。</p>
-<p><b>如果项目功能无法正常使用，请尝试手动复制 Cookie 并写入配置文件后重新运行项目！</b></p>
+<p><b>如果项目功能无法正常使用，请尝试配置 Cookie 后再使用！</b></p>
 <table>
 <thead>
 <tr>

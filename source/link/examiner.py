@@ -10,10 +10,9 @@ if TYPE_CHECKING:
 
 
 class Examiner:
-    V_SHORT_URL = compile(r"(https?://v\.kuaishou\.com/\S+)")
-    F_SHORT_URL = compile(r"(https?://www\.kuaishou\.com/f/\S+)")
-    PC_COMPLETE_URL = compile(r"(https?://www\.kuaishou\.com/short-video/\S+)")
-    DETAIL_URL = compile(r"(https?://\S+\.m\.chenzhongtech\.com/fw/photo/\S+)")
+    SHORT_URL = compile(r"(https?://\S*kuaishou\.(?:com|cn)/\S+)")
+    PC_COMPLETE_URL = compile(r"(https?://\S*kuaishou\.(?:com|cn)/short-video/\S+)")
+    REDIRECT_URL = compile(r"(https?://\S*chenzhongtech\.(?:com|cn)/fw/photo/\S+)")
 
     def __init__(self, manager: "Manager"):
         self.client = manager.client
@@ -24,13 +23,6 @@ class Examiner:
         self.pc_data_headers = manager.pc_data_headers
         self.console = manager.console
         self.retry = manager.max_retry
-        self.app_url = (
-            self.V_SHORT_URL,
-            self.F_SHORT_URL,
-        )
-        self.pc_url = (
-            self.PC_COMPLETE_URL,
-        )
 
     async def run(self, text: str, key="detail"):
         app = True
@@ -49,7 +41,7 @@ class Examiner:
     def __link_judgment(self, urls: str, app: bool, ) -> [bool, list]:
         if app:
             urls = [i.group() for i in chain(
-                self.DETAIL_URL.finditer(urls),
+                self.REDIRECT_URL.finditer(urls),
                 self.PC_COMPLETE_URL.finditer(urls),
             )]
         else:
@@ -59,9 +51,9 @@ class Examiner:
     async def __request_redirect(self, text: str, app=True, ) -> str:
         match app:
             case True:
-                urls = chain(*(i.finditer(text) for i in self.app_url))
+                urls = self.SHORT_URL.finditer(text)
             case False:
-                urls = chain(*(i.finditer(text) for i in self.pc_url))
+                urls = self.PC_COMPLETE_URL.finditer(text)
             case _:
                 raise TypeError
         result = []
@@ -75,7 +67,7 @@ class Examiner:
         response = await self.client.head(
             url,
             headers=self.app_headers if (
-                    "https://v.kuaishou.com/" in url) else self.pc_headers,
+                    "v.kuaishou.com" in url) else self.pc_headers,
         )
         response.raise_for_status()
         self.__update_cookie(response.cookies.items(), )

@@ -38,7 +38,7 @@ class Version:
                 return 4
             if target_minor == current_minor:
                 return 3 if is_development else 1
-        return 2
+        return 2 if is_development else 1
 
     @retry_request
     @capture_error_request

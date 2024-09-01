@@ -167,6 +167,7 @@ class Downloader:
             path = path.with_name(f"{path.name}.{suffix}")
             position = self.__update_headers_range(headers, temp, )
             try:
+                # print("stream", headers.get("Range"))  # 调试代码
                 async with self.client.stream("GET", url, headers=headers, ) as response:
                     response.raise_for_status()
                     task_id = progress.add_task(
@@ -180,7 +181,7 @@ class Downloader:
                             progress.update(task_id, advance=len(chunk))
             except HTTPError as e:
                 await self.database.delete_download_data(id_)
-                raise HTTPError from e
+                raise HTTPError(repr(e)) from e
             self.move(temp, path)
             self.console.info(f"【{tip}】{text} 下载完成")
             await self.database.write_download_data(id_)
@@ -263,9 +264,11 @@ class Downloader:
             url: str,
             headers: dict,
     ) -> [int, str]:
-        response = await self.client.head(url,
-                                          headers=headers,
-                                          )
+        # print("head", headers.get("Range"))  # 调试代码
+        response = await self.client.head(
+            url,
+            headers=headers,
+        )
         response.raise_for_status()
         suffix = self.__extract_type(
             response.headers.get("Content-Type"))

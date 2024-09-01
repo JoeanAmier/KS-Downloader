@@ -6,6 +6,8 @@ from source.custom import (
     VERSION_MINOR,
     VERSION_BETA,
     DISCLAIMER_TEXT,
+    REPOSITORY,
+    LICENCE,
 )
 from source.downloader import Downloader
 from source.extract import APIExtractor
@@ -123,7 +125,10 @@ class KS:
             return
         if target := await self.version.get_target_version():
             state = self.version.compare_versions(
-                f"{self.VERSION_MAJOR}.{self.VERSION_MINOR}", target, self.VERSION_BETA)
+                f"{self.VERSION_MAJOR}.{self.VERSION_MINOR}",
+                target,
+                self.VERSION_BETA,
+            )
             self.console.print(
                 self.version.STATUS_CODE[state],
                 style=INFO if state == 1 else WARNING)
@@ -133,10 +138,12 @@ class KS:
 
     async def __modify_update(self):
         await self.__update_config("Update", 0 if self.config["Update"] else 1)
+        self.console.print("修改设置成功！", style=INFO, )
 
     async def __modify_record(self):
         await self.__update_config("Record", 0 if self.config["Record"] else 1)
         self.database.record = self.config["Record"]
+        self.console.print("修改设置成功！", style=INFO, )
 
     async def __update_config(self, key: str, value: int):
         self.config[key] = value
@@ -151,6 +158,9 @@ class KS:
             style=MASTER)
         self.console.print("\n")
         self.console.print(self.LINE, style=MASTER)
+        self.console.print()
+        self.console.print(f"项目地址：{REPOSITORY}", style=MASTER)
+        self.console.print(f"开源协议：{LICENCE}", style=MASTER)
         self.console.print()
 
     async def detail(self, detail: str):

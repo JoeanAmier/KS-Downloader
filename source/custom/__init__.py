@@ -7,4 +7,5 @@ from .internal import (
     RELEASES,
     REPOSITORY,
     DISCLAIMER_TEXT,
+    LICENCE,
 )
