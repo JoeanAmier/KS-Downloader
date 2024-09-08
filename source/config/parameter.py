@@ -106,7 +106,7 @@ class Parameter:
     def __check_proxy(
             self,
             proxy: str | dict,
-            url="https://www.baidu.com/") -> dict:
+            url="https://www.kuaishou.com/") -> dict:
         if not proxy:
             return {"proxies": self.NO_PROXY}
         if isinstance(proxy, str):
