@@ -221,7 +221,7 @@ class Downloader:
                     name.append(self.__get_caption(data) or self.__get_detail_id(data))
                 case "作品ID":
                     name.append(self.__get_detail_id(data))
-        return "_".join(name)
+        return beautify_string("_".join(name), length=128, )
 
     @staticmethod
     def __get_type(data: dict, ):
