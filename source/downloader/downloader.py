@@ -15,16 +15,16 @@ from rich.progress import (
     TimeRemainingColumn,
 )
 
-from source.tools import (
+from ..tools import (
     PROGRESS,
 )
-from source.tools import beautify_string
-from source.tools import capture_error_request
-from source.tools import retry_request
+from ..tools import beautify_string
+from ..tools import capture_error_request
+from ..tools import retry_request
 
 if TYPE_CHECKING:
-    from source.manager import Manager
-    from source.module import Database
+    from ..manager import Manager
+    from ..module import Database
 
 
 class Downloader:

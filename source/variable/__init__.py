@@ -8,4 +8,6 @@ from .internal import (
     APP_DATA_HEADERS,
     APP_HEADERS,
     APP_DOWNLOAD_HEADERS,
+    FILE_SIGNATURES,
+    FILE_SIGNATURES_LENGTH,
 )
