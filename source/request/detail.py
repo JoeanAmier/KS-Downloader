@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 class Detail:
     # API = "https://v.m.chenzhongtech.com/rest/wd/photo/info?kpn=KUAISHOU"
     API = "https://m.gifshow.com/rest/wd/photo/info?kpn=undefined&captchaToken=&__NS_sig3="
-    ID = compile(r"short-video/(\S+)\?")
+    ID = compile(r"short-video/([^\s?]+)")
 
     def __init__(self, manager: "Manager"):
         self.client = manager.client
@@ -45,7 +45,10 @@ class Detail:
         self.headers["Referer"] = url
         self.__update_params(params, id_)
         if not (d := await self.__get_data()):
-            self.console.warning("请求作品数据失败")
+            self.console.warning("请求作品数据失败，接口可能已经失效！")
+            return None
+        if e := d.get("error_msg"):
+            self.console.warning(f"请求作品数据错误：{e}")
             return None
         return d
 
