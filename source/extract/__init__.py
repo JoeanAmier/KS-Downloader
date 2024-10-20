@@ -1,2 +1,2 @@
 from .extractor import APIExtractor
-from .extractor import PageExtractor
+from .extractor import HTMLExtractor

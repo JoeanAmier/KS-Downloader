@@ -18,8 +18,8 @@
 <h1>📑 项目功能</h1>
 <ul>
 <li>✅ 下载快手无水印作品文件</li>
-<li>✅ 下载快手作品封面图片</li>
-<li>✅ 下载快手作品音乐文件</li>
+<li>☑️ 下载快手作品封面图片</li>
+<li>☑️ 下载快手作品音乐文件</li>
 <li>✅ 自动跳过已下载的作品文件</li>
 <li>✅ 作品文件完整性处理机制</li>
 <li>✅ 持久化储存作品信息至文件</li>
@@ -123,13 +123,13 @@
 <td align="center">4</td>
 </tr>
 <tr>
-<td align="center">cover</td>
+<td align="center"><del>cover</del></td>
 <td align="center">str</td>
 <td align="center">作品封面下载格式，支持：<code>JPEG</code>、<code>WEBP</code>；设置为空字符串代表不下载</td>
 <td align="center">空字符串</td>
 </tr>
 <tr>
-<td align="center">music</td>
+<td align="center"><del>music</del></td>
 <td align="center">bool</td>
 <td align="center">是否下载作品音乐</td>
 <td align="center">false</td>

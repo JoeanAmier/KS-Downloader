@@ -1,6 +1,16 @@
 from source.config import Config
 from source.config import Parameter
-from source.custom import (
+from source.downloader import Downloader
+from source.extract import APIExtractor
+from source.extract import HTMLExtractor
+from source.link import DetailPage
+from source.link import Examiner
+from source.manager import Manager
+from source.module import Database
+from source.module import choose
+from source.record import RecordManager
+from source.request import Detail
+from source.static import (
     PROJECT_NAME,
     VERSION_MAJOR,
     VERSION_MINOR,
@@ -9,16 +19,6 @@ from source.custom import (
     REPOSITORY,
     LICENCE,
 )
-from source.downloader import Downloader
-from source.extract import APIExtractor
-from source.extract import PageExtractor
-from source.link import DetailPage
-from source.link import Examiner
-from source.manager import Manager
-from source.module import Database
-from source.module import choose
-from source.record import RecordManager
-from source.request import Detail
 from source.tools import BrowserCookie
 from source.tools import Cleaner
 from source.tools import (
@@ -49,6 +49,7 @@ class KS:
 
     DOMAINS: list[str] = [
         "kuaishou.com",
+        # "kuaishou.cn",
     ]
 
     def __init__(self):
@@ -65,10 +66,9 @@ class KS:
         self.manager = Manager(**self.params.run())
         self.version = Version(self.manager)
         self.examiner = Examiner(self.manager)
-        self.detail_request = Detail(self.manager)
-        self.detail_page = DetailPage(self.manager)
-        self.api_extractor = APIExtractor(self.manager)
-        self.detail_extractor = PageExtractor(self.manager)
+        self.detail_html = DetailPage(self.manager)
+        self.extractor_api = APIExtractor(self.manager)
+        self.extractor_html = HTMLExtractor(self.manager)
         self.download = Downloader(self.manager, self.database)
         self.running = True
         self.__function = None
@@ -164,43 +164,57 @@ class KS:
         self.console.print()
 
     async def detail(self, detail: str):
-        app, urls = await self.examiner.run(detail)
+        urls = await self.examiner.run(detail)
         if not urls:
             self.console.warning("提取作品链接失败")
             return
-        match app:
-            case True:
-                items = [await self.detail_request.run(i) for i in urls]
-                data = self.api_extractor.run([i for i in items if i])
-                data = self.__check_extract_data(data)
-                await self.__save_data(data, "Download")
-            case False:
-                items = await self.detail_page.run(urls)
-                data = [
-                    self.detail_extractor.run(
-                        h, i, ) for i, h in items if h]
-                data = self.__check_extract_data(data)
-            case _:
-                return
-        await self.__download_file(data, app=app, )
+        for url in urls:
+            web, user_id, detail_id = self.examiner.extract_params(url, )
+            if not detail_id:
+                self.console.warning(f"URL 解析失败：{url}")
+                continue
+            data = await self.__handle_detail_html(
+                detail_id,
+                url,
+                web,
+            )
+            if not any(data):
+                continue
+            await self.__download_file(data, )
+            await self.__save_data(data, "Download")
+
+    async def __handle_detail_api(
+            self,
+            user_id: str,
+            detail_id: str,
+    ):
+        data = await Detail(
+            self.manager,
+            user_id,
+            detail_id,
+        ).run()
+        data = self.extractor_api.run([data])
+        # await self.__save_data(data, "Download")
+        return data
+
+    async def __handle_detail_html(
+            self,
+            detail_id: str,
+            url: str,
+            web: bool,
+    ) -> list[dict]:
+        if html := await self.detail_html.run(url):
+            return [self.extractor_html.run(html, detail_id, web, )]
 
     async def __save_data(self, data: list[dict], name: str, type_="detail", format_="SQLite") -> None:
-        if not data:
-            return
         recorder, params = self.record.run(type_, format_)
         async with recorder(self.manager, db_name=name, **params) as record:
             for i in data:
+                i["download"] = " ".join(i["download"])
                 await record.update(i)
 
-    async def __download_file(self, data: list[dict], type_="detail", app=True, ):
-        if data:
-            await self.download.run(data, type_, app, )
-
-    def __check_extract_data(self, data: list) -> list:
-        if data := [i for i in data if i]:
-            return data
-        self.console.error("获取作品数据失败")
-        return []
+    async def __download_file(self, data: list[dict], type_="detail", ):
+        await self.download.run(data, type_, )
 
     async def user(self):
         pass

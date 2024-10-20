@@ -4,12 +4,12 @@ from typing import TYPE_CHECKING
 from yaml import dump
 from yaml import safe_load
 
-from source.custom import PROJECT_ROOT
-from source.variable import RETRY
-from source.variable import TIMEOUT
+from ..static import PROJECT_ROOT
+from ..variable import RETRY
+from ..variable import TIMEOUT
 
 if TYPE_CHECKING:
-    from source.tools import ColorConsole
+    from ..tools import ColorConsole
 
 
 class Config:

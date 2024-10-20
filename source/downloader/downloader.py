@@ -30,7 +30,7 @@ if TYPE_CHECKING:
 class Downloader:
     CONTENT_TYPE_MAP = {
         "image/png": "png",
-        "image/jpeg": "jpg",
+        "image/jpeg": "jpeg",
         "image/webp": "webp",
         "video/mp4": "mp4",
         "video/quicktime": "mov",
@@ -73,23 +73,23 @@ class Downloader:
             expand=True,
         )
 
-    async def run(self, data: list[dict], type_="detail", app=True, ):
+    async def run(self, data: list[dict], type_="detail", ):
         match type_:
             case "detail":
-                await self.__handle_detail(data, app, )
+                await self.__handle_detail(data, )
             case "user":
                 pass
             case _:
                 raise ValueError
 
-    async def __handle_detail(self, data: list[dict], app: bool, ):
+    async def __handle_detail(self, data: list[dict], ):
         tasks = []
         with self.__general_progress_object() as progress:
             for item in data:
                 if await self.database.has_download_data(i := item["detailID"]):
                     self.console.info(f"作品 {i} 存在下载记录，跳过下载！")
                     continue
-                name = self.__generate_name(item, app, )
+                name = self.__generate_name(item, )
                 match item["photoType"]:
                     case "视频":
                         await self.__handle_video(tasks, name, item, progress, )
@@ -97,7 +97,7 @@ class Downloader:
                         await self.__handle_atlas(tasks, name, item, progress, )
                     case _:
                         self.console.error("未知的作品类型")
-                await self.__handle_music(tasks, name, item, progress, )
+                # await self.__handle_music(tasks, name, item, progress, )
             await gather(*tasks)
 
     async def __handle_music(self, tasks: list, name: str, data: dict, progress: Progress, ):
@@ -117,16 +117,26 @@ class Downloader:
         file = self.__generate_path(name)
         if not self.__file_exists(file, "mp4"):
             tasks.append(self.__download_file(
-                data["download"], file, progress, data["detailID"], "视频", ))
-        await self.__handle_cover(tasks, file, data, progress, )
+                data["download"][0],
+                file,
+                progress,
+                data["detailID"],
+                "视频",
+            ))
+        # await self.__handle_cover(tasks, file, data, progress, )
 
     async def __handle_atlas(self, tasks: list, name: str, data: dict, progress: Progress, ):
-        urls = data["download"].split()
+        urls = data["download"]
         for index, url in enumerate(urls, start=1):
             file = self.__generate_path(f"{name}_{index}")
-            if not self.__file_exists(file, ):
+            if not self.__file_exists(file, "webp", ):
                 tasks.append(self.__download_file(
-                    url, file, progress, data["detailID"], "图片", ))
+                    url,
+                    file,
+                    progress,
+                    data["detailID"],
+                    "图片",
+                ))
 
     async def __handle_cover(self, tasks: list, path: "Path", data: dict, progress: Progress, ):
         match self.cover:
@@ -205,7 +215,7 @@ class Downloader:
             self.console.info(f"{n} 已存在，跳过下载")
         return e
 
-    def __generate_name(self, data: dict, app: bool, ) -> str:
+    def __generate_name(self, data: dict, app: bool = False, ) -> str:
         name = []
         for i in self.name_format:
             match i:

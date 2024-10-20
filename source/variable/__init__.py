@@ -2,6 +2,7 @@ from .internal import (
     PC_USERAGENT,
     PC_DATA_HEADERS,
     PC_PAGE_HEADERS,
+    PC_DOWNLOAD_HEADERS,
     TIMEOUT,
     RETRY,
     APP_USERAGENT,

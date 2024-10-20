@@ -1,5 +1,4 @@
 from typing import TYPE_CHECKING
-from urllib.parse import urlparse
 
 from source.tools import capture_error_request
 from source.tools import retry_request
@@ -15,12 +14,8 @@ class DetailPage:
         self.console = manager.console
         self.retry = manager.max_retry
 
-    async def run(self, urls: list[str]) -> list[[str, str]]:
-        result = []
-        for i in urls:
-            id_ = urlparse(i).path.split("/")[-1]
-            result.append((id_, await self.request_url(i)))
-        return result
+    async def run(self, url: str) -> str:
+        return await self.request_url(url)
 
     @retry_request
     @capture_error_request

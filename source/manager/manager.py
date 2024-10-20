@@ -1,20 +1,21 @@
 from shutil import rmtree
 from typing import TYPE_CHECKING
 
-from source.tools import base_client
-from source.tools import remove_empty_directories
-from source.variable import (
+from ..tools import base_client
+from ..tools import remove_empty_directories
+from ..variable import (
     APP_HEADERS,
     APP_DATA_HEADERS,
     APP_DOWNLOAD_HEADERS,
     PC_DATA_HEADERS,
     PC_PAGE_HEADERS,
+    PC_DOWNLOAD_HEADERS,
 )
 
 if TYPE_CHECKING:
     from pathlib import Path
-    from source.tools import ColorConsole
-    from source.tools import Cleaner
+    from ..tools import ColorConsole
+    from ..tools import Cleaner
 
 
 class Manager:
@@ -49,7 +50,7 @@ class Manager:
         self.cookie = cookie
         self.pc_headers = PC_PAGE_HEADERS | {"Cookie": cookie}
         self.pc_data_headers = PC_DATA_HEADERS | {"Cookie": cookie}
-        self.pc_download_headers = None
+        self.pc_download_headers = PC_DOWNLOAD_HEADERS
         self.app_headers = APP_HEADERS | {"Cookie": cookie}
         self.app_data_headers = APP_DATA_HEADERS | {"Cookie": cookie}
         self.app_download_headers = APP_DOWNLOAD_HEADERS

@@ -40,7 +40,7 @@ class SQLite:
         await self.database.commit()
 
     def __generate_values(self, data: dict) -> tuple:
-        return tuple(data[i] for i in self.key)
+        return tuple(str(data[i]) for i in self.key)
 
     async def __aenter__(self):
         await self._connect_database()

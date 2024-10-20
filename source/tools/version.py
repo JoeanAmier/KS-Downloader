@@ -1,11 +1,11 @@
 from typing import TYPE_CHECKING
 
-from source.custom import RELEASES
-from source.tools import capture_error_request
-from source.tools import retry_request
+from ..static import RELEASES
+from ..tools import capture_error_request
+from ..tools import retry_request
 
 if TYPE_CHECKING:
-    from source.manager import Manager
+    from ..manager import Manager
 
 __all__ = ["Version"]
 

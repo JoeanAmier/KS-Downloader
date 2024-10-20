@@ -1,7 +1,7 @@
 from aiosqlite import Row
 from aiosqlite import connect
 
-from source.custom import PROJECT_ROOT
+from ..static import PROJECT_ROOT
 
 
 class Database:

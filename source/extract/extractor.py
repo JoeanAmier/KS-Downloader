@@ -1,4 +1,5 @@
 from datetime import datetime
+from re import compile
 from time import localtime
 from time import strftime
 from types import SimpleNamespace
@@ -14,66 +15,160 @@ if TYPE_CHECKING:
     from source.manager import Manager
 
 
-class PageExtractor:
+class HTMLExtractor:
     APOLLO_STATE = "//script/text()"
+    PHOTO_REGEX = compile(r"\"photo\":(\{\".*\"}),\"serialInfo\"")
 
     def __init__(self, manager: "Manager"):
         self.date_format = "%Y-%m-%d_%H:%M:%S"
         self.console = manager.console
         self.cleaner = manager.cleaner
 
-    def run(self, html: str, id_: str, ) -> dict:
-        if not (data := self.__convert_object(self.__extract_object(html))):
+    def run(self, html: str, id_: str, web: bool, ) -> dict:
+        tree = self.__extract_object(html, web, )
+        data = self.__convert_object(tree, web, )
+        if not data:
             self.console.warning("提取网页数据失败")
             return {}
         data = Namespace(data)
-        return self.__extract_detail(data, id_)
+        return self.__extract_detail(data, id_, web, )
 
-    def __extract_object(self, html: str) -> str:
+    def __extract_object(self, html: str, web: bool, ) -> str:
         if not html:
+            self.console.warning("获取网页内容失败")
             return ""
         html_tree = HTML(html)
-        return d[1] if (d := html_tree.xpath(self.APOLLO_STATE)) else ""
+        if not (data := html_tree.xpath(self.APOLLO_STATE)):
+            return ""
+        return data[1] if web else data[12]
 
-    @staticmethod
-    def __convert_object(text: str) -> dict:
-        text = text.lstrip("window.__APOLLO_STATE__=")
-        text = text.replace(
-            ";(function(){var s;(s=document.currentScript||document.scripts["
-            "document.scripts.length-1]).parentNode.removeChild(s);}());", "")
+    def __convert_object(self, text: str, web: bool, ) -> dict:
+        if web:
+            text = text.lstrip("window.__APOLLO_STATE__=")
+            text = text.replace(
+                ";(function(){var s;(s=document.currentScript||document.scripts["
+                "document.scripts.length-1]).parentNode.removeChild(s);}());", "")
+        else:
+            text = text[1] if (text := self.PHOTO_REGEX.search(text)) else ""
         return safe_load(text)
 
-    def __extract_detail(self, data: Namespace, id_: str) -> dict:
-        container = {
-            "collection_time": datetime.now().strftime(
-                self.date_format),
-            "photoType": "视频",
+    def __extract_detail(self, data: Namespace, id_: str, web: bool, ) -> dict:
+        return self.__extract_detail_web(data, id_) if web else self.__extract_detail_app(data, id_, )
+
+    def __extract_detail_app(self, data: Namespace, id_: str, ) -> dict:
+        return {
+            "collection_time": datetime.now().strftime(self.date_format),
+            "photoType": "图片",
+            "detailID": id_,
+            "caption": data.safe_extract(
+                "caption",
+            ),
+            "coverUrl": self._extract_cover_urls(data),
+            "duration": "00:00:00",
+            "realLikeCount": data.safe_extract(
+                "likeCount",
+                -1,
+            ),
+            "download": self._extract_download_urls(data),
+            "timestamp": APIExtractor.format_date(
+                data.safe_extract(
+                    "timestamp",
+                    0,
+                ), self.date_format,
+            ),
+            "viewCount": data.safe_extract(
+                "viewCount",
+                -1,
+            ),
+            "shareCount": data.safe_extract(
+                "shareCount",
+                -1,
+            ),
+            "commentCount": data.safe_extract(
+                "commentCount",
+                -1,
+            ),
+            "userSex": APIExtractor.USER_SEX.get(
+                data.safe_extract(
+                    "userSex",
+                ),
+            ),
+            "authorID": data.safe_extract(
+                "userEid",
+            ),
+            "name": data.safe_extract(
+                "userName",
+            ),
         }
+
+    def __extract_detail_web(self, data: Namespace, id_: str) -> dict:
         data = data.safe_extract("defaultClient")
         detail = f"VisionVideoDetailPhoto:{id_}"
         if not Namespace.object_extract(data, detail):
             return {}
-        container["detailID"] = id_
-        container["caption"] = Namespace.object_extract(
-            data, f"{detail}.caption")
-        container["coverUrl"] = Namespace.object_extract(
-            data, f"{detail}.coverUrl")
-        container["duration"] = APIExtractor.time_conversion(
-            Namespace.object_extract(data, f"{detail}.duration", 0))
-        container["realLikeCount"] = Namespace.object_extract(
-            data, f"{detail}.realLikeCount")
-        container["download"] = Namespace.object_extract(
-            data, f"{detail}.photoUrl")
-        container["timestamp"] = APIExtractor.format_date(
-            Namespace.object_extract(
-                data, f"{detail}.timestamp", 0), self.date_format, )
-        container["viewCount"] = Namespace.object_extract(
-            data, f"{detail}.viewCount")
-        self.__extract_author(container, data)
+        container = {
+            "collection_time": datetime.now().strftime(self.date_format),
+            "photoType": "视频",
+            "detailID": id_,
+            "caption": Namespace.object_extract(
+                data,
+                f"{detail}.caption",
+            ),
+            "coverUrl": Namespace.object_extract(
+                data,
+                f"{detail}.coverUrl",
+            ),
+            "duration": APIExtractor.time_conversion(
+                Namespace.object_extract(
+                    data,
+                    f"{detail}.duration",
+                    0,
+                )),
+            "realLikeCount": Namespace.object_extract(
+                data,
+                f"{detail}.realLikeCount",
+                -1,
+            ),
+            "download": [
+                Namespace.object_extract(
+                    data,
+                    f"{detail}.photoUrl",
+                )
+            ],
+            "timestamp": APIExtractor.format_date(
+                Namespace.object_extract(
+                    data,
+                    f"{detail}.timestamp",
+                    0,
+                ), self.date_format,
+            ),
+            "viewCount": Namespace.object_extract(
+                data,
+                f"{detail}.viewCount",
+                -1,
+            ),
+            "shareCount": -1,
+            "commentCount": -1,
+        }
+        self.__extract_author_web(container, data)
         return container
 
     @staticmethod
-    def __extract_author(container: dict, data: Namespace) -> None:
+    def _extract_cover_urls(data: Namespace) -> str:
+        cover_urls = data.safe_extract("coverUrls", [])
+        cover_urls = [i.url for i in cover_urls]
+        return cover_urls[0] if cover_urls else ""
+
+    @staticmethod
+    def _extract_download_urls(data: Namespace, index=0, ) -> list[str]:
+        if not (cdn := data.safe_extract("ext_params.atlas.cdn", [])):
+            return []
+        cdn = cdn[index]
+        list_ = data.safe_extract("ext_params.atlas.list", [])
+        return [f"https://{cdn}{i}" for i in list_]
+
+    @staticmethod
+    def __extract_author_web(container: dict, data: Namespace) -> None:
         author = next(
             (
                 getattr(data, i)
@@ -82,8 +177,9 @@ class PageExtractor:
             ),
             None,
         )
-        container["authorID"] = Namespace.object_extract(author, "id")
-        container["name"] = Namespace.object_extract(author, "name")
+        container["authorID"] = Namespace.object_extract(author, "id", )
+        container["name"] = Namespace.object_extract(author, "name", )
+        container["userSex"] = "未知"
 
 
 class APIExtractor:
