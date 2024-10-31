@@ -61,6 +61,10 @@
 </ul>
 <h1>🪟 关于终端</h1>
 <p>⭐ 推荐使用 <a href="https://learn.microsoft.com/zh-cn/windows/terminal/install">Windows 终端</a> （Windows 11 默认终端）运行程序以便获得最佳显示效果！</p>
+<h1>⚠️ 其他说明</h1>
+<ul>
+<li>Windows 系统需要以管理员身份运行程序才能读取 Chromium、Chrome、Edge 浏览器 Cookie</li>
+</ul>
 <h1>⚙️ 配置文件</h1>
 <p>项目根目录下的 <code>config.yaml</code> 文件，首次运行自动生成，可以自定义部分运行参数。</p>
 <p><b>如果项目功能无法正常使用，请尝试配置 Cookie 后再使用！</b></p>
