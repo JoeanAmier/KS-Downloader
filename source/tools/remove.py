@@ -1,3 +1,4 @@
+from contextlib import suppress
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -14,4 +15,5 @@ def remove_empty_directories(path: "Path") -> None:
         if any(i in str(dir_path) for i in exclude):
             continue
         if not dir_names and not file_names:
-            dir_path.rmdir()
+            with suppress(OSError):
+                dir_path.rmdir()

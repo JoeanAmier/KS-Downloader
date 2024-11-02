@@ -5,4 +5,4 @@ emoji>=2.12.1
 rich>=13.7.1
 httpx>=0.27.0
 aiofiles>=24.1.0
-rookiepy>=0.5.5
+rookiepy>=0.5.6
