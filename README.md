@@ -50,6 +50,22 @@
 <li>运行 <code>pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt</code> 命令安装程序所需模块</li>
 <li>运行 <code>main.py</code> 即可使用</li>
 </ol>
+<h2>⌨️ Docker 运行</h2>
+<ol>
+<li>获取镜像</li>
+<ul>
+<li>方式一：使用 <code>Dockerfile</code> 文件构建镜像</li>
+<li>方式二：使用 <code>docker pull joeanamier/ks-downloader</code> 命令拉取镜像</li>
+</ul>
+<li>创建容器：<code>docker run -it joeanamier/ks-downloader</code></li>
+<li>运行容器
+<ul>
+<li>启动容器：<code>docker start -i 容器名称/容器 ID</code></li>
+<li>重启容器：<code>docker restart -i 容器名称/容器 ID</code></li>
+</ul>
+</li>
+</ol>
+<p>Docker 运行项目时不支持 <b>从浏览器读取 Cookie</b>，无法使用 <b>监听剪贴板</b> 功能，可以正常粘贴内容，其他功能如有异常请反馈！</p>
 <h1>🔗 支持链接</h1>
 <ul>
 <li><code>https://www.kuaishou.com/f/分享码</code></li>

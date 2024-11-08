@@ -1,12 +1,16 @@
-FROM python:3.12.4-slim
+FROM python:3.12-slim
+
+WORKDIR /app
 
 LABEL name="KS-Downloader" authors="JoeanAmier" repository="https://github.com/JoeanAmier/KS-Downloader"
 
-COPY source /source
-COPY LICENSE /LICENSE
-COPY main.py /main.py
-COPY requirements.txt /requirements.txt
+COPY source /app/source
+COPY LICENSE /app/LICENSE
+COPY main.py /app/main.py
+COPY requirements.txt /app/requirements.txt
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r /app/requirements.txt
+
+VOLUME /app
 
 CMD ["python", "main.py"]
