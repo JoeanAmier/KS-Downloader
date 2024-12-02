@@ -46,7 +46,7 @@ class Manager:
         self.data = self.path.joinpath("Data")
         self.folder = self.root.joinpath(folder_name)
         self.timeout = timeout
-        self.client = base_client(timeout=timeout, **proxy)
+        self.client = base_client(timeout=timeout, proxy=proxy, )
         self.cookie = cookie
         self.pc_headers = PC_PAGE_HEADERS | {"Cookie": cookie}
         self.pc_data_headers = PC_DATA_HEADERS | {"Cookie": cookie}

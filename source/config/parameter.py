@@ -6,6 +6,7 @@ from httpx import TimeoutException
 from httpx import get
 
 from ..static import PROJECT_ROOT
+from ..variable import PC_USERAGENT
 from ..variable import RETRY
 from ..variable import TIMEOUT
 
@@ -105,29 +106,26 @@ class Parameter:
 
     def __check_proxy(
             self,
-            proxy: str | dict,
-            url="https://www.kuaishou.com/") -> dict:
-        if not proxy:
-            return {"proxies": self.NO_PROXY}
-        if isinstance(proxy, str):
-            kwarg = {"proxy": proxy}
-        elif isinstance(proxy, dict):
-            kwarg = {"proxies": proxy}
-        else:
-            self.console.warning(f"proxy 参数 {proxy} 设置错误，程序将不会使用代理", )
-            return {"proxies": self.NO_PROXY}
-        try:
-            response = get(
-                url,
-                **kwarg, )
-            response.raise_for_status()
-            self.console.info(f"代理 {proxy} 测试成功")
-            return kwarg
-        except TimeoutException:
-            self.console.warning(f"代理 {proxy} 测试超时")
-        except HTTPError as e:
-            self.console.warning(f"代理 {proxy} 测试失败：{e}")
-        return {"proxies": self.NO_PROXY}
+            proxy: str,
+            url="https://www.kuaishou.com/new-reco",
+    ) -> str | None:
+        if proxy:
+            try:
+                response = get(
+                    url,
+                    proxy=proxy,
+                    timeout=TIMEOUT,
+                    headers={
+                        "User-Agent": PC_USERAGENT,
+                    }
+                )
+                response.raise_for_status()
+                self.console.info(f"代理 {proxy} 测试成功")
+                return proxy
+            except TimeoutException:
+                self.console.warning(f"代理 {proxy} 测试超时")
+            except HTTPError as e:
+                self.console.warning(f"代理 {proxy} 测试失败：{e}")
 
     def __check_work_path(self, work_path: str) -> Path:
         if not work_path:
