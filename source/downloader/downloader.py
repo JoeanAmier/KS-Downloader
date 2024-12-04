@@ -15,6 +15,7 @@ from rich.progress import (
     TimeRemainingColumn,
 )
 
+from ..module import CacheError
 from ..tools import (
     PROGRESS,
 )
@@ -30,18 +31,19 @@ if TYPE_CHECKING:
 class Downloader:
     CONTENT_TYPE_MAP = {
         "image/png": "png",
-        "image/jpeg": "jpeg",
+        "image/jpeg": "jpg",
         "image/webp": "webp",
         "video/mp4": "mp4",
         "video/quicktime": "mov",
-        "audio/mp4": "m4a"
+        "audio/mp4": "m4a",
+        "audio/mpeg": "mp3",
     }
 
     def __init__(self, manager: "Manager", database: "Database"):
         self.path = manager.path
         self.folder = manager.folder
         self.client = manager.client
-        self.headers = manager.app_download_headers
+        self.headers = manager.pc_download_headers
         self.cleaner = manager.cleaner
         self.cover = manager.cover
         self.music = manager.music
@@ -175,10 +177,13 @@ class Downloader:
             length, suffix = await self.__head_file(url, headers, )
             temp = self.temp.joinpath(f"{path.name}.{suffix}")
             path = path.with_name(f"{path.name}.{suffix}")
-            position = self.__update_headers_range(headers, temp, )
+            position = self.__update_headers_range(headers, temp, length, )
             try:
                 # print("stream", headers.get("Range"))  # 调试代码
                 async with self.client.stream("GET", url, headers=headers, ) as response:
+                    if response.status_code == 416:
+                        self.delete(temp)
+                        raise CacheError(f"【{tip}】{text} 缓存异常，重新下载")
                     response.raise_for_status()
                     task_id = progress.add_task(
                         f"【{tip}】{text}",
@@ -207,6 +212,11 @@ class Downloader:
         return ""
 
     @staticmethod
+    def delete(temp: "Path", ):
+        if temp.is_file():
+            temp.unlink()
+
+    @staticmethod
     def move(temp: "Path", path: "Path"):
         move(temp.resolve(), path.resolve())
 
@@ -228,7 +238,8 @@ class Downloader:
                 case "作者ID":
                     name.append(self.__get_author_id(data, app, ))
                 case "作品描述":
-                    name.append(self.__get_caption(data) or self.__get_detail_id(data))
+                    name.append(self.__get_caption(data)
+                                or self.__get_detail_id(data))
                 case "作品ID":
                     name.append(self.__get_detail_id(data))
         return beautify_string("_".join(name), length=128, )
@@ -290,6 +301,11 @@ class Downloader:
     def __get_resume_byte_position(file: Path) -> int:
         return file.stat().st_size if file.is_file() else 0
 
-    def __update_headers_range(self, headers: dict, file: Path) -> int:
-        headers["Range"] = f"bytes={(p := self.__get_resume_byte_position(file))}-"
-        return p
+    def __update_headers_range(
+            self, headers: dict, file: Path, length: int, ) -> int:
+        position = self.__get_resume_byte_position(file)
+        if length and position >= length:
+            self.delete(file)
+            position = 0
+        headers["Range"] = f"bytes={position}-"
+        return position
