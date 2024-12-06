@@ -107,24 +107,28 @@ class Downloader:
             return
         file = self.__generate_path(name)
         if not self.__file_exists(file, "m4a"):
-            tasks.append(self.__download_file(
-                m.split()[0],
-                file,
-                progress,
-                data["detailID"],
-                "音乐",
-            ))
+            tasks.append(
+                self.__download_file(
+                    m.split()[0],
+                    file,
+                    progress,
+                    data["detailID"],
+                    "音乐",
+                    "m4a",
+                ))
 
     async def __handle_video(self, tasks: list, name: str, data: dict, progress: Progress, ):
         file = self.__generate_path(name)
         if not self.__file_exists(file, "mp4"):
-            tasks.append(self.__download_file(
-                data["download"][0],
-                file,
-                progress,
-                data["detailID"],
-                "视频",
-            ))
+            tasks.append(
+                self.__download_file(
+                    data["download"][0],
+                    file,
+                    progress,
+                    data["detailID"],
+                    "视频",
+                    "mp4",
+                ))
         # await self.__handle_cover(tasks, file, data, progress, )
 
     async def __handle_atlas(self, tasks: list, name: str, data: dict, progress: Progress, ):
@@ -132,13 +136,15 @@ class Downloader:
         for index, url in enumerate(urls, start=1):
             file = self.__generate_path(f"{name}_{index}")
             if not self.__file_exists(file, "webp", ):
-                tasks.append(self.__download_file(
-                    url,
-                    file,
-                    progress,
-                    data["detailID"],
-                    "图片",
-                ))
+                tasks.append(
+                    self.__download_file(
+                        url,
+                        file,
+                        progress,
+                        data["detailID"],
+                        "图片",
+                        "jpeg",
+                    ))
 
     async def __handle_cover(self, tasks: list, path: "Path", data: dict, progress: Progress, ):
         match self.cover:
@@ -151,6 +157,7 @@ class Downloader:
                             progress,
                             data["detailID"],
                             "封面",
+                            "webp",
                         ))
             case "JPEG":
                 if not self.__file_exists(path, "jpeg"):
@@ -161,30 +168,42 @@ class Downloader:
                             progress,
                             data["detailID"],
                             "封面",
+                            "jpeg",
                         ))
             case "":
                 pass
 
     @retry_request
     @capture_error_request
-    async def __download_file(self, url: str, path: "Path", progress: Progress, id_: str, tip: str = ""):
+    async def __download_file(
+            self,
+            url: str,
+            path: "Path",
+            progress: Progress,
+            id_: str,
+            tip: str = "",
+            suffix: str = ...,
+    ):
         async with self.semaphore:
             text = beautify_string(path.name, 50)
             if not url:
                 self.console.warning(f"【{tip}】{text} 下载链接为空")
                 return True
             headers = self.headers.copy()
-            length, suffix = await self.__head_file(url, headers, )
+            # length, suffix = await self.__head_file(url, headers, suffix, )
             temp = self.temp.joinpath(f"{path.name}.{suffix}")
-            path = path.with_name(f"{path.name}.{suffix}")
-            position = self.__update_headers_range(headers, temp, length, )
+            position = self.__update_headers_range(headers, temp, )
             try:
-                # print("stream", headers.get("Range"))  # 调试代码
                 async with self.client.stream("GET", url, headers=headers, ) as response:
                     if response.status_code == 416:
                         self.delete(temp)
                         raise CacheError(f"【{tip}】{text} 缓存异常，重新下载")
                     response.raise_for_status()
+                    length, suffix = self._extract_content(
+                        response.headers,
+                        suffix,
+                    )
+                    path = path.with_name(f"{path.name}.{suffix}")
                     task_id = progress.add_task(
                         f"【{tip}】{text}",
                         total=length or None,
@@ -284,17 +303,29 @@ class Downloader:
             self,
             url: str,
             headers: dict,
+            suffix: str = ...,
     ) -> [int, str]:
-        # print("head", headers.get("Range"))  # 调试代码
         response = await self.client.head(
             url,
             headers=headers,
         )
+        if response.status_code == 405:
+            return 0, suffix
         response.raise_for_status()
+        return self._extract_content(response.headers, suffix, )
+
+    def _extract_content(
+            self,
+            headers: dict,
+            suffix: str,
+    ) -> [int, str]:
         suffix = self.__extract_type(
-            response.headers.get("Content-Type"))
-        length = response.headers.get(
-            "Content-Length", 0)
+            headers.get("Content-Type"),
+        ) or suffix
+        length = headers.get(
+            "Content-Length",
+            0,
+        )
         return int(length), suffix
 
     @staticmethod
@@ -302,10 +333,14 @@ class Downloader:
         return file.stat().st_size if file.is_file() else 0
 
     def __update_headers_range(
-            self, headers: dict, file: Path, length: int, ) -> int:
+            self,
+            headers: dict,
+            file: Path,
+            length: int = 0,
+    ) -> int:
         position = self.__get_resume_byte_position(file)
-        if length and position >= length:
-            self.delete(file)
-            position = 0
+        # if length and position >= length:
+        #     self.delete(file)
+        #     position = 0
         headers["Range"] = f"bytes={position}-"
         return position
