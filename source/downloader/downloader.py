@@ -203,6 +203,7 @@ class Downloader:
                         response.headers,
                         suffix,
                     )
+                    length += position
                     path = path.with_name(f"{path.name}.{suffix}")
                     task_id = progress.add_task(
                         f"【{tip}】{text}",
