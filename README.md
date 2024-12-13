@@ -72,6 +72,7 @@
 <li><code>https://v.kuaishou.com/分享码</code></li>
 <li><code>https://www.kuaishou.com/short-video/作品ID</code></li>
 <li><code>https://kuaishou.cn/short-video/作品ID</code></li>
+<li><code>https://live.kuaishou.com/u/作者ID/作品ID</code></li>
 <br/>
 <p><b>推荐使用分享链接；支持单次输入多个作品链接，链接之间使用空格分隔。</b></p>
 </ul>

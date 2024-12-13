@@ -16,6 +16,7 @@ if TYPE_CHECKING:
 
 class Examiner:
     SHORT_URL = compile(r"(https?://\S*kuaishou\.(?:com|cn)/\S+)")
+    LIVE_URL = compile(r"https?://live\.kuaishou\.com/\S+/\S+/(\S+)")
     PC_COMPLETE_URL = compile(r"(https?://\S*kuaishou\.(?:com|cn)/short-video/\S+)")
     REDIRECT_URL = compile(r"(https?://\S*chenzhongtech\.(?:com|cn)/fw/photo/\S+)")
 
@@ -49,11 +50,14 @@ class Examiner:
 
     async def __request_redirect(self, text: str, ) -> str:
         if not (urls := self.PC_COMPLETE_URL.findall(text)):
-            urls = self.SHORT_URL.findall(text)
+            urls = self._convert_live(text) or self.SHORT_URL.findall(text)
         result = []
         for i in urls:
             result.append(await self.__request_url(i, ))
         return " ".join(i for i in result if i)
+
+    def _convert_live(self, text: str) -> list[str]:
+        return [f"https://www.kuaishou.com/short-video/{i}" for i in self.LIVE_URL.findall(text)]
 
     @retry_request
     @capture_error_request
