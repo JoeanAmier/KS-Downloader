@@ -44,7 +44,9 @@
 <p>若通过此方式使用程序，文件默认下载路径为：<code>.\_internal\Download</code>；配置文件路径为：<code>.\_internal\config.yaml</code></p>
 <h2>⌨️ 源码运行</h2>
 <ol>
-<li>安装版本号不低于 <code>3.12</code> 的 Python 解释器</li>
+
+[//]: # (<li>安装版本号不低于 <code>3.12</code> 的 Python 解释器</li>)
+<li>安装版本号为 <code>3.12</code> 的 Python 解释器</li>
 <li>下载本项目最新的源码或 <a href="https://github.com/JoeanAmier/KS-Downloader/releases/latest">Releases</a> 发布的源码至本地</li>
 <li>打开终端，切换至项目根路径</li>
 <li>运行 <code>pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt</code> 命令安装程序所需模块</li>
@@ -81,6 +83,8 @@
 <h1>📜 其他说明</h1>
 <ul>
 <li>Windows 系统需要以管理员身份运行程序才能读取 Chromium、Chrome、Edge 浏览器 Cookie</li>
+<li>如果开启保存作品数据至文件功能，作品数据默认储存至 <code>./Data/DetailData.db</code> 文件</li>
+<li>程序设置、下载记录数据储存至 <code>./KS-Downloader.db</code> 文件</li>
 </ul>
 <h1>⚙️ 配置文件</h1>
 <p>项目根目录下的 <code>config.yaml</code> 文件，首次运行自动生成，可以自定义部分运行参数。</p>
