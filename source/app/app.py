@@ -76,7 +76,6 @@ class KS:
     async def run(self):
         self.config = await self.database.read_config()
         self.__welcome()
-        await self.__update_version()
         if await self.disclaimer():
             await self.__main_menu()
 
@@ -116,13 +115,11 @@ class KS:
         self.__function = (
             ("从浏览器读取 Cookie", self.__read_cookie),
             ("批量下载快手作品", self.__detail_enquire),
-            (f"{self.MENU_TIP[self.config["Update"]]}检查更新功能", self.__modify_update),
             (f"{self.MENU_TIP[self.config["Record"]]}下载记录功能", self.__modify_record),
+            ("检查程序版本更新", self.__update_version),
         )
 
     async def __update_version(self):
-        if not self.config["Update"]:
-            return
         if target := await self.version.get_target_version():
             state = self.version.compare_versions(
                 f"{self.VERSION_MAJOR}.{self.VERSION_MINOR}",
@@ -134,11 +131,6 @@ class KS:
                 style=INFO if state == 1 else WARNING)
         else:
             self.console.print("检测新版本失败", style=ERROR)
-        self.console.print()
-
-    async def __modify_update(self):
-        await self.__update_config("Update", 0 if self.config["Update"] else 1)
-        self.console.print("修改设置成功！", style=INFO, )
 
     async def __modify_record(self):
         await self.__update_config("Record", 0 if self.config["Record"] else 1)
