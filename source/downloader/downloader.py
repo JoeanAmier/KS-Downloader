@@ -31,7 +31,7 @@ if TYPE_CHECKING:
 class Downloader:
     CONTENT_TYPE_MAP = {
         "image/png": "png",
-        "image/jpeg": "jpg",
+        "image/jpeg": "jpeg",
         "image/webp": "webp",
         "video/mp4": "mp4",
         "video/quicktime": "mov",
