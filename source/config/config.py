@@ -27,6 +27,7 @@ class Config:
         "max_retry": RETRY,
         "timeout": TIMEOUT,
         "chunk": 2 * 1024 * 1024,
+        # "user_agent": "",
         "folder_mode": False,
     }
     encode = "UTF-8-SIG" if system() == "Windows" else "UTF-8"

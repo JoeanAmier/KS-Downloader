@@ -1,4 +1,4 @@
-PC_USERAGENT = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 "
+PC_USERAGENT = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 "
                 "Safari/537.36")
 
 APP_USERAGENT = (
@@ -6,75 +6,36 @@ APP_USERAGENT = (
     "Version/16.6 Mobile/15E148 Safari/604.1")
 
 PC_PAGE_HEADERS = {
-    'Accept': '*/*',
-    # 'Accept-Language': 'zh-CN,zh;q=0.9',
-    'Connection': 'keep-alive',
-    # 'Sec-Fetch-Dest': 'document',
-    # 'Sec-Fetch-Mode': 'navigate',
-    # 'Sec-Fetch-Site': 'none',
-    # 'Sec-Fetch-User': '?1',
-    # 'Upgrade-Insecure-Requests': '1',
-    'User-Agent': PC_USERAGENT,
-    # 'Sec-Ch-Ua': SEC_CH_UA,
-    # 'Sec-Ch-Ua-Mobile': '?0',
-    # 'Sec-Ch-Ua-Platform': '"Windows"',
+    "Connection": "keep-alive",
+    "Referer": "https://www.kuaishou.cn/new-reco",
+    "User-Agent": PC_USERAGENT,
 }
 
 PC_DATA_HEADERS = {
-    'Accept': '*/*',
-    # 'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
-    'Connection': 'keep-alive',
-    'Referer': 'https://live.kuaishou.com/',
-    # 'Sec-Fetch-Dest': 'empty',
-    # 'Sec-Fetch-Mode': 'cors',
-    # 'Sec-Fetch-Site': 'same-origin',
-    'User-Agent': PC_USERAGENT,
-    # 'Sec-Ch-Ua': SEC_CH_UA,
-    # 'Sec-Ch-Ua-Mobile': '?0',
-    # 'Sec-Ch-Ua-Platform': '"Windows"',
+    "Connection": "keep-alive",
+    "content-type": "application/json",
+    "Referer": "https://www.kuaishou.cn",
+    "User-Agent": PC_USERAGENT,
 }
 
 PC_DOWNLOAD_HEADERS = {
-    "Accept": "*/*",
-    "Accept-Encoding": "*/*",
     "User-Agent": PC_USERAGENT,
 }
 
 APP_HEADERS = {
-    "Accept": "*/*",
-    # "Accept-Language": "zh-CN,zh;q=0.9",
-    "Accept-Encoding": "*/*",
-    "Host": "v.kuaishou.com",
-    # "Sec-Fetch-Dest": "document",
-    # "Sec-Fetch-Mode": "navigate",
-    # "Sec-Fetch-Site": "none",
-    # "Upgrade-Insecure-Requests": "1",
+    "Connection": "keep-alive",
     "User-Agent": APP_USERAGENT,
 }
 
 APP_DATA_HEADERS = {
-    "Accept": "*/*",
-    "Accept-Encoding": "*/*",
-    # "Accept-Language": "en,ja;q=0.9,zh-CN;q=0.8,zh-HK;q=0.7,zh;q=0.6",
-    "Content-Type": "application/json",
-    # "Origin": "https://v.m.chenzhongtech.com",
-    "Host": "m.gifshow.com",
-    "Origin": "https://m.gifshow.com",
-    "Pragma": "no-cache",
-    "Cache-Control": "no-cache",
     "Connection": "keep-alive",
-    "Referer": "",
-    # "Sec-Fetch-Dest": "empty",
-    # "Sec-Fetch-Mode": "cors",
-    # "Sec-Fetch-Site": "same-origin",
-    # "Sec-Fetch-User": "?1",
+    "content-type": "application/json",
+    "Origin": "https://v.m.chenzhongtech.com",
+    "Referer": "https://v.m.chenzhongtech.com/",
     "User-Agent": APP_USERAGENT,
 }
 
 APP_DOWNLOAD_HEADERS = {
-    "Accept": "*/*",
-    "Accept-Encoding": "*/*",
-    # "Upgrade-Insecure-Requests": '1',
     "User-Agent": APP_USERAGENT,
 }
 
