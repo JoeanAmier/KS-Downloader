@@ -19,7 +19,6 @@ class Config:
         "name_format": "发布日期 作者昵称 作品描述",
         "cookie": "",
         "proxy": None,
-        "download_record": True,
         "data_record": False,
         "max_workers": 4,
         "cover": "",

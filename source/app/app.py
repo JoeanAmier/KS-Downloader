@@ -48,6 +48,7 @@ class KS:
     }
 
     DOMAINS: list[str] = [
+        # "chenzhongtech.com",
         "kuaishou.com",
         # "kuaishou.cn",
     ]

@@ -41,7 +41,6 @@ class Parameter:
                  proxy: str | dict = None,
                  cover="",
                  music=False,
-                 download_record: bool = True,
                  data_record: bool = False,
                  chunk=1024 * 1024,
                  folder_mode: bool = False,
@@ -59,7 +58,6 @@ class Parameter:
         self.cookie = self.__check_cookie(cookie)
         self.cover = self.__check_cover(cover)
         self.music = self.check_bool(music, False)
-        self.download_record = self.check_bool(download_record, True)
         self.data_record = self.check_bool(data_record, False)
         self.chunk = self.__check_chunk(chunk)
         self.folder_mode = self.check_bool(folder_mode, False)
@@ -78,7 +76,6 @@ class Parameter:
             "cookie": self.cookie,
             "cover": self.cover,
             "music": self.music,
-            "download_record": self.download_record,
             "data_record": self.data_record,
             "max_workers": self.max_workers,
             "folder_mode": self.folder_mode,

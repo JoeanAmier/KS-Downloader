@@ -32,11 +32,12 @@ class Manager:
                  cookie: str,
                  cover: str,
                  music: bool,
-                 download_record: bool,
                  data_record: bool,
                  chunk: int,
                  folder_mode: bool,
                  max_workers: int,
+                 *args,
+                 **kwargs,
                  ):
         self.console = console
         self.cleaner = cleaner
@@ -59,7 +60,6 @@ class Manager:
         self.proxy = proxy
         self.cover = cover
         self.music = music
-        self.download_record = download_record
         self.data_record = data_record
         self.folder_mode = folder_mode
         self.chunk = chunk

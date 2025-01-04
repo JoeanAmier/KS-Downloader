@@ -34,9 +34,10 @@
 </ul>
 <p>⭐ KS-Downloader 开发计划及进度可前往 <a href="https://github.com/users/JoeanAmier/projects/6">Projects</a> 查阅</p>
 <h1>📸 程序截图</h1>
-<img src="docs/项目运行截图1.png" alt="">
+<p><b>🎥 点击图片观看演示视频</b></p>
+<a href="https://www.bilibili.com/video/BV19YC4Y7E8E/"><img src="docs/项目运行截图1.png" alt=""></a>
 <hr>
-<img src="docs/项目运行截图2.png" alt="">
+<a href="https://www.bilibili.com/video/BV19YC4Y7E8E/"><img src="docs/项目运行截图2.png" alt=""></a>
 <h1>🥣 使用方法</h1>
 <h2>🖱 程序运行</h2>
 <p>Mac OS、Windows 10 及以上用户可前往 <a href="https://github.com/JoeanAmier/KS-Downloader/releases/latest">Releases</a> 下载程序压缩包，解压后打开程序文件夹，双击运行 <code>main</code> 即可使用。</p>
@@ -131,12 +132,6 @@
 <td align="center">str</td>
 <td align="center">设置程序代理</td>
 <td align="center">null</td>
-</tr>
-<tr>
-<td align="center">download_record</td>
-<td align="center">bool</td>
-<td align="center">是否记录已下载作品 ID，如果启用，将会自动跳过已下载的作品</td>
-<td align="center">true</td>
 </tr>
 <tr>
 <td align="center">data_record</td>

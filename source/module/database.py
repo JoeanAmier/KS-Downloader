@@ -5,13 +5,13 @@ from ..static import PROJECT_ROOT
 
 
 class Database:
+    record = 1
     __FILE = "KS-Downloader.db"
 
     def __init__(self, ):
         self.file = PROJECT_ROOT.joinpath(self.__FILE)
         self.database = None
         self.cursor = None
-        self.record = 1
 
     async def __connect_database(self):
         self.database = await connect(self.file)
