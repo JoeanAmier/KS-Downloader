@@ -233,6 +233,17 @@
 </table>
 <p>如果您愿意，可以考虑提供资助为 <b>KS-Downloader</b> 提供额外的支持！</p>
 
+# 🌟 贡献指南\(Contribute\)
+
+**非常感谢您对本项目的兴趣！以下是一些指南，帮助您更好地为本项目做出贡献！**
+
+* 请在修改代码时，确保相关代码和文件保持最新。
+* 如果您有多个不相互依赖的更改，建议将它们分开提交为独立的拉取请求，以便更好地审查和管理。
+* 请确保您的代码符合项目的风格规范，以保持代码的一致性和可读性。
+* 提交信息应简洁明了，并遵循项目的提交规范。良好的提交信息有助于团队成员理解更改的目的和背景。
+
+参考资料：[如何为开源做贡献](https://opensource.guide/zh-hans/how-to-contribute/)
+
 # 💰 项目赞助\(Sponsor\)
 
 ![PyCharm logo](https://resources.jetbrains.com/storage/products/company/brand/logos/PyCharm.svg)
