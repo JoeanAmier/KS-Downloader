@@ -64,7 +64,7 @@
 <li>方式一：使用 <code>Dockerfile</code> 文件构建镜像</li>
 <li>方式二：使用 <code>docker pull joeanamier/ks-downloader</code> 命令拉取镜像</li>
 </ul>
-<li>创建容器：<code>docker run -it joeanamier/ks-downloader</code></li>
+<li>创建容器：<code>docker run --name 容器名称(可选) -it joeanamier/ks-downloader</code></li>
 <li>运行容器
 <ul>
 <li>启动容器：<code>docker start -i 容器名称/容器 ID</code></li>
@@ -185,7 +185,7 @@
 </tbody>
 </table>
 
-# 📦 手动构建可执行文件指南
+# 📦 构建可执行文件指南
 
 本指南将引导您通过 Fork 本仓库并执行 GitHub Actions 自动完成基于最新源码的程序构建和打包！
 
