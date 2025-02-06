@@ -3,6 +3,6 @@ PyYAML>=6.0.2
 aiosqlite>=0.20.0
 emoji>=2.14.0
 rich>=13.7.1
-httpx>=0.28.0
+httpx[socks]>=0.28.1
 aiofiles>=24.1.0
 rookiepy>=0.5.6
