@@ -115,7 +115,7 @@ class KS:
     def __update_menu(self):
         self.__function = (
             ("从浏览器读取 Cookie", self.__read_cookie),
-            ("批量下载快手作品", self.__detail_enquire),
+            ("批量下载链接作品", self.__detail_enquire),
             (f"{self.MENU_TIP[self.config["Record"]]}下载记录功能", self.__modify_record),
             ("检查程序版本更新", self.__update_version),
         )

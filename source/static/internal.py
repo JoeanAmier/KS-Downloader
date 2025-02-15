@@ -2,10 +2,10 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 VERSION_MAJOR = 1
-VERSION_MINOR = 3
-VERSION_BETA = False
+VERSION_MINOR = 4
+VERSION_BETA = True
 PROJECT_NAME = f"KS-Downloader V{VERSION_MAJOR}.{
-VERSION_MINOR}{" Beta" if VERSION_BETA else ""}"
+VERSION_MINOR} {"Beta" if VERSION_BETA else "Stable"}"
 
 REPOSITORY = "https://github.com/JoeanAmier/KS-Downloader"
 LICENCE = "GNU General Public License v3.0"
