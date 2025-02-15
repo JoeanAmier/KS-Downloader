@@ -4,6 +4,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 VERSION_MAJOR = 1
 VERSION_MINOR = 4
 VERSION_BETA = True
+__version__ = f"{VERSION_MAJOR}.{VERSION_MINOR}.{"beta" if VERSION_BETA else "stable"}"
 PROJECT_NAME = f"KS-Downloader V{VERSION_MAJOR}.{
 VERSION_MINOR} {"Beta" if VERSION_BETA else "Stable"}"
 
@@ -26,3 +27,6 @@ DISCLAIMER_TEXT = (
     "您使用了本项目的代码和功能，则视为您已完全理解并接受上述免责声明，并自愿承担使用本项目的一切风险和后果。",
     "",
 )
+
+if __name__ == "__main__":
+    print(__version__)

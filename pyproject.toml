@@ -1,0 +1,27 @@
+[project]
+name = "KS-Downloader"
+version = "1.4.beta"
+description = "快手无水印视频/图片下载工具"
+authors = [
+    { name = "JoeanAmier", email = "yonglelolu@foxmail.com" },
+]
+readme = "README.md"
+license = "GPL-3.0"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "aiofiles>=24.1.0",
+    "aiosqlite>=0.21.0",
+    "emoji>=2.14.1",
+    "httpx[socks]>=0.28.1",
+    "lxml>=5.3.1",
+    "pyyaml>=6.0.2",
+    "rich>=13.9.4",
+    "rookiepy>=0.5.6",
+]
+
+[project.urls]
+Repository = "https://github.com/JoeanAmier/KS-Downloader"
+
+[tool.uv.pip]
+index-url = "https://mirrors.ustc.edu.cn/pypi/simple"
+
