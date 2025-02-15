@@ -8,7 +8,9 @@ class Database:
     record = 1
     __FILE = "KS-Downloader.db"
 
-    def __init__(self, ):
+    def __init__(
+            self,
+    ):
         self.file = PROJECT_ROOT.joinpath(self.__FILE)
         self.database = None
         self.cursor = None
@@ -22,12 +24,15 @@ class Database:
         await self.database.commit()
 
     async def __create_table(self):
-        await self.database.execute("CREATE TABLE IF NOT EXISTS download_data (ID TEXT PRIMARY KEY);")
+        await self.database.execute(
+            "CREATE TABLE IF NOT EXISTS download_data (ID TEXT PRIMARY KEY);"
+        )
         await self.database.execute(
             """CREATE TABLE IF NOT EXISTS config_data (
             NAME TEXT PRIMARY KEY,
             VALUE INTEGER NOT NULL CHECK(VALUE IN (0, 1))
-            );""")
+            );"""
+        )
 
     async def __write_default_config(self):
         await self.database.execute("""INSERT OR IGNORE INTO config_data (NAME, VALUE)
@@ -42,14 +47,22 @@ class Database:
     def __format_config(config: list) -> dict:
         return {i["NAME"]: i["VALUE"] for i in config}
 
-    async def read_config(self, ) -> dict:
+    async def read_config(
+            self,
+    ) -> dict:
         config = await self.__read_config_data()
         config = self.__format_config(config)
         self.record = config["Record"]
         return config
 
-    async def update_config_data(self, name: str, value: int, ):
-        await self.database.execute("REPLACE INTO config_data (NAME, VALUE) VALUES (?,?)", (name, value))
+    async def update_config_data(
+            self,
+            name: str,
+            value: int,
+    ):
+        await self.database.execute(
+            "REPLACE INTO config_data (NAME, VALUE) VALUES (?,?)", (name, value)
+        )
         await self.database.commit()
 
     async def has_download_data(self, id_: str) -> bool:
@@ -61,7 +74,8 @@ class Database:
     async def write_download_data(self, id_: str):
         if self.record:
             await self.database.execute(
-                "INSERT OR IGNORE INTO download_data (ID) VALUES (?);", (id_,))
+                "INSERT OR IGNORE INTO download_data (ID) VALUES (?);", (id_,)
+            )
             await self.database.commit()
 
     async def delete_download_data(self, ids: list | tuple | str):

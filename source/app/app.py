@@ -91,7 +91,10 @@ class KS:
             await self.detail(text)
 
     async def __read_cookie(self):
-        if c := BrowserCookie.run(self.DOMAINS, self.console, ):
+        if c := BrowserCookie.run(
+                self.DOMAINS,
+                self.console,
+        ):
             self.config_obj.write(self.config_obj.read() | {"cookie": c})
             self.console.print("读取并写入 Cookie 成功！", style=INFO)
 
@@ -116,7 +119,10 @@ class KS:
         self.__function = (
             ("从浏览器读取 Cookie", self.__read_cookie),
             ("批量下载链接作品", self.__detail_enquire),
-            (f"{self.MENU_TIP[self.config["Record"]]}下载记录功能", self.__modify_record),
+            (
+                f"{self.MENU_TIP[self.config['Record']]}下载记录功能",
+                self.__modify_record,
+            ),
             ("检查程序版本更新", self.__update_version),
         )
 
@@ -128,15 +134,18 @@ class KS:
                 self.VERSION_BETA,
             )
             self.console.print(
-                self.version.STATUS_CODE[state],
-                style=INFO if state == 1 else WARNING)
+                self.version.STATUS_CODE[state], style=INFO if state == 1 else WARNING
+            )
         else:
             self.console.print("检测新版本失败", style=ERROR)
 
     async def __modify_record(self):
         await self.__update_config("Record", 0 if self.config["Record"] else 1)
         self.database.record = self.config["Record"]
-        self.console.print("修改设置成功！", style=INFO, )
+        self.console.print(
+            "修改设置成功！",
+            style=INFO,
+        )
 
     async def __update_config(self, key: str, value: int):
         self.config[key] = value
@@ -145,10 +154,7 @@ class KS:
     def __welcome(self):
         self.console.print(self.LINE, style=MASTER)
         self.console.print("\n")
-        self.console.print(
-            self.NAME.center(
-                self.WIDTH),
-            style=MASTER)
+        self.console.print(self.NAME.center(self.WIDTH), style=MASTER)
         self.console.print("\n")
         self.console.print(self.LINE, style=MASTER)
         self.console.print()
@@ -162,7 +168,9 @@ class KS:
             self.console.warning("提取作品链接失败")
             return
         for url in urls:
-            web, user_id, detail_id = self.examiner.extract_params(url, )
+            web, user_id, detail_id = self.examiner.extract_params(
+                url,
+            )
             if not detail_id:
                 self.console.warning(f"URL 解析失败：{url}")
                 continue
@@ -173,7 +181,9 @@ class KS:
             )
             if not any(data):
                 continue
-            await self.__download_file(data, )
+            await self.__download_file(
+                data,
+            )
             await self.__save_data(data, "Download")
 
     async def __handle_detail_api(
@@ -197,17 +207,32 @@ class KS:
             web: bool,
     ) -> list[dict]:
         if html := await self.detail_html.run(url):
-            return [self.extractor_html.run(html, detail_id, web, )]
+            return [
+                self.extractor_html.run(
+                    html,
+                    detail_id,
+                    web,
+                )
+            ]
 
-    async def __save_data(self, data: list[dict], name: str, type_="detail", format_="SQLite") -> None:
+    async def __save_data(
+            self, data: list[dict], name: str, type_="detail", format_="SQLite"
+    ) -> None:
         recorder, params = self.record.run(type_, format_)
         async with recorder(self.manager, db_name=name, **params) as record:
             for i in data:
                 i["download"] = " ".join(i["download"])
                 await record.update(i)
 
-    async def __download_file(self, data: list[dict], type_="detail", ):
-        await self.download.run(data, type_, )
+    async def __download_file(
+            self,
+            data: list[dict],
+            type_="detail",
+    ):
+        await self.download.run(
+            data,
+            type_,
+        )
 
     async def user(self):
         pass
@@ -215,11 +240,8 @@ class KS:
     async def disclaimer(self):
         if self.config["Disclaimer"]:
             return True
-        self.console.print(
-            "\n".join(DISCLAIMER_TEXT),
-            style=MASTER)
-        if self.console.input(
-                "是否已仔细阅读上述免责声明(YES/NO): ").upper() != "YES":
+        self.console.print("\n".join(DISCLAIMER_TEXT), style=MASTER)
+        if self.console.input("是否已仔细阅读上述免责声明(YES/NO): ").upper() != "YES":
             return False
         await self.database.update_config_data("Disclaimer", 1)
         self.console.print()

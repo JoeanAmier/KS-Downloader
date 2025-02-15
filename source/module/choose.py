@@ -7,10 +7,8 @@ __all__ = ["choose"]
 
 
 def choose(
-        title: str,
-        options: tuple | list,
-        console: "ColorConsole",
-        separate=None) -> str:
+        title: str, options: tuple | list, console: "ColorConsole", separate=None
+) -> str:
     screen = f"{title}:\n"
     row = 0
     for i, j in enumerate(options, start=1):

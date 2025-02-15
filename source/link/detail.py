@@ -19,7 +19,13 @@ class DetailPage:
 
     @retry_request
     @capture_error_request
-    async def request_url(self, url: str, ) -> str:
-        response = await self.client.get(url, headers=self.headers, )
+    async def request_url(
+            self,
+            url: str,
+    ) -> str:
+        response = await self.client.get(
+            url,
+            headers=self.headers,
+        )
         response.raise_for_status()
         return response.text

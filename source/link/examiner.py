@@ -4,7 +4,8 @@ from typing import Any
 from typing import TYPE_CHECKING
 from urllib.parse import (
     urlparse,
-    parse_qs, urlunparse,
+    parse_qs,
+    urlunparse,
 )
 
 from ..tools import capture_error_request
@@ -31,15 +32,22 @@ class Examiner:
         self.retry = manager.max_retry
 
     async def run(self, text: str, type_="detail"):
-        urls = await self.__request_redirect(text, )
+        urls = await self.__request_redirect(
+            text,
+        )
         match type_:
             case "detail":
-                return self.__validate_links(urls, )
+                return self.__validate_links(
+                    urls,
+                )
             case "user":
                 pass
         raise ValueError
 
-    def __validate_links(self, urls: str, ) -> list[str]:
+    def __validate_links(
+            self,
+            urls: str,
+    ) -> list[str]:
         return [
             i.group()
             for i in chain(
@@ -48,29 +56,47 @@ class Examiner:
             )
         ]
 
-    async def __request_redirect(self, text: str, ) -> str:
+    async def __request_redirect(
+            self,
+            text: str,
+    ) -> str:
         if not (urls := self.PC_COMPLETE_URL.findall(text)):
             urls = self._convert_live(text) or self.SHORT_URL.findall(text)
         result = []
         for i in urls:
-            result.append(await self.__request_url(i, ))
+            result.append(
+                await self.__request_url(
+                    i,
+                )
+            )
         return " ".join(i for i in result if i)
 
     def _convert_live(self, text: str) -> list[str]:
-        return [f"https://www.kuaishou.com/short-video/{i}" for i in self.LIVE_URL.findall(text)]
+        return [
+            f"https://www.kuaishou.com/short-video/{i}"
+            for i in self.LIVE_URL.findall(text)
+        ]
 
     @retry_request
     @capture_error_request
-    async def __request_url(self, url: str, ) -> str:
+    async def __request_url(
+            self,
+            url: str,
+    ) -> str:
         response = await self.client.head(
             url,
             headers=self.pc_headers,
         )
         response.raise_for_status()
-        self.__update_cookie(response.cookies.items(), )
+        self.__update_cookie(
+            response.cookies.items(),
+        )
         return str(response.url)
 
-    def __update_cookie(self, cookies, ) -> None:
+    def __update_cookie(
+            self,
+            cookies,
+    ) -> None:
         if self.cookie:
             return
         if cookies := self.__format_cookie(cookies):
@@ -91,7 +117,9 @@ class Examiner:
     ) -> Any:
         match type_:
             case "detail":
-                return self._extract_params_detail(url, )
+                return self._extract_params_detail(
+                    url,
+                )
 
     def _extract_params_detail(
             self,

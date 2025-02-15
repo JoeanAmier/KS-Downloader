@@ -13,7 +13,9 @@ def base_client(
         **kwargs,
 ) -> AsyncClient:
     return AsyncClient(
-        headers={"User-Agent": user_agent, },
+        headers={
+            "User-Agent": user_agent,
+        },
         timeout=timeout,
         verify=False,
         limits=Limits(max_connections=10),

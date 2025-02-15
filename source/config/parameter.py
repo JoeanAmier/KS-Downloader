@@ -29,23 +29,24 @@ class Parameter:
         "发布日期",
     }
 
-    def __init__(self,
-                 console: "ColorConsole",
-                 cleaner: "Cleaner",
-                 cookie: str,
-                 folder_name: str = "Download",
-                 name_format: str = "发布日期 作者昵称 作品描述",
-                 work_path: str = "",
-                 timeout=TIMEOUT,
-                 max_retry=RETRY,
-                 proxy: str | dict = None,
-                 cover="",
-                 music=False,
-                 data_record: bool = False,
-                 chunk=1024 * 1024,
-                 folder_mode: bool = False,
-                 max_workers=4,
-                 ):
+    def __init__(
+            self,
+            console: "ColorConsole",
+            cleaner: "Cleaner",
+            cookie: str,
+            folder_name: str = "Download",
+            name_format: str = "发布日期 作者昵称 作品描述",
+            work_path: str = "",
+            timeout=TIMEOUT,
+            max_retry=RETRY,
+            proxy: str | dict = None,
+            cover="",
+            music=False,
+            data_record: bool = False,
+            chunk=1024 * 1024,
+            folder_mode: bool = False,
+            max_workers=4,
+    ):
         self.root = PROJECT_ROOT
         self.cleaner = cleaner
         self.console = console
@@ -114,7 +115,7 @@ class Parameter:
                     timeout=TIMEOUT,
                     headers={
                         "User-Agent": PC_USERAGENT,
-                    }
+                    },
                 )
                 response.raise_for_status()
                 self.console.info(f"代理 {proxy} 测试成功")
@@ -131,7 +132,9 @@ class Parameter:
             return r
         if r := self.__check_root_again(r):
             return r
-        self.console.warning("work_path 参数不是有效的文件夹路径，程序将使用项目根路径作为储存路径")
+        self.console.warning(
+            "work_path 参数不是有效的文件夹路径，程序将使用项目根路径作为储存路径"
+        )
         return self.root
 
     @staticmethod
@@ -144,7 +147,9 @@ class Parameter:
     def __check_folder_name(self, folder_name: str) -> str:
         if n := self.cleaner.filter_name(folder_name, ""):
             return n
-        self.console.warning("folder_name 参数不是有效的文件夹名称，程序将使用默认值：Download")
+        self.console.warning(
+            "folder_name 参数不是有效的文件夹名称，程序将使用默认值：Download"
+        )
         return "Download"
 
     def __check_cookie(self, cookie: str | dict) -> str:

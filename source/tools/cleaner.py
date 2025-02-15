@@ -25,7 +25,7 @@ class Cleaner:
                 "|": "",
                 "<": "",
                 ">": "",
-                "\"": "",
+                '"': "",
                 "?": "",
                 ":": "",
                 "*": "",
@@ -75,7 +75,10 @@ class Cleaner:
 
         text = self.filter(text)
 
-        text = replace_emoji(text, replace, )
+        text = replace_emoji(
+            text,
+            replace,
+        )
 
         text = self.clear_spaces(text)
 
@@ -89,9 +92,16 @@ class Cleaner:
         return " ".join(string.split())
 
     @classmethod
-    def remove_control_characters(cls, text, replace="", ):
+    def remove_control_characters(
+            cls,
+            text,
+            replace="",
+    ):
         # 使用正则表达式匹配所有控制字符
-        return cls.CONTROL_CHARACTERS.sub(replace, text, )
+        return cls.CONTROL_CHARACTERS.sub(
+            replace,
+            text,
+        )
 
 
 if __name__ == "__main__":

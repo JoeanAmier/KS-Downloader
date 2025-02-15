@@ -26,13 +26,25 @@ class API:
         self.items: list[dict] = []
         self.api: str = ""
 
-    async def run(self, *args, **kwargs, ):
+    async def run(
+            self,
+            *args,
+            **kwargs,
+    ):
         return self.items
 
-    async def run_single(self, *args, **kwargs, ):
+    async def run_single(
+            self,
+            *args,
+            **kwargs,
+    ):
         pass
 
-    async def run_batch(self, *args, **kwargs, ):
+    async def run_batch(
+            self,
+            *args,
+            **kwargs,
+    ):
         pass
 
     async def get_data(
@@ -67,7 +79,9 @@ class API:
                 )
             case _:
                 raise ValueError(f"Invalid method: {method}")
-        self.deal_response(response, )
+        self.deal_response(
+            response,
+        )
 
     @retry_request
     @capture_error_request
@@ -109,10 +123,18 @@ class API:
         response.raise_for_status()
         return response.json()
 
-    def generate_params(self, *args, **kwargs, ) -> dict:
+    def generate_params(
+            self,
+            *args,
+            **kwargs,
+    ) -> dict:
         pass
 
-    def generate_data(self, *args, **kwargs, ) -> dict:
+    def generate_data(
+            self,
+            *args,
+            **kwargs,
+    ) -> dict:
         pass
 
     def deal_response(
@@ -124,7 +146,9 @@ class API:
         try:
             for key in self.extract_keys:
                 response = response[key]
-            self.add_item(response, )
+            self.add_item(
+                response,
+            )
         except (
                 KeyError,
                 IndexError,

@@ -7,6 +7,5 @@ if TYPE_CHECKING:
 
 
 class User(API):
-
     def __init__(self, manager: "Manager"):
         super().__init__(manager)

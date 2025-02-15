@@ -31,7 +31,10 @@ class Config:
     }
     encode = "UTF-8-SIG" if system() == "Windows" else "UTF-8"
 
-    def __init__(self, console: "ColorConsole", ):
+    def __init__(
+            self,
+            console: "ColorConsole",
+    ):
         self.console = console
         self.file = PROJECT_ROOT.joinpath("config.yaml")
         self.data = {}
@@ -39,7 +42,7 @@ class Config:
     def read(self) -> dict:
         if self.file.exists():
             try:
-                with self.file.open('r', encoding=self.encode) as file:
+                with self.file.open("r", encoding=self.encode) as file:
                     self.data = safe_load(file)
             except UnicodeDecodeError as e:
                 self.console.error(f"配置文件编码错误: {e}")
@@ -55,5 +58,10 @@ class Config:
         self.write(self.default)
 
     def write(self, data: dict = None) -> None:
-        with self.file.open('w', encoding=self.encode) as file:
-            dump(data or self.data, file, default_flow_style=False, allow_unicode=True, )
+        with self.file.open("w", encoding=self.encode) as file:
+            dump(
+                data or self.data,
+                file,
+                default_flow_style=False,
+                allow_unicode=True,
+            )

@@ -25,11 +25,10 @@ class Version:
 
     @staticmethod
     def compare_versions(
-            current_version: str,
-            target_version: str,
-            is_development: bool) -> int:
-        current_major, current_minor = map(int, current_version.split('.'))
-        target_major, target_minor = map(int, target_version.split('.'))
+            current_version: str, target_version: str, is_development: bool
+    ) -> int:
+        current_major, current_minor = map(int, current_version.split("."))
+        target_major, target_minor = map(int, target_version.split("."))
 
         if target_major > current_major:
             return 4
@@ -42,8 +41,13 @@ class Version:
 
     @retry_request
     @capture_error_request
-    async def get_target_version(self, ):
-        response = await self.client.get(RELEASES, timeout=5, )
+    async def get_target_version(
+            self,
+    ):
+        response = await self.client.get(
+            RELEASES,
+            timeout=5,
+        )
         response.raise_for_status()
         version = str(response.url).split("/")
         if len(v := version[-1]) == 3:

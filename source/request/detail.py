@@ -27,11 +27,15 @@ class Detail(API):
         self.note = "作品"
         self.api = f"{API.DOMAIN}/live_api/profile/feedbyid"
 
-    async def run(self, ):
+    async def run(
+            self,
+    ):
         await self.run_single()
         return self.items
 
-    async def run_single(self, ):
+    async def run_single(
+            self,
+    ):
         await super().get_data(
             self.api,
             params=self.params,

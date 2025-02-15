@@ -7,14 +7,15 @@ if TYPE_CHECKING:
 
 
 class SQLite:
-    def __init__(self,
-                 manager: "Manager",
-                 filename: str,
-                 db_name: str,
-                 key: list[str],
-                 name: list[str],
-                 type_: list[str],
-                 ):
+    def __init__(
+            self,
+            manager: "Manager",
+            filename: str,
+            db_name: str,
+            key: list[str],
+            name: list[str],
+            type_: list[str],
+    ):
         self.db_name = db_name
         self.file = manager.data.joinpath(filename)
         self.database = None
@@ -32,11 +33,14 @@ class SQLite:
         await self.database.commit()
 
     async def update(self, data: dict) -> None:
-        await self.database.execute(f"""REPLACE INTO {self.db_name} (
+        await self.database.execute(
+            f"""REPLACE INTO {self.db_name} (
                 {", ".join(self.name)}
                 ) VALUES (
                 {", ".join("?" for _ in data)}
-                );""", self.__generate_values(data))
+                );""",
+            self.__generate_values(data),
+        )
         await self.database.commit()
 
     def __generate_values(self, data: dict) -> tuple:

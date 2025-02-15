@@ -8,5 +8,7 @@ async def main():
         await app.run()
 
 
-if __name__ == '__main__':
-    run(main(), )
+if __name__ == "__main__":
+    run(
+        main(),
+    )
