@@ -5,6 +5,7 @@ WORKDIR /app
 LABEL name="KS-Downloader" authors="JoeanAmier" repository="https://github.com/JoeanAmier/KS-Downloader"
 
 COPY source /app/source
+COPY locale /app/locale
 COPY LICENSE /app/LICENSE
 COPY main.py /app/main.py
 COPY requirements.txt /app/requirements.txt
