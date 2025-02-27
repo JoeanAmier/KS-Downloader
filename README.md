@@ -40,8 +40,8 @@
 <a href="https://www.bilibili.com/video/BV19YC4Y7E8E/"><img src="docs/项目运行截图2.png" alt=""></a>
 <h1>🥣 使用方法</h1>
 <h2>🖱 程序运行</h2>
-<p>⭐ Mac OS、Windows 10 及以上用户可前往 <a href="https://github.com/JoeanAmier/KS-Downloader/releases/latest">Releases</a> 下载程序压缩包，解压后打开程序文件夹，双击运行 <code>main</code> 即可使用。</p>
-<p>⭐ 本项目包含手动构建可执行文件的 GitHub Actions，使用者可以随时使用 GitHub Actions 将最新源码构建为可执行文件！</p>
+<p>⭐ Mac OS、Windows 10 及以上用户可前往 <a href="https://github.com/JoeanAmier/KS-Downloader/releases/latest">Releases</a> 或者 <a href="https://github.com/JoeanAmier/KS-Downloader/actions">Actions</a> 下载程序压缩包，解压后打开程序文件夹，双击运行 <code>main</code> 即可使用！</p>
+<p>⭐ 本项目包含自动构建可执行文件的 GitHub Actions，使用者可以随时使用 GitHub Actions 将最新源码构建为可执行文件！</p>
 <p><strong>注意：Mac OS 平台可执行文件 <code>main</code> 可能需要从终端命令行启动；受设备限制，Mac OS 平台可执行文件尚未经过测试，无法保证可用性！</strong></p>
 <p>若通过此方式使用程序，文件默认下载路径为：<code>.\_internal\Download</code>；配置文件路径为：<code>.\_internal\config.yaml</code></p>
 <h3>程序更新</h3>
@@ -213,7 +213,7 @@
 ### 3. 手动触发打包流程
 
 1. 在您 Fork 的仓库中，点击顶部的 **Actions** 选项卡
-2. 找到名为 **手动构建可执行文件** 的工作流
+2. 找到名为 **构建可执行文件** 的工作流
 3. 点击右侧的 **Run workflow** 按钮：
     - 选择 **master** 或者 **develop** 分支
     - 点击 **Run workflow**
