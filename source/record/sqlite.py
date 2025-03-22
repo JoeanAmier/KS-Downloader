@@ -8,13 +8,13 @@ if TYPE_CHECKING:
 
 class SQLite:
     def __init__(
-            self,
-            manager: "Manager",
-            filename: str,
-            db_name: str,
-            key: list[str],
-            name: list[str],
-            type_: list[str],
+        self,
+        manager: "Manager",
+        filename: str,
+        db_name: str,
+        key: list[str],
+        name: list[str],
+        type_: list[str],
     ):
         self.db_name = db_name
         self.file = manager.data.joinpath(filename)

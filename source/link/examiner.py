@@ -1,15 +1,13 @@
 from itertools import chain
 from re import compile
-from typing import Any
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 from urllib.parse import (
-    urlparse,
     parse_qs,
+    urlparse,
     urlunparse,
 )
 
-from ..tools import capture_error_request
-from ..tools import retry_request
+from ..tools import capture_error_request, retry_request
 
 if TYPE_CHECKING:
     from ..manager import Manager
@@ -45,8 +43,8 @@ class Examiner:
         raise ValueError
 
     def __validate_links(
-            self,
-            urls: str,
+        self,
+        urls: str,
     ) -> list[str]:
         return [
             i.group()
@@ -57,8 +55,8 @@ class Examiner:
         ]
 
     async def __request_redirect(
-            self,
-            text: str,
+        self,
+        text: str,
     ) -> str:
         if not (urls := self.PC_COMPLETE_URL.findall(text)):
             urls = self._convert_live(text) or self.SHORT_URL.findall(text)
@@ -80,8 +78,8 @@ class Examiner:
     @retry_request
     @capture_error_request
     async def __request_url(
-            self,
-            url: str,
+        self,
+        url: str,
     ) -> str:
         response = await self.client.head(
             url,
@@ -94,8 +92,8 @@ class Examiner:
         return str(response.url)
 
     def __update_cookie(
-            self,
-            cookies,
+        self,
+        cookies,
     ) -> None:
         if self.cookie:
             return
@@ -111,9 +109,9 @@ class Examiner:
         return "; ".join([f"{key}={value}" for key, value in cookies])
 
     def extract_params(
-            self,
-            url: str,
-            type_: str = "detail",
+        self,
+        url: str,
+        type_: str = "detail",
     ) -> Any:
         match type_:
             case "detail":
@@ -122,8 +120,8 @@ class Examiner:
                 )
 
     def _extract_params_detail(
-            self,
-            url: str,
+        self,
+        url: str,
     ) -> [bool | None, str, str]:
         url = urlparse(url)
         params = parse_qs(url.query)

@@ -1,7 +1,6 @@
 from typing import TYPE_CHECKING
 
-from source.tools import capture_error_request
-from source.tools import retry_request
+from source.tools import capture_error_request, retry_request
 
 if TYPE_CHECKING:
     from source.manager import Manager
@@ -20,8 +19,8 @@ class DetailPage:
     @retry_request
     @capture_error_request
     async def request_url(
-            self,
-            url: str,
+        self,
+        url: str,
     ) -> str:
         response = await self.client.get(
             url,

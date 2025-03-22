@@ -1,5 +1,4 @@
-from asyncio import Semaphore
-from asyncio import gather
+from asyncio import Semaphore, gather
 from pathlib import Path
 from shutil import move
 from typing import TYPE_CHECKING
@@ -7,10 +6,10 @@ from typing import TYPE_CHECKING
 from aiofiles import open
 from httpx import HTTPError
 from rich.progress import (
-    SpinnerColumn,
     BarColumn,
     DownloadColumn,
     Progress,
+    SpinnerColumn,
     TextColumn,
     TimeRemainingColumn,
 )
@@ -18,10 +17,11 @@ from rich.progress import (
 from ..module import CacheError
 from ..tools import (
     PROGRESS,
+    beautify_string,
+    capture_error_request,
+    retry_request,
 )
-from ..tools import beautify_string
-from ..tools import capture_error_request
-from ..tools import retry_request
+from ..translation import _
 
 if TYPE_CHECKING:
     from ..manager import Manager
@@ -76,9 +76,9 @@ class Downloader:
         )
 
     async def run(
-            self,
-            data: list[dict],
-            type_="detail",
+        self,
+        data: list[dict],
+        type_="detail",
     ):
         match type_:
             case "detail":
@@ -91,44 +91,48 @@ class Downloader:
                 raise ValueError
 
     async def __handle_detail(
-            self,
-            data: list[dict],
+        self,
+        data: list[dict],
     ):
         tasks = []
         with self.__general_progress_object() as progress:
             for item in data:
                 if await self.database.has_download_data(i := item["detailID"]):
-                    self.console.info(f"作品 {i} 存在下载记录，跳过下载！")
+                    self.console.info(
+                        _("作品 {detail_id} 存在下载记录，跳过下载！").format(
+                            detail_id=i
+                        )
+                    )
                     continue
                 name = self.__generate_name(
                     item,
                 )
-                match item["photoType"]:
-                    case "视频":
-                        await self.__handle_video(
-                            tasks,
-                            name,
-                            item,
-                            progress,
-                        )
-                    case "图片":
-                        await self.__handle_atlas(
-                            tasks,
-                            name,
-                            item,
-                            progress,
-                        )
-                    case _:
-                        self.console.error("未知的作品类型")
+                photo_type = item["photoType"]
+                if photo_type == _("视频"):
+                    await self.__handle_video(
+                        tasks,
+                        name,
+                        item,
+                        progress,
+                    )
+                elif photo_type == _("图片"):
+                    await self.__handle_atlas(
+                        tasks,
+                        name,
+                        item,
+                        progress,
+                    )
+                else:
+                    self.console.error(_("未知的作品类型"))
                 # await self.__handle_music(tasks, name, item, progress, )
             await gather(*tasks)
 
     async def __handle_music(
-            self,
-            tasks: list,
-            name: str,
-            data: dict,
-            progress: Progress,
+        self,
+        tasks: list,
+        name: str,
+        data: dict,
+        progress: Progress,
     ):
         if not self.music or not (m := data.get("audioUrls")):
             return
@@ -140,17 +144,17 @@ class Downloader:
                     file,
                     progress,
                     data["detailID"],
-                    "音乐",
+                    _("音乐"),
                     "m4a",
                 )
             )
 
     async def __handle_video(
-            self,
-            tasks: list,
-            name: str,
-            data: dict,
-            progress: Progress,
+        self,
+        tasks: list,
+        name: str,
+        data: dict,
+        progress: Progress,
     ):
         file = self.__generate_path(name)
         if not self.__file_exists(file, "mp4"):
@@ -160,25 +164,25 @@ class Downloader:
                     file,
                     progress,
                     data["detailID"],
-                    "视频",
+                    _("视频"),
                     "mp4",
                 )
             )
         # await self.__handle_cover(tasks, file, data, progress, )
 
     async def __handle_atlas(
-            self,
-            tasks: list,
-            name: str,
-            data: dict,
-            progress: Progress,
+        self,
+        tasks: list,
+        name: str,
+        data: dict,
+        progress: Progress,
     ):
         urls = data["download"]
         for index, url in enumerate(urls, start=1):
             file = self.__generate_path(f"{name}_{index}")
             if not self.__file_exists(
-                    file,
-                    "webp",
+                file,
+                "webp",
             ):
                 tasks.append(
                     self.__download_file(
@@ -186,17 +190,17 @@ class Downloader:
                         file,
                         progress,
                         data["detailID"],
-                        "图片",
+                        _("图片"),
                         "jpeg",
                     )
                 )
 
     async def __handle_cover(
-            self,
-            tasks: list,
-            path: "Path",
-            data: dict,
-            progress: Progress,
+        self,
+        tasks: list,
+        path: "Path",
+        data: dict,
+        progress: Progress,
     ):
         match self.cover:
             case "WEBP":
@@ -207,7 +211,7 @@ class Downloader:
                             path,
                             progress,
                             data["detailID"],
-                            "封面",
+                            _("封面"),
                             "webp",
                         )
                     )
@@ -219,7 +223,7 @@ class Downloader:
                             path,
                             progress,
                             data["detailID"],
-                            "封面",
+                            _("封面"),
                             "jpeg",
                         )
                     )
@@ -229,18 +233,20 @@ class Downloader:
     @retry_request
     @capture_error_request
     async def __download_file(
-            self,
-            url: str,
-            path: "Path",
-            progress: Progress,
-            id_: str,
-            tip: str = "",
-            suffix: str = ...,
+        self,
+        url: str,
+        path: "Path",
+        progress: Progress,
+        id_: str,
+        tip: str = "",
+        suffix: str = ...,
     ):
         async with self.semaphore:
             text = beautify_string(path.name, 50)
             if not url:
-                self.console.warning(f"【{tip}】{text} 下载链接为空")
+                self.console.warning(
+                    _("【{type}】{name} 下载链接为空").format(type=tip, name=text)
+                )
                 return True
             headers = self.headers.copy()
             # length, suffix = await self.__head_file(url, headers, suffix, )
@@ -251,13 +257,17 @@ class Downloader:
             )
             try:
                 async with self.client.stream(
-                        "GET",
-                        url,
-                        headers=headers,
+                    "GET",
+                    url,
+                    headers=headers,
                 ) as response:
                     if response.status_code == 416:
                         self.delete(temp)
-                        raise CacheError(f"【{tip}】{text} 缓存异常，重新下载")
+                        raise CacheError(
+                            _("【{type}】{name} 缓存异常，重新下载").format(
+                                type=tip, name=text
+                            )
+                        )
                     response.raise_for_status()
                     length, suffix = self._extract_content(
                         response.headers,
@@ -278,7 +288,9 @@ class Downloader:
                 await self.database.delete_download_data(id_)
                 raise HTTPError(repr(e)) from e
             self.move(temp, path)
-            self.console.info(f"【{tip}】{text} 下载完成")
+            self.console.info(
+                _("【{type}】{name} 下载完成").format(type=tip, name=text)
+            )
             await self.database.write_download_data(id_)
             return True
 
@@ -288,12 +300,14 @@ class Downloader:
         return s
 
     def __unknown_type(self, content: str) -> str:
-        self.console.error(f"未知的文件类型：{content}")
+        self.console.error(
+            _("未知的文件类型：{content_type}").format(content_type=content)
+        )
         return ""
 
     @staticmethod
     def delete(
-            temp: "Path",
+        temp: "Path",
     ):
         if temp.is_file():
             temp.unlink()
@@ -304,13 +318,13 @@ class Downloader:
 
     def __file_exists(self, path: "Path", suffix="*") -> bool:
         if e := any(path.parent.glob(n := f"{path.name}.{suffix}")):
-            self.console.info(f"{n} 已存在，跳过下载")
+            self.console.info(_("{filename} 已存在，跳过下载").format(filename=n))
         return e
 
     def __generate_name(
-            self,
-            data: dict,
-            app: bool = False,
+        self,
+        data: dict,
+        app: bool = False,
     ) -> str:
         name = []
         for i in self.name_format:
@@ -344,20 +358,20 @@ class Downloader:
 
     @staticmethod
     def __get_type(
-            data: dict,
+        data: dict,
     ):
         return data["photoType"]
 
     @staticmethod
     def __get_date(
-            data: dict,
+        data: dict,
     ):
         return data["timestamp"].replace(":", ".")
 
     def __get_author_nickname(
-            self,
-            data: dict,
-            app: bool,
+        self,
+        data: dict,
+        app: bool,
     ) -> str:
         return (
             self.cleaner.filter_name(data["userName"]) or data["userEid"]
@@ -367,42 +381,42 @@ class Downloader:
 
     @staticmethod
     def __get_author_id(
-            data: dict,
-            app: bool,
+        data: dict,
+        app: bool,
     ) -> str:
         return data["userEid"] if app else data["authorId"]
 
     def __get_caption(
-            self,
-            data: dict,
+        self,
+        data: dict,
     ):
         return self.cleaner.filter_name(self.cleaner.clear_spaces(data["caption"]))
 
     @staticmethod
     def __get_detail_id(
-            data: dict,
+        data: dict,
     ):
         return data["detailID"]
 
     def __generate_root(
-            self,
-            name: str,
+        self,
+        name: str,
     ) -> Path:
         return self.folder.joinpath(name) if self.folder_mode else self.folder
 
     def __generate_path(
-            self,
-            name: str,
+        self,
+        name: str,
     ) -> Path:
         root = self.__generate_root(name)
         root.mkdir(exist_ok=True)
         return root.joinpath(name)
 
     async def __head_file(
-            self,
-            url: str,
-            headers: dict,
-            suffix: str = ...,
+        self,
+        url: str,
+        headers: dict,
+        suffix: str = ...,
     ) -> [int, str]:
         response = await self.client.head(
             url,
@@ -417,15 +431,15 @@ class Downloader:
         )
 
     def _extract_content(
-            self,
-            headers: dict,
-            suffix: str,
+        self,
+        headers: dict,
+        suffix: str,
     ) -> [int, str]:
         suffix = (
-                self.__extract_type(
-                    headers.get("Content-Type"),
-                )
-                or suffix
+            self.__extract_type(
+                headers.get("Content-Type"),
+            )
+            or suffix
         )
         length = headers.get(
             "Content-Length",
@@ -438,10 +452,10 @@ class Downloader:
         return file.stat().st_size if file.is_file() else 0
 
     def __update_headers_range(
-            self,
-            headers: dict,
-            file: Path,
-            length: int = 0,
+        self,
+        headers: dict,
+        file: Path,
+        length: int = 0,
     ) -> int:
         position = self.__get_resume_byte_position(file)
         # if length and position >= length:

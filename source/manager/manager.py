@@ -1,44 +1,43 @@
 from shutil import rmtree
 from typing import TYPE_CHECKING
 
-from ..tools import base_client
-from ..tools import remove_empty_directories
+from ..tools import base_client, remove_empty_directories
 from ..variable import (
-    APP_HEADERS,
     APP_DATA_HEADERS,
     APP_DOWNLOAD_HEADERS,
+    APP_HEADERS,
     PC_DATA_HEADERS,
-    PC_PAGE_HEADERS,
     PC_DOWNLOAD_HEADERS,
+    PC_PAGE_HEADERS,
 )
 
 if TYPE_CHECKING:
     from pathlib import Path
-    from ..tools import ColorConsole
-    from ..tools import Cleaner
+
+    from ..tools import Cleaner, ColorConsole
 
 
 class Manager:
     def __init__(
-            self,
-            console: "ColorConsole",
-            cleaner: "Cleaner",
-            root: "Path",
-            timeout: int,
-            max_retry: int,
-            proxy: dict,
-            work_path: "Path",
-            folder_name: str,
-            name_format: str,
-            cookie: str,
-            cover: str,
-            music: bool,
-            data_record: bool,
-            chunk: int,
-            folder_mode: bool,
-            max_workers: int,
-            *args,
-            **kwargs,
+        self,
+        console: "ColorConsole",
+        cleaner: "Cleaner",
+        root: "Path",
+        timeout: int,
+        max_retry: int,
+        proxy: dict,
+        work_path: "Path",
+        folder_name: str,
+        name_format: str,
+        cookie: str,
+        cover: str,
+        music: bool,
+        data_record: bool,
+        chunk: int,
+        folder_mode: bool,
+        max_workers: int,
+        *args,
+        **kwargs,
     ):
         self.console = console
         self.cleaner = cleaner

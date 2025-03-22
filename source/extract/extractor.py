@@ -1,7 +1,6 @@
 from datetime import datetime
 from re import compile
-from time import localtime
-from time import strftime
+from time import localtime, strftime
 from types import SimpleNamespace
 from typing import TYPE_CHECKING
 from urllib.parse import parse_qs
@@ -9,10 +8,11 @@ from urllib.parse import parse_qs
 from lxml.etree import HTML
 from yaml import safe_load
 
-from source.tools import Namespace
+from ..tools import Namespace
+from ..translation import _
 
 if TYPE_CHECKING:
-    from source.manager import Manager
+    from ..manager import Manager
 
 
 class HTMLExtractor:
@@ -25,10 +25,10 @@ class HTMLExtractor:
         self.cleaner = manager.cleaner
 
     def run(
-            self,
-            html: str,
-            id_: str,
-            web: bool,
+        self,
+        html: str,
+        id_: str,
+        web: bool,
     ) -> dict:
         tree = self.__extract_object(
             html,
@@ -39,7 +39,7 @@ class HTMLExtractor:
             web,
         )
         if not data:
-            self.console.warning("提取网页数据失败")
+            self.console.warning(_("提取网页数据失败"))
             return {}
         data = Namespace(data)
         return self.__extract_detail(
@@ -49,12 +49,12 @@ class HTMLExtractor:
         )
 
     def __extract_object(
-            self,
-            html: str,
-            web: bool,
+        self,
+        html: str,
+        web: bool,
     ) -> str:
         if not html:
-            self.console.warning("获取网页内容失败")
+            self.console.warning(_("获取网页内容失败"))
             return ""
         html_tree = HTML(html)
         if not (data := html_tree.xpath(self.APOLLO_STATE)):
@@ -62,9 +62,9 @@ class HTMLExtractor:
         return data[1] if web else data[12]
 
     def __convert_object(
-            self,
-            text: str,
-            web: bool,
+        self,
+        text: str,
+        web: bool,
     ) -> dict:
         if web:
             text = text.lstrip("window.__APOLLO_STATE__=")
@@ -78,10 +78,10 @@ class HTMLExtractor:
         return safe_load(text)
 
     def __extract_detail(
-            self,
-            data: Namespace,
-            id_: str,
-            web: bool,
+        self,
+        data: Namespace,
+        id_: str,
+        web: bool,
     ) -> dict:
         return (
             self.__extract_detail_web(data, id_)
@@ -93,13 +93,13 @@ class HTMLExtractor:
         )
 
     def __extract_detail_app(
-            self,
-            data: Namespace,
-            id_: str,
+        self,
+        data: Namespace,
+        id_: str,
     ) -> dict:
         return {
             "collection_time": datetime.now().strftime(self.date_format),
-            "photoType": "图片",
+            "photoType": _("图片"),
             "detailID": id_,
             "caption": data.safe_extract(
                 "caption",
@@ -150,7 +150,7 @@ class HTMLExtractor:
             return {}
         container = {
             "collection_time": datetime.now().strftime(self.date_format),
-            "photoType": "视频",
+            "photoType": _("视频"),
             "detailID": id_,
             "caption": Namespace.object_extract(
                 data,
@@ -205,8 +205,8 @@ class HTMLExtractor:
 
     @staticmethod
     def _extract_download_urls(
-            data: Namespace,
-            index=0,
+        data: Namespace,
+        index=0,
     ) -> list[str]:
         if not (cdn := data.safe_extract("ext_params.atlas.cdn", [])):
             return []
@@ -254,9 +254,9 @@ class APIExtractor:
 
     @staticmethod
     def safe_extract(
-            data: SimpleNamespace,
-            attribute_chain: str,
-            default: str | int | list | dict | SimpleNamespace = "",
+        data: SimpleNamespace,
+        attribute_chain: str,
+        default: str | int | list | dict | SimpleNamespace = "",
     ):
         attributes = attribute_chain.split(".")
         for attribute in attributes:
@@ -298,15 +298,15 @@ class APIExtractor:
         self.__extract_comments(item, data)
         self.__extract_counts(item, data)
         self.__extract_photo(item, data)
-        match item["photoType"]:
-            case "视频":
-                self.__extract_music(item, data, True)
-                self.__extract_mp4(item, data)
-            case "图片":
-                self.__extract_music(item, data, False)
-                self.__extract_atlas(item, data)
-            case _:
-                item["download"] = ""
+        photo_type = item["photoType"]
+        if photo_type == _("视频"):
+            self.__extract_music(item, data, True)
+            self.__extract_mp4(item, data)
+        elif photo_type == _("图片"):
+            self.__extract_music(item, data, False)
+            self.__extract_atlas(item, data)
+        else:
+            item["download"] = ""
         container.append(item)
 
     def __extract_comments(self, item: dict, data: SimpleNamespace) -> None:
@@ -335,17 +335,17 @@ class APIExtractor:
         item["likeCount"] = self.safe_extract(photo, "likeCount", -1)
         item["userSex"] = self.safe_extract(photo, "userSex")
         item["photoType"] = self.PHOTO_TYPE.get(
-            self.safe_extract(photo, "photoType"), "未知"
+            self.safe_extract(photo, "photoType"), _("未知")
         )
         item["caption"] = self.safe_extract(photo, "caption")
         item["userEid"] = self.safe_extract(photo, "userEid")
         item["detailID"] = self.__extract_id(self.safe_extract(photo, "share_info"))
 
     def __extract_music(
-            self,
-            item: dict,
-            data: SimpleNamespace,
-            video=True,
+        self,
+        item: dict,
+        data: SimpleNamespace,
+        video=True,
     ) -> None:
         if video:
             music = self.safe_extract(data, "photo.soundTrack")
@@ -397,18 +397,16 @@ class APIExtractor:
 
     @staticmethod
     def format_date(
-            timestamp: int,
-            format_: str,
+        timestamp: int,
+        format_: str,
     ) -> str:
         if timestamp > 0:
             return strftime(format_, localtime(timestamp / 1000))
         return "unknown"
 
     @staticmethod
-    def time_conversion(time_: int) -> str:
-        if time_ == 0:
-            return "00:00:00"
-        second = time_ // 1000
-        return f"{second // 3600:0>2d}:{second % 3600 // 60:0>2d}:{
-        second % 3600 % 60:0>2d
-        }"
+    def time_conversion(time_ms: int) -> str:
+        seconds = time_ms // 1000
+        hours, remainder = divmod(seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        return f"{hours:02d}:{minutes:02d}:{seconds:02d}"

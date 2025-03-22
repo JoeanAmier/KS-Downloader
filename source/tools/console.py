@@ -2,8 +2,7 @@ from typing import Any, Optional, Union
 
 from rich.console import Console
 from rich.style import Style
-from rich.text import Text
-from rich.text import TextType
+from rich.text import Text, TextType
 
 # import logging
 # from rich.logging import RichHandler
@@ -35,19 +34,19 @@ class ColorConsole(Console):
         # self.log = logging.getLogger("rich")
 
     def print(
-            self,
-            *objects: Any,
-            style: Optional[Union[str, Style]] = None,
-            highlight: Optional[bool] = False,
-            **kwargs,
+        self,
+        *objects: Any,
+        style: Optional[Union[str, Style]] = None,
+        highlight: Optional[bool] = False,
+        **kwargs,
     ) -> None:
         super().print(*objects, style=style or GENERAL, highlight=highlight, **kwargs)
 
     def input(
-            self,
-            prompt: TextType = "",
-            style: Optional[Union[str, Style]] = None,
-            **kwargs,
+        self,
+        prompt: TextType = "",
+        style: Optional[Union[str, Style]] = None,
+        **kwargs,
     ) -> str:
         return super().input(Text(prompt, style=style or PROMPT), **kwargs)
 

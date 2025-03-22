@@ -1,34 +1,31 @@
-from source.config import Config
-from source.config import Parameter
+from source.config import Config, Parameter
 from source.downloader import Downloader
-from source.extract import APIExtractor
-from source.extract import HTMLExtractor
-from source.link import DetailPage
-from source.link import Examiner
+from source.extract import APIExtractor, HTMLExtractor
+from source.link import DetailPage, Examiner
 from source.manager import Manager
-from source.module import Database
-from source.module import choose
+from source.module import Database, choose
 from source.record import RecordManager
 from source.request import Detail
 from source.static import (
+    DISCLAIMER_TEXT,
+    LICENCE,
     PROJECT_NAME,
+    REPOSITORY,
+    VERSION_BETA,
     VERSION_MAJOR,
     VERSION_MINOR,
-    VERSION_BETA,
-    DISCLAIMER_TEXT,
-    REPOSITORY,
-    LICENCE,
 )
-from source.tools import BrowserCookie
-from source.tools import Cleaner
 from source.tools import (
-    ColorConsole,
     ERROR,
     INFO,
-    WARNING,
     MASTER,
+    WARNING,
+    BrowserCookie,
+    Cleaner,
+    ColorConsole,
+    Version,
 )
-from source.tools import Version
+from source.translation import _, switch_language
 
 
 class KS:
@@ -41,11 +38,6 @@ class KS:
     NAME = PROJECT_NAME
     WIDTH = 50
     LINE = ">" * WIDTH
-
-    MENU_TIP = {
-        0: "启用",
-        1: "禁用",
-    }
 
     DOMAINS: list[str] = [
         # "chenzhongtech.com",
@@ -63,6 +55,7 @@ class KS:
         )
         self.database = Database()
         self.config = None
+        self.option = None
         self.record = RecordManager()
         self.manager = Manager(**self.params.run())
         self.version = Version(self.manager)
@@ -76,13 +69,15 @@ class KS:
 
     async def run(self):
         self.config = await self.database.read_config()
+        self.option = await self.database.read_option()
+        self.set_language(self.option["Language"])
         self.__welcome()
         if await self.disclaimer():
             await self.__main_menu()
 
     async def __detail_enquire(self):
         while self.running:
-            text = self.console.input("请输入快手作品链接：")
+            text = self.console.input(_("请输入快手作品链接："))
             if not text:
                 break
             if text.upper() == "Q":
@@ -92,18 +87,18 @@ class KS:
 
     async def __read_cookie(self):
         if c := BrowserCookie.run(
-                self.DOMAINS,
-                self.console,
+            self.DOMAINS,
+            self.console,
         ):
             self.config_obj.write(self.config_obj.read() | {"cookie": c})
-            self.console.print("读取并写入 Cookie 成功！", style=INFO)
+            self.console.print(_("读取并写入 Cookie 成功！"), style=INFO)
 
     async def __main_menu(self):
         while self.running:
             self.__update_menu()
             function = choose(
-                "请选择 KS-Downloader 功能",
-                [i for i, _ in self.__function],
+                _("请选择 KS-Downloader 功能"),
+                [i for i, __ in self.__function],
                 self.console,
             )
             if function.upper() == "Q":
@@ -116,15 +111,31 @@ class KS:
                 await self.__function[n][1]()
 
     def __update_menu(self):
+        tip = {
+            0: _("启用"),
+            1: _("禁用"),
+        }
         self.__function = (
-            ("从浏览器读取 Cookie", self.__read_cookie),
-            ("批量下载链接作品", self.__detail_enquire),
+            (_("从浏览器读取 Cookie"), self.__read_cookie),
+            (_("批量下载链接作品"), self.__detail_enquire),
             (
-                f"{self.MENU_TIP[self.config['Record']]}下载记录功能",
+                tip[self.config["Record"]] + _("下载记录功能"),
                 self.__modify_record,
             ),
-            ("检查程序版本更新", self.__update_version),
+            (_("检查程序版本更新"), self.__update_version),
+            (_("切换语言"), self._switch_language),
         )
+
+    async def _switch_language(
+        self,
+    ):
+        if self.option["Language"] == "zh_CN":
+            language = "en_US"
+        elif self.option["Language"] == "en_US":
+            language = "zh_CN"
+        else:
+            raise TypeError(self.option["Language"])
+        await self._update_language(language)
 
     async def __update_version(self):
         if target := await self.version.get_target_version():
@@ -137,13 +148,13 @@ class KS:
                 self.version.STATUS_CODE[state], style=INFO if state == 1 else WARNING
             )
         else:
-            self.console.print("检测新版本失败", style=ERROR)
+            self.console.print(_("检测新版本失败"), style=ERROR)
 
     async def __modify_record(self):
         await self.__update_config("Record", 0 if self.config["Record"] else 1)
         self.database.record = self.config["Record"]
         self.console.print(
-            "修改设置成功！",
+            _("修改设置成功！"),
             style=INFO,
         )
 
@@ -158,21 +169,23 @@ class KS:
         self.console.print("\n")
         self.console.print(self.LINE, style=MASTER)
         self.console.print()
-        self.console.print(f"项目地址：{REPOSITORY}", style=MASTER)
-        self.console.print(f"开源协议：{LICENCE}", style=MASTER)
+        self.console.print(_("项目地址：{repo}").format(repo=REPOSITORY), style=MASTER)
+        self.console.print(
+            _("开源协议：{licence}").format(licence=LICENCE), style=MASTER
+        )
         self.console.print()
 
     async def detail(self, detail: str):
         urls = await self.examiner.run(detail)
         if not urls:
-            self.console.warning("提取作品链接失败")
+            self.console.warning(_("提取作品链接失败"))
             return
         for url in urls:
             web, user_id, detail_id = self.examiner.extract_params(
                 url,
             )
             if not detail_id:
-                self.console.warning(f"URL 解析失败：{url}")
+                self.console.warning(_("URL 解析失败：{url}").format(url=url))
                 continue
             data = await self.__handle_detail_html(
                 detail_id,
@@ -187,9 +200,9 @@ class KS:
             await self.__save_data(data, "Download")
 
     async def __handle_detail_api(
-            self,
-            user_id: str,
-            detail_id: str,
+        self,
+        user_id: str,
+        detail_id: str,
     ):
         data = await Detail(
             self.manager,
@@ -201,10 +214,10 @@ class KS:
         return data
 
     async def __handle_detail_html(
-            self,
-            detail_id: str,
-            url: str,
-            web: bool,
+        self,
+        detail_id: str,
+        url: str,
+        web: bool,
     ) -> list[dict]:
         if html := await self.detail_html.run(url):
             return [
@@ -216,7 +229,7 @@ class KS:
             ]
 
     async def __save_data(
-            self, data: list[dict], name: str, type_="detail", format_="SQLite"
+        self, data: list[dict], name: str, type_="detail", format_="SQLite"
     ) -> None:
         recorder, params = self.record.run(type_, format_)
         async with recorder(self.manager, db_name=name, **params) as record:
@@ -225,9 +238,9 @@ class KS:
                 await record.update(i)
 
     async def __download_file(
-            self,
-            data: list[dict],
-            type_="detail",
+        self,
+        data: list[dict],
+        type_="detail",
     ):
         await self.download.run(
             data,
@@ -240,12 +253,48 @@ class KS:
     async def disclaimer(self):
         if self.config["Disclaimer"]:
             return True
-        self.console.print("\n".join(DISCLAIMER_TEXT), style=MASTER)
-        if self.console.input("是否已仔细阅读上述免责声明(YES/NO): ").upper() != "YES":
+        await self.__init_language()
+        self.console.print(
+            _(DISCLAIMER_TEXT),
+            style=MASTER,
+        )
+        if self.console.input(
+            _("是否已仔细阅读上述免责声明(YES/NO): ")
+        ).upper() not in (
+            "YES",
+            "Y",
+        ):
             return False
         await self.database.update_config_data("Disclaimer", 1)
         self.console.print()
         return True
+
+    async def __init_language(self):
+        languages = (
+            (
+                "简体中文",
+                "zh_CN",
+            ),
+            (
+                "English",
+                "en_US",
+            ),
+        )
+        language = choose(
+            "请选择语言(Please Select Language)",
+            [i[0] for i in languages],
+            self.console,
+        )
+        try:
+            language = languages[int(language) - 1][1]
+            await self._update_language(language)
+        except ValueError:
+            await self.__init_language()
+
+    async def _update_language(self, language: str) -> None:
+        self.option["Language"] = language
+        await self.database.update_option_data("Language", language)
+        self.set_language(language)
 
     async def close(self):
         await self.manager.close()
@@ -257,3 +306,7 @@ class KS:
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         await self.database.__aexit__(exc_type, exc_val, exc_tb)
         await self.close()
+
+    @staticmethod
+    def set_language(language: str) -> None:
+        switch_language(language)

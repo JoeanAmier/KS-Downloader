@@ -1,12 +1,11 @@
 from platform import system
 from typing import TYPE_CHECKING
 
-from yaml import dump
-from yaml import safe_load
+from yaml import dump, safe_load
 
 from ..static import PROJECT_ROOT
-from ..variable import RETRY
-from ..variable import TIMEOUT
+from ..translation import _
+from ..variable import RETRY, TIMEOUT
 
 if TYPE_CHECKING:
     from ..tools import ColorConsole
@@ -32,8 +31,8 @@ class Config:
     encode = "UTF-8-SIG" if system() == "Windows" else "UTF-8"
 
     def __init__(
-            self,
-            console: "ColorConsole",
+        self,
+        console: "ColorConsole",
     ):
         self.console = console
         self.file = PROJECT_ROOT.joinpath("config.yaml")
@@ -45,8 +44,8 @@ class Config:
                 with self.file.open("r", encoding=self.encode) as file:
                     self.data = safe_load(file)
             except UnicodeDecodeError as e:
-                self.console.error(f"配置文件编码错误: {e}")
-                self.console.warning("本次运作将会使用默认配置参数！")
+                self.console.error(_("配置文件编码错误：{error}").format(error=e))
+                self.console.warning(_("本次运作将会使用默认配置参数！"))
                 self.data = self.default
         else:
             self.__create()
@@ -54,7 +53,7 @@ class Config:
         return self.data
 
     def __create(self):
-        self.console.info("已创建默认配置文件")
+        self.console.info(_("已创建默认配置文件"))
         self.write(self.default)
 
     def write(self, data: dict = None) -> None:

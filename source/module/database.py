@@ -1,5 +1,4 @@
-from aiosqlite import Row
-from aiosqlite import connect
+from aiosqlite import Row, connect
 
 from ..static import PROJECT_ROOT
 
@@ -9,7 +8,7 @@ class Database:
     __FILE = "KS-Downloader.db"
 
     def __init__(
-            self,
+        self,
     ):
         self.file = PROJECT_ROOT.joinpath(self.__FILE)
         self.database = None
@@ -21,6 +20,7 @@ class Database:
         self.cursor = await self.database.cursor()
         await self.__create_table()
         await self.__write_default_config()
+        await self.__write_default_option()
         await self.database.commit()
 
     async def __create_table(self):
@@ -33,14 +33,26 @@ class Database:
             VALUE INTEGER NOT NULL CHECK(VALUE IN (0, 1))
             );"""
         )
+        await self.database.execute("""CREATE TABLE IF NOT EXISTS option_data (
+                NAME TEXT PRIMARY KEY,
+                VALUE TEXT NOT NULL
+                );""")
 
     async def __write_default_config(self):
         await self.database.execute("""INSERT OR IGNORE INTO config_data (NAME, VALUE)
                             VALUES ('Record', 1),
                             ('Disclaimer', 0);""")
 
+    async def __write_default_option(self):
+        await self.database.execute("""INSERT OR IGNORE INTO option_data (NAME, VALUE)
+                            VALUES ('Language', 'zh_CN');""")
+
     async def __read_config_data(self):
         await self.cursor.execute("SELECT * FROM config_data")
+        return await self.cursor.fetchall()
+
+    async def __read_option_data(self):
+        await self.cursor.execute("SELECT * FROM option_data")
         return await self.cursor.fetchall()
 
     @staticmethod
@@ -48,20 +60,37 @@ class Database:
         return {i["NAME"]: i["VALUE"] for i in config}
 
     async def read_config(
-            self,
+        self,
     ) -> dict:
         config = await self.__read_config_data()
         config = self.__format_config(config)
         self.record = config["Record"]
         return config
 
+    async def read_option(
+        self,
+    ) -> dict:
+        option = await self.__read_option_data()
+        option = self.__format_config(option)
+        return option
+
     async def update_config_data(
-            self,
-            name: str,
-            value: int,
+        self,
+        name: str,
+        value: int,
     ):
         await self.database.execute(
             "REPLACE INTO config_data (NAME, VALUE) VALUES (?,?)", (name, value)
+        )
+        await self.database.commit()
+
+    async def update_option_data(
+        self,
+        name: str,
+        value: str,
+    ):
+        await self.database.execute(
+            "REPLACE INTO option_data (NAME, VALUE) VALUES (?,?)", (name, value)
         )
         await self.database.commit()
 

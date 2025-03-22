@@ -8,10 +8,10 @@ if TYPE_CHECKING:
 
 class Detail(API):
     def __init__(
-            self,
-            manager: "Manager",
-            user_id: str,
-            detail_id: str,
+        self,
+        manager: "Manager",
+        user_id: str,
+        detail_id: str,
     ):
         super().__init__(manager)
         self.user_id = user_id
@@ -28,13 +28,13 @@ class Detail(API):
         self.api = f"{API.DOMAIN}/live_api/profile/feedbyid"
 
     async def run(
-            self,
+        self,
     ):
         await self.run_single()
         return self.items
 
     async def run_single(
-            self,
+        self,
     ):
         await super().get_data(
             self.api,
@@ -42,9 +42,9 @@ class Detail(API):
         )
 
     def add_item(
-            self,
-            items: list[dict],
-            *args,
-            **kwargs,
+        self,
+        items: list[dict],
+        *args,
+        **kwargs,
     ) -> None:
         self.items = items

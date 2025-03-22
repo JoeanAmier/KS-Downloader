@@ -63,10 +63,10 @@ class Cleaner:
         return text
 
     def filter_name(
-            self,
-            text: str,
-            replace: str = "",
-            default: str = "",
+        self,
+        text: str,
+        replace: str = "",
+        default: str = "",
     ) -> str:
         """过滤文件夹名称中的非法字符"""
         text = text.replace(":", ".")
@@ -93,9 +93,9 @@ class Cleaner:
 
     @classmethod
     def remove_control_characters(
-            cls,
-            text,
-            replace="",
+        cls,
+        text,
+        replace="",
     ):
         # 使用正则表达式匹配所有控制字符
         return cls.CONTROL_CHARACTERS.sub(

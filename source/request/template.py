@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
-from ..tools import capture_error_request
-from ..tools import retry_request
+from ..tools import capture_error_request, retry_request
+from ..translation import _
 
 if TYPE_CHECKING:
     from ..manager import Manager
@@ -11,10 +11,10 @@ class API:
     DOMAIN: str = "https://live.kuaishou.com"
 
     def __init__(
-            self,
-            manager: "Manager",
-            *args,
-            **kwargs,
+        self,
+        manager: "Manager",
+        *args,
+        **kwargs,
     ):
         self.client = manager.client
         self.headers = manager.pc_data_headers
@@ -27,36 +27,36 @@ class API:
         self.api: str = ""
 
     async def run(
-            self,
-            *args,
-            **kwargs,
+        self,
+        *args,
+        **kwargs,
     ):
         return self.items
 
     async def run_single(
-            self,
-            *args,
-            **kwargs,
+        self,
+        *args,
+        **kwargs,
     ):
         pass
 
     async def run_batch(
-            self,
-            *args,
-            **kwargs,
+        self,
+        *args,
+        **kwargs,
     ):
         pass
 
     async def get_data(
-            self,
-            url,
-            headers=None,
-            params=None,
-            data=None,
-            json=None,
-            method="GET",
-            *args,
-            **kwargs,
+        self,
+        url,
+        headers=None,
+        params=None,
+        data=None,
+        json=None,
+        method="GET",
+        *args,
+        **kwargs,
     ):
         match method:
             case "GET":
@@ -86,13 +86,13 @@ class API:
     @retry_request
     @capture_error_request
     async def __post_data(
-            self,
-            url: str,
-            params: dict = None,
-            headers: dict = None,
-            data: dict = None,
-            json: dict = None,
-            **kwargs,
+        self,
+        url: str,
+        params: dict = None,
+        headers: dict = None,
+        data: dict = None,
+        json: dict = None,
+        **kwargs,
     ):
         response = await self.client.post(
             url,
@@ -108,11 +108,11 @@ class API:
     @retry_request
     @capture_error_request
     async def __get_data(
-            self,
-            url: str,
-            params: dict = None,
-            headers: dict = None,
-            **kwargs,
+        self,
+        url: str,
+        params: dict = None,
+        headers: dict = None,
+        **kwargs,
     ):
         response = await self.client.get(
             url,
@@ -124,24 +124,24 @@ class API:
         return response.json()
 
     def generate_params(
-            self,
-            *args,
-            **kwargs,
+        self,
+        *args,
+        **kwargs,
     ) -> dict:
         pass
 
     def generate_data(
-            self,
-            *args,
-            **kwargs,
+        self,
+        *args,
+        **kwargs,
     ) -> dict:
         pass
 
     def deal_response(
-            self,
-            response: dict | None,
-            *args,
-            **kwargs,
+        self,
+        response: dict | None,
+        *args,
+        **kwargs,
     ) -> None:
         try:
             for key in self.extract_keys:
@@ -150,18 +150,22 @@ class API:
                 response,
             )
         except (
-                KeyError,
-                IndexError,
+            KeyError,
+            IndexError,
         ):
-            self.console.error(f"{self.note}数据响应内容异常：{response}")
+            self.console.error(
+                _("{note}数据响应内容异常：{response}").format(
+                    note=self.note, response=response
+                )
+            )
 
     def add_item(
-            self,
-            items: list[dict],
-            start: int = None,
-            end: int = None,
+        self,
+        items: list[dict],
+        start: int = None,
+        end: int = None,
     ) -> None:
         if items:
             self.items.extend(items[start:end])
         else:
-            self.console.warning(f"{self.note}数据响应内容为空")
+            self.console.warning(_("{note}数据响应内容为空").format(note=self.note))

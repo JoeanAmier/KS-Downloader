@@ -1,18 +1,14 @@
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-from httpx import HTTPError
-from httpx import TimeoutException
-from httpx import get
+from httpx import HTTPError, TimeoutException, get
 
 from ..static import PROJECT_ROOT
-from ..variable import PC_USERAGENT
-from ..variable import RETRY
-from ..variable import TIMEOUT
+from ..translation import _
+from ..variable import PC_USERAGENT, RETRY, TIMEOUT
 
 if TYPE_CHECKING:
-    from ..tools import ColorConsole
-    from ..tools import Cleaner
+    from ..tools import Cleaner, ColorConsole
 
 
 class Parameter:
@@ -30,22 +26,22 @@ class Parameter:
     }
 
     def __init__(
-            self,
-            console: "ColorConsole",
-            cleaner: "Cleaner",
-            cookie: str,
-            folder_name: str = "Download",
-            name_format: str = "发布日期 作者昵称 作品描述",
-            work_path: str = "",
-            timeout=TIMEOUT,
-            max_retry=RETRY,
-            proxy: str | dict = None,
-            cover="",
-            music=False,
-            data_record: bool = False,
-            chunk=1024 * 1024,
-            folder_mode: bool = False,
-            max_workers=4,
+        self,
+        console: "ColorConsole",
+        cleaner: "Cleaner",
+        cookie: str,
+        folder_name: str = "Download",
+        name_format: str = "发布日期 作者昵称 作品描述",
+        work_path: str = "",
+        timeout=TIMEOUT,
+        max_retry=RETRY,
+        proxy: str | dict = None,
+        cover="",
+        music=False,
+        data_record: bool = False,
+        chunk=1024 * 1024,
+        folder_mode: bool = False,
+        max_workers=4,
     ):
         self.root = PROJECT_ROOT
         self.cleaner = cleaner
@@ -86,26 +82,26 @@ class Parameter:
 
     def __check_timeout(self, timeout: int) -> int:
         if not isinstance(timeout, int) or timeout <= 0:
-            self.console.warning("timeout 参数错误")
+            self.console.warning(_("timeout 参数错误"))
             return 10
         return timeout
 
     def __check_max_retry(self, max_retry: int) -> int:
         if not isinstance(max_retry, int) or max_retry < 0:
-            self.console.warning("max_retry 参数错误")
+            self.console.warning(_("max_retry 参数错误"))
             return 5
         return max_retry
 
     def __check_max_workers(self, max_workers: int) -> int:
         if isinstance(max_workers, int) and max_workers > 0:
             return max_workers
-        self.console.warning("max_workers 参数错误")
+        self.console.warning(_("max_workers 参数错误"))
         return 4
 
     def __check_proxy(
-            self,
-            proxy: str,
-            url="https://www.kuaishou.com/new-reco",
+        self,
+        proxy: str,
+        url="https://www.kuaishou.com/new-reco",
     ) -> str | None:
         if proxy:
             try:
@@ -118,12 +114,14 @@ class Parameter:
                     },
                 )
                 response.raise_for_status()
-                self.console.info(f"代理 {proxy} 测试成功")
+                self.console.info(_("代理 {proxy} 测试成功").format(proxy=proxy))
                 return proxy
             except TimeoutException:
-                self.console.warning(f"代理 {proxy} 测试超时")
+                self.console.warning(_("代理 {proxy} 测试超时").format(proxy=proxy))
             except HTTPError as e:
-                self.console.warning(f"代理 {proxy} 测试失败：{e}")
+                self.console.warning(
+                    _("代理 {proxy} 测试失败：{error}").format(proxy=proxy, error=e)
+                )
 
     def __check_work_path(self, work_path: str) -> Path:
         if not work_path:
@@ -133,7 +131,7 @@ class Parameter:
         if r := self.__check_root_again(r):
             return r
         self.console.warning(
-            "work_path 参数不是有效的文件夹路径，程序将使用项目根路径作为储存路径"
+            _("work_path 参数不是有效的文件夹路径，程序将使用项目根路径作为储存路径")
         )
         return self.root
 
@@ -148,7 +146,7 @@ class Parameter:
         if n := self.cleaner.filter_name(folder_name, ""):
             return n
         self.console.warning(
-            "folder_name 参数不是有效的文件夹名称，程序将使用默认值：Download"
+            _("folder_name 参数不是有效的文件夹名称，程序将使用默认值：Download")
         )
         return "Download"
 
@@ -157,13 +155,13 @@ class Parameter:
             return cookie
         # elif isinstance(cookie, dict):
         #     pass
-        self.console.warning("cookie 参数错误")
+        self.console.warning(_("cookie 参数错误"))
         return ""
 
     def __check_cover(self, cover: str) -> str:
         if (c := cover.upper()) in {"", "JPEG", "WEBP"}:
             return c
-        self.console.warning("cover 参数错误")
+        self.console.warning(_("cover 参数错误"))
         return ""
 
     @staticmethod
@@ -177,11 +175,14 @@ class Parameter:
         return 2 * 1024 * 1024
 
     def __check_name_format(self, name_format: str) -> list[str]:
+        default = ["发布日期", "作者昵称", "作品描述"]
         if not name_format:
-            return ["发布日期", "作者昵称", "作品描述"]
+            return default
         name_format = name_format.split()
         for i in name_format:
             if i not in self.NAME_KEYS:
-                self.console.warning(f"name_format 参数包含未知字段: {i}")
-                return ["发布日期", "作者昵称", "作品描述"]
+                self.console.warning(
+                    _("name_format 参数包含未知字段: {field}").format(field=i)
+                )
+                return default
         return name_format

@@ -1,8 +1,7 @@
 from typing import TYPE_CHECKING
 
 from ..static import RELEASES
-from ..tools import capture_error_request
-from ..tools import retry_request
+from ..tools import capture_error_request, retry_request
 
 if TYPE_CHECKING:
     from ..manager import Manager
@@ -25,7 +24,7 @@ class Version:
 
     @staticmethod
     def compare_versions(
-            current_version: str, target_version: str, is_development: bool
+        current_version: str, target_version: str, is_development: bool
     ) -> int:
         current_major, current_minor = map(int, current_version.split("."))
         target_major, target_minor = map(int, target_version.split("."))
@@ -42,7 +41,7 @@ class Version:
     @retry_request
     @capture_error_request
     async def get_target_version(
-            self,
+        self,
     ):
         response = await self.client.get(
             RELEASES,
