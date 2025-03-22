@@ -1,6 +1,7 @@
 <div align="center">
 <img src="docs/KS-Downloader.png" alt="TikTokDownloader" height="256" width="256"><br>
 <h1>KS-Downloader</h1>
+<p>简体中文 | <a href="README_EN.md">English</a></p>
 <img alt="GitHub" src="https://img.shields.io/github/license/JoeanAmier/KS-Downloader?style=for-the-badge&color=ff7a45">
 <img alt="GitHub forks" src="https://img.shields.io/github/forks/JoeanAmier/KS-Downloader?style=for-the-badge&color=fa8c16">
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/JoeanAmier/KS-Downloader?style=for-the-badge&color=ffee6f">
@@ -267,7 +268,7 @@ A:
 
 A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fork 仓库的方式执行打包流程
 
-# ⚠️ 免责声明\(Disclaimers\)
+# ⚠️ 免责声明
 
 <ul>
 <li>使用者对本项目的使用由使用者自行决定，并自行承担风险。作者对使用者使用本项目所产生的任何损失、责任、或风险概不负责。</li>
@@ -284,7 +285,7 @@ A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fo
 </ul>
 <b>在使用本项目的代码和功能之前，请您认真考虑并接受以上免责声明。如果您对上述声明有任何疑问或不同意，请不要使用本项目的代码和功能。如果您使用了本项目的代码和功能，则视为您已完全理解并接受上述免责声明，并自愿承担使用本项目的一切风险和后果。</b>
 
-# ✉️ 联系作者\(Contact\)
+# ✉️ 联系作者
 
 <ul>
 <li>作者邮箱：yonglelolu@foxmail.com</li>
@@ -298,7 +299,7 @@ A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fo
 <li><b>XHS-Downloader（小红书）</b>：<a href="https://github.com/JoeanAmier/XHS-Downloader">https://github.com/JoeanAmier/XHS-Downloader</a></li>
 </ul>
 
-# ♥️ 支持项目\(Support\)
+# ♥️ 支持项目
 
 <p>如果 <b>KS-Downloader</b> 对您有帮助，请考虑为它点个 <b>Star</b> ⭐，感谢您的支持！</p>
 <table>
@@ -316,7 +317,7 @@ A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fo
 </table>
 <p>如果您愿意，可以考虑提供资助为 <b>KS-Downloader</b> 提供额外的支持！</p>
 
-# 🌟 贡献指南\(Contribute\)
+# 🌟 贡献指南
 
 **欢迎对本项目做出贡献！为了保持代码库的整洁、高效和易于维护，请仔细阅读以下指南，以确保您的贡献能够顺利被接受和整合。**
 
@@ -334,13 +335,13 @@ A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fo
 * [贡献者公约](https://www.contributor-covenant.org/zh-cn/version/2/1/code_of_conduct/)
 * [如何为开源做贡献](https://opensource.guide/zh-hans/how-to-contribute/)
 
-# 💰 项目赞助\(Sponsor\)
+# 💰 项目赞助
 
 ![PyCharm logo](https://resources.jetbrains.com/storage/products/company/brand/logos/PyCharm.svg)
 
 **JetBrains** 支持全球开源社区认可的活跃项目，并为非商业开发提供免费许可证。
 
-# 💡 项目参考\(Refer\)
+# 💡 项目参考
 
 * https://github.com/moyada/stealer
 * https://github.com/encode/httpx/
