@@ -1,6 +1,7 @@
+from re import compile, sub
 from shutil import rmtree
 from typing import TYPE_CHECKING
-from re import compile, sub
+
 from ..tools import base_client, remove_empty_directories
 from ..variable import (
     APP_DATA_HEADERS,

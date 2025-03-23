@@ -112,6 +112,12 @@
 </thead>
 <tbody>
 <tr>
+<td align="center">mapping_data</td>
+<td align="center">str: str</td>
+<td align="center"><sup><a href="#author_archive">#</a></sup>Author alias mapping data, format: <code>author ID: author alias</code></td>
+<td align="center">null</td>
+</tr>
+<tr>
 <td align="center">work_path</td>
 <td align="center">str</td>
 <td align="center">Root path for work data/file storage</td>
@@ -179,6 +185,12 @@
 <td align="center">10</td>
 </tr>
 <tr>
+<td align="center">user_agent</td>
+<td align="center">str</td>
+<td align="center">浏览器 User Agent</td>
+<td align="center">默认 UA</td>
+</tr>
+<tr>
 <td align="center">chunk</td>
 <td align="center">int</td>
 <td align="center">Download chunk size in bytes</td>
@@ -190,8 +202,15 @@
 <td align="center">Store files in individual folders (folder matches filename)</td>
 <td align="center">false</td>
 </tr>
+<tr>
+<td align="center">author_archive</td>
+<td align="center">bool</td>
+<td align="center"><sup><a href="#author_archive">#</a></sup>Whether to store each author's works in separate folders; Folder name format: <code>authorID_authorNickname</code></td>
+<td align="center">false</td>
+</tr>
 </tbody>
 </table>
+<hr>
 <div id="fields">
 <p>name_format instructions (Currently only supports Chinese values) :</p>
 <ul>
@@ -202,6 +221,11 @@
 <li><code>作者昵称</code>: Author Nickname</li>
 <li><code>作者ID</code>: Author ID</li>
 </ul>
+</div>
+<hr>
+<div id="author_archive">
+<p>When <code>author_archive</code> is set to <code>true</code>, the program will store each author's works in dedicated folders. If an author's nickname changes, the program automatically updates the nickname portion in existing downloaded filenames!</p>
+<p>Additionally, you can configure author aliases through the <code>mapping_data</code> parameter. When an alias is set, the program will use your custom alias instead of the original nickname in filenames!</p>
 </div>
 
 # 📦 Build of Executable File Guide

@@ -1,5 +1,7 @@
-from aiosqlite import Row, connect
 from typing import TYPE_CHECKING
+
+from aiosqlite import Row, connect
+
 from ..static import PROJECT_ROOT
 
 if TYPE_CHECKING:

@@ -109,6 +109,12 @@
 </thead>
 <tbody>
 <tr>
+<td align="center">mapping_data</td>
+<td align="center">str: str</td>
+<td align="center"><sup><a href="#author_archive">#</a></sup>作者别名映射表，格式：<code>作者ID: 作者别名</code></td>
+<td align="center">无</td>
+</tr>
+<tr>
 <td align="center">work_path</td>
 <td align="center">str</td>
 <td align="center">作品数据 / 文件保存根路径</td>
@@ -175,6 +181,12 @@
 <td align="center">10</td>
 </tr>
 <tr>
+<td align="center">user_agent</td>
+<td align="center">str</td>
+<td align="center">浏览器 User Agent</td>
+<td align="center">默认 UA</td>
+</tr>
+<tr>
 <td align="center">chunk</td>
 <td align="center">int</td>
 <td align="center">下载文件时，每次从服务器获取的数据块大小，单位：字节</td>
@@ -186,8 +198,19 @@
 <td align="center">是否将每个作品的文件储存至单独的文件夹；文件夹名称与文件名称保持一致</td>
 <td align="center">false</td>
 </tr>
+<tr>
+<td align="center">author_archive</td>
+<td align="center">bool</td>
+<td align="center"><sup><a href="#author_archive">#</a></sup>是否将每个作者的作品储存至单独的文件夹；文件夹名称格式：<code>作者ID_作者昵称</code></td>
+<td align="center">false</td>
+</tr>
 </tbody>
 </table>
+<hr>
+<div id="author_archive">
+<p>如果 <code>author_archive</code> 参数设置为 <code>true</code>，程序会把每个作者的作品储存至单独的文件夹；当作者的昵称发生变化时，程序会自动更新已下载作品文件名称中的作者昵称部分！</p>
+<p>除此之外，你还可以通过设置 <code>mapping_data</code> 参数为某个作者设置别名；如果对某个作者设置了别名，程序会使用你设置的作者别名去替代作者昵称！</p>
+</div>
 
 # 📦 构建可执行文件指南
 
