@@ -51,6 +51,7 @@ class Downloader:
         self.retry = manager.max_retry
         self.temp = manager.temp
         self.folder_mode = manager.folder_mode
+        self.author_archive = manager.author_archive
         self.chunk = manager.chunk
         self.semaphore = Semaphore(manager.max_workers)
         self.database = database
@@ -104,39 +105,49 @@ class Downloader:
                         )
                     )
                     continue
-                name = self.__generate_name(
+                nickname = f"{item["authorID"]}_{item["name"]}"
+                filename = self.__generate_name(
                     item,
                 )
                 photo_type = item["photoType"]
                 if photo_type == _("视频"):
                     await self.__handle_video(
                         tasks,
-                        name,
+                        nickname,
+                        filename,
                         item,
                         progress,
                     )
                 elif photo_type == _("图片"):
                     await self.__handle_atlas(
                         tasks,
-                        name,
+                        nickname,
+                        filename,
                         item,
                         progress,
                     )
                 else:
                     self.console.error(_("未知的作品类型"))
-                # await self.__handle_music(tasks, name, item, progress, )
+                # await self.__handle_music(
+                #     tasks,
+                #     nickname,
+                #     filename,
+                #     item,
+                #     progress,
+                # )
             await gather(*tasks)
 
     async def __handle_music(
         self,
         tasks: list,
-        name: str,
+        nickname: str,
+        filename: str,
         data: dict,
         progress: Progress,
     ):
         if not self.music or not (m := data.get("audioUrls")):
             return
-        file = self.__generate_path(name)
+        file = self.__generate_path(nickname, filename)
         if not self.__file_exists(file, "m4a"):
             tasks.append(
                 self.__download_file(
@@ -152,11 +163,12 @@ class Downloader:
     async def __handle_video(
         self,
         tasks: list,
-        name: str,
+        nickname: str,
+        filename: str,
         data: dict,
         progress: Progress,
     ):
-        file = self.__generate_path(name)
+        file = self.__generate_path(nickname, filename)
         if not self.__file_exists(file, "mp4"):
             tasks.append(
                 self.__download_file(
@@ -173,13 +185,14 @@ class Downloader:
     async def __handle_atlas(
         self,
         tasks: list,
-        name: str,
+        nickname: str,
+        filename: str,
         data: dict,
         progress: Progress,
     ):
         urls = data["download"]
         for index, url in enumerate(urls, start=1):
-            file = self.__generate_path(f"{name}_{index}")
+            file = self.__generate_path(nickname, f"{filename}_{index}")
             if not self.__file_exists(
                 file,
                 "webp",
@@ -400,17 +413,24 @@ class Downloader:
 
     def __generate_root(
         self,
+        root: Path,
         name: str,
     ) -> Path:
-        return self.folder.joinpath(name) if self.folder_mode else self.folder
+        return root.joinpath(name) if self.folder_mode else root
 
     def __generate_path(
         self,
-        name: str,
+        nickname: str,
+        filename: str,
     ) -> Path:
-        root = self.__generate_root(name)
+        if self.author_archive:
+            folder = self.folder.joinpath(nickname)
+            folder.mkdir(exist_ok=True)
+        else:
+            folder = self.folder
+        root = self.__generate_root(folder, filename)
         root.mkdir(exist_ok=True)
-        return root.joinpath(name)
+        return root.joinpath(filename)
 
     async def __head_file(
         self,

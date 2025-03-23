@@ -29,6 +29,7 @@ class Parameter:
         self,
         console: "ColorConsole",
         cleaner: "Cleaner",
+        mapping_data: dict,
         cookie: str,
         folder_name: str = "Download",
         name_format: str = "发布日期 作者昵称 作品描述",
@@ -40,12 +41,15 @@ class Parameter:
         music=False,
         data_record: bool = False,
         chunk=1024 * 1024,
+        user_agent=PC_USERAGENT,
         folder_mode: bool = False,
+        author_archive: bool = False,
         max_workers=4,
     ):
         self.root = PROJECT_ROOT
         self.cleaner = cleaner
         self.console = console
+        self.mapping_data = mapping_data or {}
         self.timeout = self.__check_timeout(timeout)
         self.retry = self.__check_max_retry(max_retry)
         self.proxy = self.__check_proxy(proxy)
@@ -58,7 +62,9 @@ class Parameter:
         self.data_record = self.check_bool(data_record, False)
         self.chunk = self.__check_chunk(chunk)
         self.folder_mode = self.check_bool(folder_mode, False)
+        self.author_archive = self.check_bool(author_archive, False)
         self.max_workers = self.__check_max_workers(max_workers)
+        self.user_agent = user_agent
 
     def run(self) -> dict:
         return {
@@ -77,7 +83,10 @@ class Parameter:
             "max_workers": self.max_workers,
             "folder_mode": self.folder_mode,
             "chunk": self.chunk,
+            "user_agent": self.user_agent,
             "name_format": self.name_format,
+            "mapping_data": self.mapping_data,
+            "author_archive": self.author_archive,
         }
 
     def __check_timeout(self, timeout: int) -> int:

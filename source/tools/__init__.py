@@ -19,3 +19,4 @@ from .truncate import beautify_string
 from .truncate import trim_string
 from .truncate import truncate_string
 from .version import Version
+from .mapping import Mapping

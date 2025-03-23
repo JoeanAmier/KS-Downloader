@@ -47,7 +47,7 @@ msgstr "Batch download linked works"
 
 #: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:122
 msgid "下载记录功能"
-msgstr "Download history feature"
+msgstr " Download history feature"
 
 #: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:125
 msgid "检查程序版本更新"

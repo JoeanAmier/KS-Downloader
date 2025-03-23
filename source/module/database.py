@@ -1,6 +1,9 @@
 from aiosqlite import Row, connect
-
+from typing import TYPE_CHECKING
 from ..static import PROJECT_ROOT
+
+if TYPE_CHECKING:
+    from ..manager import Manager
 
 
 class Database:
@@ -9,8 +12,10 @@ class Database:
 
     def __init__(
         self,
+            manager: "Manager",
     ):
         self.file = PROJECT_ROOT.joinpath(self.__FILE)
+        self.switch = manager.author_archive
         self.database = None
         self.cursor = None
 
@@ -37,6 +42,13 @@ class Database:
                 NAME TEXT PRIMARY KEY,
                 VALUE TEXT NOT NULL
                 );""")
+        await self.database.execute(
+            "CREATE TABLE IF NOT EXISTS mapping_data ("
+            "ID TEXT PRIMARY KEY,"
+            "NAME TEXT NOT NULL"
+            ");"
+        )
+
 
     async def __write_default_config(self):
         await self.database.execute("""INSERT OR IGNORE INTO config_data (NAME, VALUE)
@@ -121,6 +133,28 @@ class Database:
     async def delete_all_download_data(self):
         await self.database.execute("DELETE FROM download_data")
         await self.database.commit()
+
+    async def get_mapping_data(self, id_: str):
+        if self.switch:
+            await self.cursor.execute(
+                "SELECT NAME FROM mapping_data WHERE ID=?", (id_,)
+            )
+            return await self.cursor.fetchone()
+
+    async def update_mapping_data(
+        self,
+        id_: str,
+        name: str,
+    ) -> None:
+        if self.switch:
+            await self.database.execute(
+                "REPLACE INTO mapping_data VALUES (?, ?);",
+                (
+                    id_,
+                    name,
+                ),
+            )
+            await self.database.commit()
 
     async def __aenter__(self):
         await self.__connect_database()

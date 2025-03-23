@@ -30,6 +30,9 @@
 <li>✅ Dedicated storage folders</li>
 <li>✅ Custom filename formats</li>
 <li>✅ Browser cookie extraction</li>
+<li>✅ Author alias configuration</li>
+<li>✅ Archive works by author</li>
+<li>✅ Automatic author nickname updates</li>
 <li>☑️ Background clipboard monitoring</li>
 <li>☑️ CLI support</li>
 <li>☑️ API integration</li>

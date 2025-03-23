@@ -16,7 +16,9 @@ if TYPE_CHECKING:
 
 
 class HTMLExtractor:
-    APOLLO_STATE = "//script/text()"
+    SCRIPT = "//script/text()"
+    WEB_KEYWORD = "window.__APOLLO_STATE__="
+    APP_KEYWORD = "window.INIT_STATE = "
     PHOTO_REGEX = compile(r"\"photo\":(\{\".*\"}),\"serialInfo\"")
 
     def __init__(self, manager: "Manager"):
@@ -57,9 +59,13 @@ class HTMLExtractor:
             self.console.warning(_("获取网页内容失败"))
             return ""
         html_tree = HTML(html)
-        if not (data := html_tree.xpath(self.APOLLO_STATE)):
+        if not (data := html_tree.xpath(self.SCRIPT)):
             return ""
-        return data[1] if web else data[12]
+        keyword = self.WEB_KEYWORD if web else self.APP_KEYWORD
+        for i in data:
+            if keyword in i:
+                return i
+        raise ValueError(_("提取网页数据失败"))
 
     def __convert_object(
         self,
@@ -67,7 +73,7 @@ class HTMLExtractor:
         web: bool,
     ) -> dict:
         if web:
-            text = text.lstrip("window.__APOLLO_STATE__=")
+            text = text.lstrip(self.WEB_KEYWORD if web else self.APP_KEYWORD)
             text = text.replace(
                 ";(function(){var s;(s=document.currentScript||document.scripts["
                 "document.scripts.length-1]).parentNode.removeChild(s);}());",

@@ -1,3 +1,5 @@
+from asyncio import gather
+
 from source.config import Config, Parameter
 from source.downloader import Downloader
 from source.extract import APIExtractor, HTMLExtractor
@@ -23,6 +25,7 @@ from source.tools import (
     BrowserCookie,
     Cleaner,
     ColorConsole,
+    Mapping,
     Version,
 )
 from source.translation import _, switch_language
@@ -53,11 +56,12 @@ class KS:
             cleaner=self.cleaner,
             **self.config_obj.read(),
         )
-        self.database = Database()
         self.config = None
         self.option = None
         self.record = RecordManager()
         self.manager = Manager(**self.params.run())
+        self.database = Database(self.manager)
+        self.mapping = Mapping(self.manager, self.database)
         self.version = Version(self.manager)
         self.examiner = Examiner(self.manager)
         self.detail_html = DetailPage(self.manager)
@@ -194,10 +198,33 @@ class KS:
             )
             if not any(data):
                 continue
+            await gather(
+                *[
+                    self.update_author_nickname(
+                        i,
+                    )
+                    for i in data
+                ]
+            )
             await self.__download_file(
                 data,
             )
             await self.__save_data(data, "Download")
+
+    async def update_author_nickname(
+        self,
+        data: dict,
+    ):
+        if a := self.cleaner.filter_name(
+            self.manager.mapping_data.get(i := data["authorID"], "")
+        ):
+            data["name"] = a
+        else:
+            data["name"] = self.manager.filter_name(data["name"]) or i
+        await self.mapping.update_cache(
+            i,
+            data["name"],
+        )
 
     async def __handle_detail_api(
         self,
@@ -218,7 +245,7 @@ class KS:
         detail_id: str,
         url: str,
         web: bool,
-    ) -> list[dict]:
+    ) -> list[dict] | None:
         if html := await self.detail_html.run(url):
             return [
                 self.extractor_html.run(

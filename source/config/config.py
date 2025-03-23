@@ -5,7 +5,7 @@ from yaml import dump, safe_load
 
 from ..static import PROJECT_ROOT
 from ..translation import _
-from ..variable import RETRY, TIMEOUT
+from ..variable import PC_USERAGENT, RETRY, TIMEOUT
 
 if TYPE_CHECKING:
     from ..tools import ColorConsole
@@ -13,6 +13,9 @@ if TYPE_CHECKING:
 
 class Config:
     default = {
+        "mapping_data": {
+            "作者ID(AuthorID)": "作者别名(AuthorAlias)",
+        },
         "work_path": "",
         "folder_name": "Download",
         "name_format": "发布日期 作者昵称 作品描述",
@@ -25,8 +28,9 @@ class Config:
         "max_retry": RETRY,
         "timeout": TIMEOUT,
         "chunk": 2 * 1024 * 1024,
-        # "user_agent": "",
+        "user_agent": PC_USERAGENT,
         "folder_mode": False,
+        "author_archive": False,
     }
     encode = "UTF-8-SIG" if system() == "Windows" else "UTF-8"
 

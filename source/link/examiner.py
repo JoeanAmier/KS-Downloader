@@ -81,7 +81,7 @@ class Examiner:
         self,
         url: str,
     ) -> str:
-        response = await self.client.head(
+        response = await self.client.get(
             url,
             headers=self.pc_headers,
         )

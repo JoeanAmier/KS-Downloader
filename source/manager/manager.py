@@ -1,6 +1,6 @@
 from shutil import rmtree
 from typing import TYPE_CHECKING
-
+from re import compile, sub
 from ..tools import base_client, remove_empty_directories
 from ..variable import (
     APP_DATA_HEADERS,
@@ -18,11 +18,13 @@ if TYPE_CHECKING:
 
 
 class Manager:
+    NAME = compile(r"[^\u4e00-\u9fffa-zA-Z0-9-_！？，。；：“”（）《》]")
     def __init__(
         self,
         console: "ColorConsole",
         cleaner: "Cleaner",
         root: "Path",
+            mapping_data:dict,
         timeout: int,
         max_retry: int,
         proxy: dict,
@@ -34,7 +36,9 @@ class Manager:
         music: bool,
         data_record: bool,
         chunk: int,
+            user_agent:str,
         folder_mode: bool,
+        author_archive: bool,
         max_workers: int,
         *args,
         **kwargs,
@@ -48,15 +52,16 @@ class Manager:
         self.folder = self.root.joinpath(folder_name)
         self.timeout = timeout
         self.client = base_client(
+            user_agent=user_agent,
             timeout=timeout,
             proxy=proxy,
         )
         self.cookie = cookie
-        self.pc_headers = PC_PAGE_HEADERS | {"Cookie": cookie}
-        self.pc_data_headers = PC_DATA_HEADERS | {"Cookie": cookie}
+        self.pc_headers = PC_PAGE_HEADERS | {"Cookie": cookie,"User-Agent": user_agent,}
+        self.pc_data_headers = PC_DATA_HEADERS | {"Cookie": cookie,"User-Agent": user_agent,}
         self.pc_download_headers = PC_DOWNLOAD_HEADERS
-        self.app_headers = APP_HEADERS | {"Cookie": cookie}
-        self.app_data_headers = APP_DATA_HEADERS | {"Cookie": cookie}
+        self.app_headers = APP_HEADERS | {"Cookie": cookie,"User-Agent": user_agent,}
+        self.app_data_headers = APP_DATA_HEADERS | {"Cookie": cookie,"User-Agent": user_agent,}
         self.app_download_headers = APP_DOWNLOAD_HEADERS
         self.name_format = name_format
         self.max_retry = max_retry
@@ -65,7 +70,9 @@ class Manager:
         self.music = music
         self.data_record = data_record
         self.folder_mode = folder_mode
+        self.author_archive =author_archive
         self.chunk = chunk
+        self.mapping_data = mapping_data
         self.max_workers = max_workers
         self.__create_folder()
 
@@ -76,6 +83,10 @@ class Manager:
 
     def __clear_temp(self):
         rmtree(self.temp.resolve())
+
+    def filter_name(self, name: str) -> str:
+        name = self.NAME.sub("_", name)
+        return sub(r"_+", "_", name).strip("_")
 
     async def close(self):
         await self.client.aclose()

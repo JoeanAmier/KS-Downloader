@@ -29,6 +29,9 @@
 <li>✅ 作品文件储存至单独文件夹</li>
 <li>✅ 自定义作品文件名称格式</li>
 <li>✅ 从浏览器读取 Cookie</li>
+<li>✅ 支持设置作者别名</li>
+<li>✅ 按作者归档保存作品</li>
+<li>✅ 自动更新作者昵称</li>
 <li>☑️ 后台监听剪贴板下载作品</li>
 <li>☑️ 支持命令行下载作品文件</li>
 <li>☑️ 支持 API 调用功能</li>
@@ -296,7 +299,7 @@ A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fo
 <p>✨ <b>作者的其他开源项目：</b></p>
 <ul>
 <li><b>TikTokDownloader（抖音、TikTok）</b>：<a href="https://github.com/JoeanAmier/TikTokDownloader">https://github.com/JoeanAmier/TikTokDownloader</a></li>
-<li><b>XHS-Downloader（小红书）</b>：<a href="https://github.com/JoeanAmier/XHS-Downloader">https://github.com/JoeanAmier/XHS-Downloader</a></li>
+<li><b>XHS-Downloader（小红书、XiaoHongShu、RedNote）</b>：<a href="https://github.com/JoeanAmier/XHS-Downloader">https://github.com/JoeanAmier/XHS-Downloader</a></li>
 </ul>
 
 # ♥️ 支持项目
