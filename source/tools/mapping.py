@@ -82,7 +82,7 @@ class Mapping:
             _("文件夹"),
         )
         self.console.info(
-            _("文件夹 {old_folder} 已重命名为 {new_folder}").format(
+            _("文件夹 {old_folder} 重命名为 {new_folder}").format(
                 old_folder=old_folder.name, new_folder=new_folder.name
             ),
         )
@@ -101,8 +101,8 @@ class Mapping:
                 _("文件夹"),
             )
             self.console.info(
-                _("文件夹 {old_} 重命名为 {new_}").format(
-                    old_=old_.name, new_=new_.name
+                _("文件夹 {old_folder} 重命名为 {new_folder}").format(
+                    old_folder=old_.name, new_folder=new_.name
                 ),
             )
             return new_

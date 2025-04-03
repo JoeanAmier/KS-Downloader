@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KS-Downloader V1.4\n"
 "Report-Msgid-Bugs-To: <yonglelolu@foxmail.com>\n"
-"POT-Creation-Date: 2025-03-22 16:26+0800\n"
+"POT-Creation-Date: 2025-04-03 20:52+0800\n"
 "PO-Revision-Date: 2025-03-22 10:49+0800\n"
 "Last-Translator: <<yonglelolu@foxmail.com>>\n"
 "Language-Team: Chinese (simplified)\n"
@@ -17,69 +17,69 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:80
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:84
 msgid "请输入快手作品链接："
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:94
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:98
 msgid "读取并写入 Cookie 成功！"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:100
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:104
 msgid "请选择 KS-Downloader 功能"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:115
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:119
 msgid "启用"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:116
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:120
 msgid "禁用"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:119
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:123
 msgid "从浏览器读取 Cookie"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:120
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:124
 msgid "批量下载链接作品"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:122
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:126
 msgid "下载记录功能"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:125
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:129
 msgid "检查程序版本更新"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:126
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:130
 msgid "切换语言"
 msgstr "Switch to English"
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:151
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:155
 msgid "检测新版本失败"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:157
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:161
 msgid "修改设置成功！"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:172
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:176
 #, python-brace-format
 msgid "项目地址：{repo}"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:174
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:178
 #, python-brace-format
 msgid "开源协议：{licence}"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:181
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:185
 msgid "提取作品链接失败"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:188
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:192
 #, python-brace-format
 msgid "URL 解析失败：{url}"
 msgstr ""
@@ -114,133 +114,134 @@ msgstr ""
 msgid "是否已仔细阅读上述免责声明(YES/NO): "
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\config\config.py:47
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\config\config.py:51
 #, python-brace-format
 msgid "配置文件编码错误：{error}"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\config\config.py:48
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\config\config.py:52
 msgid "本次运作将会使用默认配置参数！"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\config\config.py:56
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\config\config.py:60
 msgid "已创建默认配置文件"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\config\parameter.py:85
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\config\parameter.py:94
 msgid "timeout 参数错误"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\config\parameter.py:91
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\config\parameter.py:100
 msgid "max_retry 参数错误"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\config\parameter.py:98
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\config\parameter.py:107
 msgid "max_workers 参数错误"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\config\parameter.py:117
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\config\parameter.py:126
 #, python-brace-format
 msgid "代理 {proxy} 测试成功"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\config\parameter.py:120
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\config\parameter.py:129
 #, python-brace-format
 msgid "代理 {proxy} 测试超时"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\config\parameter.py:123
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\config\parameter.py:132
 #, python-brace-format
 msgid "代理 {proxy} 测试失败：{error}"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\config\parameter.py:134
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\config\parameter.py:143
 msgid "work_path 参数不是有效的文件夹路径，程序将使用项目根路径作为储存路径"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\config\parameter.py:149
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\config\parameter.py:158
 msgid "folder_name 参数不是有效的文件夹名称，程序将使用默认值：Download"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\config\parameter.py:158
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\config\parameter.py:167
 msgid "cookie 参数错误"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\config\parameter.py:164
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\config\parameter.py:173
 msgid "cover 参数错误"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\config\parameter.py:185
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\config\parameter.py:194
 #, python-brace-format
 msgid "name_format 参数包含未知字段: {field}"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:102
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:103
 #, python-brace-format
 msgid "作品 {detail_id} 存在下载记录，跳过下载！"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:111
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:167
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\extract\extractor.py:153
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\extract\extractor.py:302
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:113
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:179
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\extract\extractor.py:159
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\extract\extractor.py:308
 msgid "视频"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:118
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:193
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\extract\extractor.py:102
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\extract\extractor.py:305
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:121
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:206
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\extract\extractor.py:108
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\extract\extractor.py:311
 msgid "图片"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:126
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:130
 msgid "未知的作品类型"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:147
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:158
 msgid "音乐"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:214
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:226
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:227
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:239
 msgid "封面"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:248
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:261
 #, python-brace-format
 msgid "【{type}】{name} 下载链接为空"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:267
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:280
 #, python-brace-format
 msgid "【{type}】{name} 缓存异常，重新下载"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:292
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:305
 #, python-brace-format
 msgid "【{type}】{name} 下载完成"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:304
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:317
 #, python-brace-format
 msgid "未知的文件类型：{content_type}"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:321
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:334
 #, python-brace-format
 msgid "{filename} 已存在，跳过下载"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\extract\extractor.py:42
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\extract\extractor.py:44
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\extract\extractor.py:68
 msgid "提取网页数据失败"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\extract\extractor.py:57
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\extract\extractor.py:59
 msgid "获取网页内容失败"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\extract\extractor.py:338
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\extract\extractor.py:344
 msgid "未知"
 msgstr ""
 
@@ -291,7 +292,54 @@ msgstr ""
 msgid "权限异常：{error}"
 msgstr ""
 
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\tools\mapping.py:56
+#, python-brace-format
+msgid "{old_folder} 文件夹不存在，跳过处理"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\tools\mapping.py:82
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\tools\mapping.py:101
+msgid "文件夹"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\tools\mapping.py:85
+#, python-brace-format
+msgid "文件夹 {old_folder} 重命名为 {new_folder}"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\tools\mapping.py:170
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\tools\mapping.py:184
+msgid "文件"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\tools\mapping.py:173
+#, python-brace-format
+msgid "文件 {old_file} 重命名为 {new_file}"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\tools\mapping.py:191
+#, python-brace-format
+msgid "{type} {old}被占用，重命名失败: {error}"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\tools\mapping.py:198
+#, python-brace-format
+msgid "{type} {new}名称重复，重命名失败: {error}"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\tools\mapping.py:205
+#, python-brace-format
+msgid "处理{type} {old}时发生预期之外的错误: {error}"
+msgstr ""
+
 #: C:\Users\You\PycharmProjects\KS-Downloader\source\tools\retry.py:9
 #, python-brace-format
 msgid "正在进行第 {count} 次重试"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\tools\retry.py:24
+msgid ""
+"如需重新尝试处理该对象，请关闭所有正在访问该对象的窗口或程序，然后直接按下回"
+"车键！\n"
+"如需跳过处理该对象，请输入任意字符后按下回车键！"
 msgstr ""

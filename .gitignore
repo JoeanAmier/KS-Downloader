@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+/Download/
+/.venv/
+/.ruff_cache/
+/.idea/
+/Data/
+*.yaml
+*.db
+*.txt
