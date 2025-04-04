@@ -5,6 +5,7 @@ __pycache__/
 /.ruff_cache/
 /.idea/
 /Data/
+/Temp/
 *.yaml
 *.db
 *.txt

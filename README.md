@@ -1,5 +1,5 @@
 <div align="center">
-<img src="docs/KS-Downloader.png" alt="TikTokDownloader" height="256" width="256"><br>
+<img src="docs/KS-Downloader.png" alt="KS-Downloader" height="256" width="256"><br>
 <h1>KS-Downloader</h1>
 <p>简体中文 | <a href="README_EN.md">English</a></p>
 <img alt="GitHub" src="https://img.shields.io/github/license/JoeanAmier/KS-Downloader?style=for-the-badge&color=ff7a45">
@@ -39,9 +39,9 @@
 <p>⭐ KS-Downloader 开发计划及进度可前往 <a href="https://github.com/users/JoeanAmier/projects/6">Projects</a> 查阅</p>
 <h1>📸 程序截图</h1>
 <p><b>🎥 点击图片观看演示视频</b></p>
-<a href="https://www.bilibili.com/video/BV19YC4Y7E8E/"><img src="docs/项目运行截图1.png" alt=""></a>
+<a href="https://www.bilibili.com/video/BV1RiZ9YcExr/"><img src="docs/项目运行截图CN1.png" alt=""></a>
 <hr>
-<a href="https://www.bilibili.com/video/BV19YC4Y7E8E/"><img src="docs/项目运行截图2.png" alt=""></a>
+<a href="https://www.bilibili.com/video/BV1RiZ9YcExr/"><img src="docs/项目运行截图CN2.png" alt=""></a>
 <h1>🥣 使用方法</h1>
 <h2>🖱 程序运行</h2>
 <p>⭐ Mac OS、Windows 10 及以上用户可前往 <a href="https://github.com/JoeanAmier/KS-Downloader/releases/latest">Releases</a> 或者 <a href="https://github.com/JoeanAmier/KS-Downloader/actions">Actions</a> 下载程序压缩包，解压后打开程序文件夹，双击运行 <code>main</code> 即可使用！</p>

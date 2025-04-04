@@ -1,5 +1,5 @@
 <div align="center">
-<img src="docs/KS-Downloader.png" alt="TikTokDownloader" height="256" width="256"><br>
+<img src="docs/KS-Downloader.png" alt="KS-Downloader" height="256" width="256"><br>
 <h1>KS-Downloader</h1>
 <p>English | <a href="README.md">简体中文</a></p>
 <img alt="GitHub" src="https://img.shields.io/github/license/JoeanAmier/KS-Downloader?style=for-the-badge&color=ff7a45">
@@ -40,9 +40,9 @@
 <p>⭐ Check KS-Downloader development plans and progress at <a href="https://github.com/users/JoeanAmier/projects/6">Projects</a></p>
 <h1>📸 Screenshots</h1>
 <p><b>🎥 Click images to watch demo video</b></p>
-<a href="https://www.bilibili.com/video/BV19YC4Y7E8E/"><img src="docs/项目运行截图1.png" alt=""></a>
+<a href="https://www.bilibili.com/video/BV1RiZ9YcExr/"><img src="docs/项目运行截图EN1.png" alt=""></a>
 <hr>
-<a href="https://www.bilibili.com/video/BV19YC4Y7E8E/"><img src="docs/项目运行截图2.png" alt=""></a>
+<a href="https://www.bilibili.com/video/BV1RiZ9YcExr/"><img src="docs/项目运行截图EN2.png" alt=""></a>
 <h1>🥣 Usage Guide</h1>
 <h2>🖱 Application Execution</h2>
 <p>⭐ Mac OS/Windows 10+ users: Download pre-built packages from <a href="https://github.com/JoeanAmier/KS-Downloader/releases/latest">Releases</a> or <a href="https://github.com/JoeanAmier/KS-Downloader/actions">Actions</a>. Extract and double-click <code>main</code> to run!</p>

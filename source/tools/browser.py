@@ -39,7 +39,7 @@ class BrowserCookie:
         cls,
         domains: list[str],
         console: Console = None,
-    ) -> str:
+    ) -> str | None:
         console = console or Console()
         options = "\n".join(
             f"{i}. {k}: {v[1]}"
@@ -71,8 +71,10 @@ class BrowserCookie:
             console.print(_("浏览器名称或序号输入错误！"))
             return ""
         try:
-            cookies = browser(domains=domains)
-            return "; ".join(f"{i['name']}={i['value']}" for i in cookies)
+            if cookies := browser(domains=domains):
+                return "; ".join(f"{i['name']}={i['value']}" for i in cookies)
+            else:
+                console.print(_("获取 Cookie 失败，Cookie 数据为空！"))
         except RuntimeError:
             console.print(_("获取 Cookie 失败，未找到 Cookie 数据！"))
         return ""

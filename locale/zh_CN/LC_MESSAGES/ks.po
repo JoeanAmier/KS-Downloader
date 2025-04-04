@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KS-Downloader V1.4\n"
 "Report-Msgid-Bugs-To: <yonglelolu@foxmail.com>\n"
-"POT-Creation-Date: 2025-04-03 20:52+0800\n"
+"POT-Creation-Date: 2025-04-04 12:57+0800\n"
 "PO-Revision-Date: 2025-03-22 10:49+0800\n"
 "Last-Translator: <<yonglelolu@foxmail.com>>\n"
 "Language-Team: Chinese (simplified)\n"
@@ -274,6 +274,10 @@ msgid "浏览器名称或序号输入错误！"
 msgstr ""
 
 #: C:\Users\You\PycharmProjects\KS-Downloader\source\tools\browser.py:77
+msgid "获取 Cookie 失败，Cookie 数据为空！"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\tools\browser.py:79
 msgid "获取 Cookie 失败，未找到 Cookie 数据！"
 msgstr ""
 
@@ -303,6 +307,7 @@ msgid "文件夹"
 msgstr ""
 
 #: C:\Users\You\PycharmProjects\KS-Downloader\source\tools\mapping.py:85
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\tools\mapping.py:104
 #, python-brace-format
 msgid "文件夹 {old_folder} 重命名为 {new_folder}"
 msgstr ""
