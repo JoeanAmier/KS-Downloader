@@ -9,3 +9,4 @@ __pycache__/
 *.yaml
 *.db
 *.txt
+!.github/workflows/*.yaml
