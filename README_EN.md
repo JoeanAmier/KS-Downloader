@@ -68,7 +68,7 @@
 <li>Method 2: Pull image via <code>docker pull joeanamier/ks-downloader</code></li>
 </ul>
 </li>
-<li>Create container: <code>docker run --name [container_name(optional)] -it joeanamier/ks-downloader</code></li>
+<li>Create container: <code>docker run --name container_name(optional) -v ks_downloader_volume:/app -it joeanamier/ks-downloader</code></li>
 <li>Container operations:
 <ul>
 <li>Start: <code>docker start -i [container_name/ID]</code></li>
