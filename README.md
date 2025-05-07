@@ -2,15 +2,16 @@
 <img src="docs/KS-Downloader.png" alt="KS-Downloader" height="256" width="256"><br>
 <h1>KS-Downloader</h1>
 <p>简体中文 | <a href="README_EN.md">English</a></p>
-<img alt="GitHub" src="https://img.shields.io/github/license/JoeanAmier/KS-Downloader?style=for-the-badge&color=ff7a45">
-<img alt="GitHub forks" src="https://img.shields.io/github/forks/JoeanAmier/KS-Downloader?style=for-the-badge&color=fa8c16">
-<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/JoeanAmier/KS-Downloader?style=for-the-badge&color=ffee6f">
-<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/JoeanAmier/KS-Downloader?style=for-the-badge&color=13c2c2">
+<img alt="GitHub" src="https://img.shields.io/github/license/JoeanAmier/KS-Downloader?style=flat-square">
+<img alt="GitHub forks" src="https://img.shields.io/github/forks/JoeanAmier/KS-Downloader?style=flat-square&color=55efc4">
+<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/JoeanAmier/KS-Downloader?style=flat-square&color=fda7df">
+<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/JoeanAmier/KS-Downloader?style=flat-square&color=a29bfe">
 <br>
-<img alt="Static Badge" src="https://img.shields.io/badge/Python-3.12-3498db?style=for-the-badge&logo=python&labelColor=fffa65">
-<img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/JoeanAmier/KS-Downloader?style=for-the-badge&color=f759ab">
-<img src="https://img.shields.io/badge/Sourcery-enabled-884898?style=for-the-badge&color=1890ff" alt="">
-<img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/KS-Downloader/total?style=for-the-badge&color=52c41a">
+<img alt="Static Badge" src="https://img.shields.io/badge/Python-3.12-b8e994?style=flat-square&logo=python&labelColor=3dc1d3">
+<img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/JoeanAmier/KS-Downloader?style=flat-square&color=48dbfb">
+<img src="https://img.shields.io/badge/Sourcery-enabled-884898?style=flat-square&color=1890ff" alt="">
+<img alt="Static Badge" src="https://img.shields.io/badge/Docker-badc58?style=flat-square&logo=docker">
+<img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/KS-Downloader/total?style=flat-square&color=ffdd59">
 <br>
 <p>🔥 <b>快手作品下载工具：</b>完全免费开源，基于 HTTPX 模块实现，下载快手无水印视频、图片文件！</p>
 <p>⭐ 本项目完全免费开源，无任何收费功能，请勿上当受骗！</p>
