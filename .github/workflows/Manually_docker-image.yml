@@ -63,8 +63,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ env.LATEST_TAG }}${{ inputs.is_active == "true" && "-dev" || "" }}
-            ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.LATEST_TAG }}${{ inputs.is_active == "true" && "-dev" || "" }}
-            ${{ inputs.is_active == "false" && "${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest" || "" }}
-            ${{ inputs.is_active == "false" && "${{ env.REGISTRY }}/${{ github.repository }}:latest" || "" }}
-          
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ env.LATEST_TAG }}${{ inputs.is_active && '-dev' || '' }}
+            ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.LATEST_TAG }}${{ inputs.is_active && '-dev' || '' }}
+            ${{ inputs.is_active == false && secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
+            ${{ inputs.is_active == false && env.REGISTRY }}/${{ github.repository }}:latest
