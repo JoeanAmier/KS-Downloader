@@ -12,6 +12,8 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
+  DOCKER_REPO: ${{ secrets.DOCKERHUB_USERNAME }}/ks-downloader
+  GHCR_REPO: ghcr.io/${{ secrets.DOCKERHUB_USERNAME }}/ks-downloader
 
 jobs:
   publish-docker:
@@ -49,7 +51,9 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ github.event.release.tag_name }}
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
-            ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.event.release.tag_name }}
-            ${{ env.REGISTRY }}/${{ github.repository }}:latest
+            ${{ env.DOCKER_REPO }}:${{ github.event.release.tag_name }}
+            ${{ env.DOCKER_REPO }}:latest
+            ${{ env.GHCR_REPO }}:${{ github.event.release.tag_name }}
+            ${{ env.GHCR_REPO }}:latest
+          provenance: false
+          sbom: false
