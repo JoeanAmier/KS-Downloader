@@ -108,7 +108,7 @@ wheels = [
 
 [[package]]
 name = "ks-downloader"
-version = "1.4b0"
+version = "1.5"
 source = { virtual = "." }
 dependencies = [
     { name = "aiofiles" },
