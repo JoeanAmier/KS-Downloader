@@ -329,7 +329,7 @@ A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fo
 </ul>
 <p>✨ <b>作者的其他开源项目：</b></p>
 <ul>
-<li><b>TikTokDownloader（抖音、TikTok）</b>：<a href="https://github.com/JoeanAmier/TikTokDownloader">https://github.com/JoeanAmier/TikTokDownloader</a></li>
+<li><b>DouK-Downloader（抖音、TikTok）</b>：<a href="https://github.com/JoeanAmier/TikTokDownloader">https://github.com/JoeanAmier/TikTokDownloader</a></li>
 <li><b>XHS-Downloader（小红书、XiaoHongShu、RedNote）</b>：<a href="https://github.com/JoeanAmier/XHS-Downloader">https://github.com/JoeanAmier/XHS-Downloader</a></li>
 </ul>
 <h1>⭐ Star 趋势</h1>
@@ -367,6 +367,7 @@ A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fo
 * 每个提交都应该包含一个清晰、简洁的提交信息，以描述所做的更改。提交信息应遵循以下格式：`<类型>: <简短描述>`
 * 当您准备提交拉取请求时，请优先将它们提交到 `develop` 分支；这是为了给维护者一个缓冲区，在最终合并到 `master`
   分支之前进行额外的测试和审查。
+* 建议在开发前或遇到疑问时与作者沟通，确保开发方向一致，避免重复劳动或无效提交。
 
 **参考资料：**
 
