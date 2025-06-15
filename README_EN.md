@@ -34,9 +34,8 @@
 <li>✅ Author alias configuration</li>
 <li>✅ Archive works by author</li>
 <li>✅ Automatic author nickname updates</li>
+<li>✅ API integration</li>
 <li>☑️ Background clipboard monitoring</li>
-<li>☑️ CLI support</li>
-<li>☑️ API integration</li>
 </ul>
 <p>⭐ Check KS-Downloader development plans and progress at <a href="https://github.com/users/JoeanAmier/projects/6">Projects</a></p>
 <h1>📸 Screenshots</h1>
@@ -63,15 +62,19 @@
 </ol>
 <h2>⌨️ Docker Execution</h2>
 <ol>
-<li>Obtain image:
+<li>Obtain Image:
 <ul>
 <li>Method 1: Build using <code>Dockerfile</code></li>
 <li>Method 2: Pull image via <code>docker pull joeanamier/ks-downloader</code></li>
 <li>Method 3: Pull image via <code>docker pull ghcr.io/joeanamier/ks-downloader</code></li>
 </ul>
 </li>
-<li>Create container: <code>docker run --name container_name(optional) -p HostPort:7777 -v ks_downloader_volume:/app -it joeanamier/ks-downloader</code></li>
-<li>Container operations:
+<li>Create Container:</li>
+<ul>
+<li>TUI Mode: <code>docker run --name container_name(optional) -p HostPort:5557 -v ks_downloader_volume:/app -it joeanamier/ks-downloader</code></li>
+<li>API Mode: <code>docker run --name container_name(optional) -p HostPort:5557 -v ks_downloader_volume:/app -it joeanamier/ks-downloader python main.py server</code></li>
+</ul>
+<li>Run Container:
 <ul>
 <li>Start: <code>docker start -i [container_name/ID]</code></li>
 <li>Restart: <code>docker restart -i [container_name/ID]</code></li>
@@ -79,6 +82,10 @@
 </li>
 </ol>
 <p><b>Note:</b> Docker version doesn't support <b>browser cookie reading</b> and <b>clipboard monitoring</b>. Other features remain functional. Please report any anomalies.</p>
+<h2>🖥 Server Mode</h2>
+<p><b>Start:</b> Run the command: <code>python .\main.py server</code></p>
+<p><b>Stop:</b> Press <code>Ctrl</code> + <code>C</code> to stop the server</p>
+<p>Open <code>http://127.0.0.1:5557/docs</code> or <code>http://127.0.0.1:5557/redoc</code>; you will see automatically generated interactive API documentation!</p>
 <h1>🔗 Supported Links</h1>
 <ul>
 <li><code>https://www.kuaishou.com/f/share-code</code></li>
@@ -89,7 +96,6 @@
 <br/>
 <p><b>Recommend using share links; Multiple URLs supported (space separated).</b></p>
 </ul>
-
 <h1>🪟 Terminal Recommendation</h1>
 <p>⭐ Use <a href="https://learn.microsoft.com/zh-cn/windows/terminal/install">Windows Terminal</a> (default on Windows 11) for optimal display!</p>
 
@@ -392,23 +398,6 @@ repository to execute the build process
 ![PyCharm logo](https://resources.jetbrains.com/storage/products/company/brand/logos/PyCharm.svg)
 
 <p><b>JetBrains</b> support active projects recognized within the global open-source community with complimentary licenses for non-commercial development.</p>
-
-***
-
-## TikHub
-
-<img src="docs/赞助商_TikHub_Logo.png" alt="TikHub">
-<p><a href="https://tikhub.io/">TikHub</a> is a leading data interface service provider, specializing in offering high-quality data interfaces for multiple popular platforms, including DouYin, TikTok, Xiaohongshu, Instagram, Twitter, and Kuaishou.</p>
-<p>TikHub also provides customized services such as live streaming room monitoring, post monitoring, and influencer monitoring to meet the needs of different business scenarios.</p>
-<p>Through daily sign-ins, users can obtain a certain quota of usage for free. You can use my <strong>referral link</strong>：<a href="https://user.tikhub.io/users/signup?referral_code=ZrdH8McC">https://user.tikhub.io/users/signup?referral_code=ZrdH8McC</a> or <strong>Referral Code</strong>：<code>ZrdH8McC</code>，Register and recharge to receive <code>$2</code> limit！</p>
-<p><a href="https://tikhub.io/">TikHub</a> Provide the following services:</p>
-<ul>
-<li>Rich data interfaces</li>
-<li>Free daily check-in to obtain credit limit</li>
-<li>High quality API services</li>
-<li>Official website:<a href="https://tikhub.io/">https://tikhub.io/</a></li>
-<li>User login address:<a href="https://user.tikhub.io/">https://user.tikhub.io/</a></li>
-</ul>
 
 # 💡 Project References
 

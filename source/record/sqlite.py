@@ -1,5 +1,6 @@
 from typing import TYPE_CHECKING
-
+from asyncio import CancelledError
+from contextlib import suppress
 from aiosqlite import connect
 
 if TYPE_CHECKING:
@@ -51,5 +52,6 @@ class SQLite:
         return self
 
     async def __aexit__(self, exc_type, exc_value, traceback):
-        await self.cursor.close()
-        await self.database.close()
+        with suppress(CancelledError):
+            await self.cursor.close()
+            await self.database.close()

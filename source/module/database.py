@@ -1,5 +1,6 @@
 from typing import TYPE_CHECKING
-
+from asyncio import CancelledError
+from contextlib import suppress
 from aiosqlite import Row, connect
 
 from ..static import PROJECT_ROOT
@@ -14,7 +15,7 @@ class Database:
 
     def __init__(
         self,
-            manager: "Manager",
+        manager: "Manager",
     ):
         self.file = PROJECT_ROOT.joinpath(self.__FILE)
         self.switch = manager.author_archive
@@ -50,7 +51,6 @@ class Database:
             "NAME TEXT NOT NULL"
             ");"
         )
-
 
     async def __write_default_config(self):
         await self.database.execute("""INSERT OR IGNORE INTO config_data (NAME, VALUE)
@@ -163,8 +163,9 @@ class Database:
         return self
 
     async def close(self):
-        await self.cursor.close()
-        await self.database.close()
+        with suppress(CancelledError):
+            await self.cursor.close()
+            await self.database.close()
 
     async def __aexit__(self, exc_type, exc_value, traceback):
         await self.close()

@@ -1,5 +1,5 @@
-from asyncio import gather
-
+from uvicorn import Config as APIConfig
+from uvicorn import Server
 from source.config import Config, Parameter
 from source.downloader import Downloader
 from source.extract import APIExtractor, HTMLExtractor
@@ -16,6 +16,7 @@ from source.static import (
     VERSION_BETA,
     VERSION_MAJOR,
     VERSION_MINOR,
+    __VERSION__,
 )
 from source.tools import (
     ERROR,
@@ -29,6 +30,12 @@ from source.tools import (
     Version,
 )
 from source.translation import _, switch_language
+from fastapi import FastAPI
+from fastapi.responses import RedirectResponse
+from source.model import (
+    DetailModel,
+    ResponseModel,
+)
 
 
 class KS:
@@ -179,37 +186,50 @@ class KS:
         )
         self.console.print()
 
-    async def detail(self, detail: str):
+    async def detail(
+        self,
+        detail: str,
+        download: bool = True,
+    ):
         urls = await self.examiner.run(detail)
         if not urls:
-            self.console.warning(_("提取作品链接失败"))
-            return
+            message = _("提取作品链接失败")
+            self.console.warning(message)
+            return message
         for url in urls:
-            web, user_id, detail_id = self.examiner.extract_params(
+            await self.detail_one(
                 url,
+                download,
             )
-            if not detail_id:
-                self.console.warning(_("URL 解析失败：{url}").format(url=url))
-                continue
-            data = await self.__handle_detail_html(
-                detail_id,
-                url,
-                web,
-            )
-            if not any(data):
-                continue
-            await gather(
-                *[
-                    self.update_author_nickname(
-                        i,
-                    )
-                    for i in data
-                ]
-            )
+
+    async def detail_one(
+        self,
+        url: str,
+        download: bool = False,
+    ) -> dict | str:
+        web, user_id, detail_id = self.examiner.extract_params(
+            url,
+        )
+        if not detail_id:
+            message = _("URL 解析失败：{url}").format(url=url)
+            self.console.warning(message)
+            return message
+        data = await self.__handle_detail_html(
+            detail_id,
+            url,
+            web,
+        )
+        if not data:
+            return _("获取作品数据失败")
+        await self.update_author_nickname(
+            data,
+        )
+        if download:
             await self.__download_file(
-                data,
+                [data],
             )
-            await self.__save_data(data, "Download")
+        await self.__save_data([data], "Download")
+        return data
 
     async def update_author_nickname(
         self,
@@ -245,15 +265,14 @@ class KS:
         detail_id: str,
         url: str,
         web: bool,
-    ) -> list[dict] | None:
+    ) -> dict | None:
         if html := await self.detail_html.run(url):
-            return [
-                self.extractor_html.run(
-                    html,
-                    detail_id,
-                    web,
-                )
-            ]
+            return self.extractor_html.run(
+                html,
+                detail_id,
+                web,
+            )
+        return None
 
     async def __save_data(
         self, data: list[dict], name: str, type_="detail", format_="SQLite"
@@ -337,3 +356,47 @@ class KS:
     @staticmethod
     def set_language(language: str) -> None:
         switch_language(language)
+
+    async def run_server(
+        self,
+        host="0.0.0.0",
+        port=5556,
+        log_level="info",
+    ):
+        self.server = FastAPI(
+            debug=self.VERSION_BETA,
+            title="KS-Downloader",
+            version=__VERSION__,
+        )
+        self.setup_routes()
+        config = APIConfig(
+            self.server,
+            host=host,
+            port=port,
+            log_level=log_level,
+        )
+        server = Server(config)
+        await server.serve()
+
+    def setup_routes(self):
+        @self.server.get("/")
+        async def index():
+            return RedirectResponse(url=REPOSITORY)
+
+        @self.server.post(
+            "/detail/",
+            response_model=ResponseModel,
+        )
+        async def handle(extract: DetailModel):
+            urls = await self.examiner.run(extract.text)
+            if not urls:
+                message = _("提取作品链接失败")
+                data = None
+                self.console.warning(message)
+            else:
+                if isinstance(data := await self.detail_one(urls[0],), dict):
+                    message = _("获取作品数据成功")
+                else:
+                    message = data
+                    data = None
+            return ResponseModel(message=message, params=extract, data=data)

@@ -8,4 +8,5 @@ from .internal import (
     REPOSITORY,
     DISCLAIMER_TEXT,
     LICENCE,
+    __VERSION__,
 )

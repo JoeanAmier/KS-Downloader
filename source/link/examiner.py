@@ -122,7 +122,7 @@ class Examiner:
     def _extract_params_detail(
         self,
         url: str,
-    ) -> [bool | None, str, str]:
+    ) -> tuple[bool | None, str, str]:
         url = urlparse(url)
         params = parse_qs(url.query)
         if "chenzhongtech" in url.hostname:
