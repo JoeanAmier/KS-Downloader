@@ -54,4 +54,4 @@ class SQLite:
     async def __aexit__(self, exc_type, exc_value, traceback):
         with suppress(CancelledError):
             await self.cursor.close()
-            await self.database.close()
+        await self.database.close()

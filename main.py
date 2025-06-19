@@ -3,7 +3,16 @@ import argparse
 from sys import argv
 from source import KS
 from asyncio.exceptions import CancelledError
-from contextlib import suppress
+
+
+def capture_exit(function):
+    async def inner(*args, **kwargs):
+        try:
+            await function(*args, **kwargs)
+        except (CancelledError, KeyboardInterrupt):
+            exit()
+
+    return inner
 
 
 async def main():
@@ -23,30 +32,25 @@ async def main():
         type=int,
         default=5557,
     )
-
-    with suppress(
-        KeyboardInterrupt,
-        CancelledError,
-    ):
-        if len(argv) == 1:
-            await terminal()
+    if len(argv) == 1:
+        await terminal()
+    else:
+        args, unknown = parser.parse_known_args()
+        if unknown:
+            print(
+                f"Error: Unrecognized arguments: {unknown}. Please check your input."
+            )
+        if args.mode == "server":
+            await server(args.host, args.port)
         else:
-            args, unknown = parser.parse_known_args()
-            if unknown:
-                print(
-                    f"Error: Unrecognized arguments: {unknown}. Please check your input."
-                )
-            if args.mode == "server":
-                await server(args.host, args.port)
-            else:
-                print("Unsupported command-line parameters")
+            print("Unsupported command-line parameters")
 
-
+@capture_exit
 async def terminal():
     async with KS() as app:
         await app.run()
 
-
+@capture_exit
 async def server(
     host="0.0.0.0",
     port=5557,

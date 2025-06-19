@@ -35,6 +35,8 @@ from fastapi.responses import RedirectResponse
 from source.model import (
     DetailModel,
     ResponseModel,
+    ShortUrl,
+    UrlResponse,
 )
 
 
@@ -191,7 +193,9 @@ class KS:
         detail: str,
         download: bool = True,
     ):
-        urls = await self.examiner.run(detail)
+        urls = await self.examiner.run(
+            detail,
+        )
         if not urls:
             message = _("提取作品链接失败")
             self.console.warning(message)
@@ -206,6 +210,8 @@ class KS:
         self,
         url: str,
         download: bool = False,
+        proxy: str = "",
+        cookie: str = "",
     ) -> dict | str:
         web, user_id, detail_id = self.examiner.extract_params(
             url,
@@ -218,6 +224,8 @@ class KS:
             detail_id,
             url,
             web,
+            proxy,
+            cookie,
         )
         if not data:
             return _("获取作品数据失败")
@@ -265,8 +273,10 @@ class KS:
         detail_id: str,
         url: str,
         web: bool,
+        proxy: str = "",
+        cookie: str = "",
     ) -> dict | None:
-        if html := await self.detail_html.run(url):
+        if html := await self.detail_html.run(url, proxy, cookie):
             return self.extractor_html.run(
                 html,
                 detail_id,
@@ -384,17 +394,43 @@ class KS:
             return RedirectResponse(url=REPOSITORY)
 
         @self.server.post(
+            "/share",
+            response_model=UrlResponse,
+        )
+        async def share(extract: ShortUrl):
+            if urls := await self.examiner.run(
+                extract.text,
+                type_="",
+                proxy=extract.proxy,
+            ):
+                return UrlResponse(
+                    message=_("请求重定向链接成功！"),
+                    params=extract,
+                    urls=urls,
+                )
+            return UrlResponse(
+                message=_("请求重定向链接失败！"),
+                params=extract,
+                urls=None,
+            )
+
+        @self.server.post(
             "/detail/",
             response_model=ResponseModel,
         )
-        async def handle(extract: DetailModel):
-            urls = await self.examiner.run(extract.text)
+        async def detail(extract: DetailModel):
+            urls = await self.examiner.run(extract.text, proxy=extract.proxy)
             if not urls:
                 message = _("提取作品链接失败")
                 data = None
                 self.console.warning(message)
             else:
-                if isinstance(data := await self.detail_one(urls[0],), dict):
+                if isinstance(
+                    data := await self.detail_one(
+                        urls[0], proxy=extract.proxy, cookie=extract.cookie
+                    ),
+                    dict,
+                ):
                     message = _("获取作品数据成功")
                 else:
                     message = data

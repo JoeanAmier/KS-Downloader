@@ -6,8 +6,9 @@ from urllib.parse import (
     urlparse,
     urlunparse,
 )
-
+from httpx import get
 from ..tools import capture_error_request, retry_request
+from ..variable import TIMEOUT
 
 if TYPE_CHECKING:
     from ..manager import Manager
@@ -29,9 +30,10 @@ class Examiner:
         self.console = manager.console
         self.retry = manager.max_retry
 
-    async def run(self, text: str, type_="detail"):
+    async def run(self, text: str, type_="detail", proxy: str = ""):
         urls = await self.__request_redirect(
             text,
+            proxy,
         )
         match type_:
             case "detail":
@@ -40,6 +42,8 @@ class Examiner:
                 )
             case "user":
                 pass
+            case "":
+                return urls.split()
         raise ValueError
 
     def __validate_links(
@@ -57,6 +61,7 @@ class Examiner:
     async def __request_redirect(
         self,
         text: str,
+        proxy: str = "",
     ) -> str:
         if not (urls := self.PC_COMPLETE_URL.findall(text)):
             urls = self._convert_live(text) or self.SHORT_URL.findall(text)
@@ -65,6 +70,7 @@ class Examiner:
             result.append(
                 await self.__request_url(
                     i,
+                    proxy,
                 )
             )
         return " ".join(i for i in result if i)
@@ -80,11 +86,22 @@ class Examiner:
     async def __request_url(
         self,
         url: str,
+        proxy: str = "",
     ) -> str:
-        response = await self.client.get(
-            url,
-            headers=self.pc_headers,
-        )
+        if proxy:
+            response = get(
+                url,
+                headers=self.pc_headers,
+                proxy=proxy,
+                follow_redirects=True,
+                verify=False,
+                timeout=TIMEOUT,
+            )
+        else:
+            response = await self.client.get(
+                url,
+                headers=self.pc_headers,
+            )
         response.raise_for_status()
         self.__update_cookie(
             response.cookies.items(),

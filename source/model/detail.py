@@ -1,5 +1,5 @@
-from pydantic import BaseModel
+from .base import APIModel
 
 
-class DetailModel(BaseModel):
+class DetailModel(APIModel):
     text: str

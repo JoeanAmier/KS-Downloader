@@ -105,7 +105,7 @@ class Downloader:
                         )
                     )
                     continue
-                nickname = f"{item["authorID"]}_{item["name"]}"
+                nickname = f"{item['authorID']}_{item['name']}"
                 filename = self.__generate_name(
                     item,
                 )

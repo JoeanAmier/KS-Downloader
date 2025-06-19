@@ -165,7 +165,7 @@ class Database:
     async def close(self):
         with suppress(CancelledError):
             await self.cursor.close()
-            await self.database.close()
+        await self.database.close()
 
     async def __aexit__(self, exc_type, exc_value, traceback):
         await self.close()

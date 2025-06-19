@@ -20,12 +20,13 @@ if TYPE_CHECKING:
 
 class Manager:
     NAME = compile(r"[^\u4e00-\u9fffa-zA-Z0-9-_！？，。；：“”（）《》]")
+
     def __init__(
         self,
         console: "ColorConsole",
         cleaner: "Cleaner",
         root: "Path",
-            mapping_data:dict,
+        mapping_data: dict,
         timeout: int,
         max_retry: int,
         proxy: dict,
@@ -37,7 +38,7 @@ class Manager:
         music: bool,
         data_record: bool,
         chunk: int,
-            user_agent:str,
+        user_agent: str,
         folder_mode: bool,
         author_archive: bool,
         max_workers: int,
@@ -58,11 +59,23 @@ class Manager:
             proxy=proxy,
         )
         self.cookie = cookie
-        self.pc_headers = PC_PAGE_HEADERS | {"Cookie": cookie,"User-Agent": user_agent,}
-        self.pc_data_headers = PC_DATA_HEADERS | {"Cookie": cookie,"User-Agent": user_agent,}
+        self.pc_headers = PC_PAGE_HEADERS | {
+            "Cookie": cookie,
+            "User-Agent": user_agent,
+        }
+        self.pc_data_headers = PC_DATA_HEADERS | {
+            "Cookie": cookie,
+            "User-Agent": user_agent,
+        }
         self.pc_download_headers = PC_DOWNLOAD_HEADERS
-        self.app_headers = APP_HEADERS | {"Cookie": cookie,"User-Agent": user_agent,}
-        self.app_data_headers = APP_DATA_HEADERS | {"Cookie": cookie,"User-Agent": user_agent,}
+        self.app_headers = APP_HEADERS | {
+            "Cookie": cookie,
+            "User-Agent": user_agent,
+        }
+        self.app_data_headers = APP_DATA_HEADERS | {
+            "Cookie": cookie,
+            "User-Agent": user_agent,
+        }
         self.app_download_headers = APP_DOWNLOAD_HEADERS
         self.name_format = name_format
         self.max_retry = max_retry
@@ -71,7 +84,7 @@ class Manager:
         self.music = music
         self.data_record = data_record
         self.folder_mode = folder_mode
-        self.author_archive =author_archive
+        self.author_archive = author_archive
         self.chunk = chunk
         self.mapping_data = mapping_data
         self.max_workers = max_workers

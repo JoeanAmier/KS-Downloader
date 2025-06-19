@@ -1,9 +1,10 @@
 from typing import TYPE_CHECKING
-
-from source.tools import capture_error_request, retry_request
+from httpx import get
+from ..tools import capture_error_request, retry_request
+from ..variable import TIMEOUT
 
 if TYPE_CHECKING:
-    from source.manager import Manager
+    from ..manager import Manager
 
 
 class DetailPage:
@@ -13,18 +14,33 @@ class DetailPage:
         self.console = manager.console
         self.retry = manager.max_retry
 
-    async def run(self, url: str) -> str:
-        return await self.request_url(url)
+    async def run(self, url: str, proxy: str = "", cookie: str = "") -> str:
+        return await self.request_url(url, proxy, cookie)
 
     @retry_request
     @capture_error_request
     async def request_url(
         self,
         url: str,
+        proxy: str = "",
+        cookie: str = "",
     ) -> str:
-        response = await self.client.get(
-            url,
-            headers=self.headers,
-        )
+        headers = self.headers.copy()
+        if cookie:
+            headers["Cookie"] = cookie
+        if proxy:
+            response = get(
+                url,
+                headers=headers,
+                proxy=proxy,
+                follow_redirects=True,
+                verify=False,
+                timeout=TIMEOUT,
+            )
+        else:
+            response = await self.client.get(
+                url,
+                headers=headers,
+            )
         response.raise_for_status()
         return response.text

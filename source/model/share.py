@@ -1,11 +1,17 @@
 from datetime import datetime
+
 from pydantic import BaseModel, computed_field
 
 
-class ResponseModel(BaseModel):
+class ShortUrl(BaseModel):
+    text: str
+    proxy: str = ""
+
+
+class UrlResponse(BaseModel):
     message: str
-    params: BaseModel
-    data: dict | None
+    urls: list[str] | None
+    params: ShortUrl
 
     @computed_field
     @property
