@@ -15,7 +15,9 @@ if TYPE_CHECKING:
 
 
 class Examiner:
-    SHORT_URL = compile(r"(https?://\S*kuaishou\.(?:com|cn)/[^\s\"<>\\^`{|}，。；！？、【】《》]+)")
+    SHORT_URL = compile(
+        r"(https?://\S*kuaishou\.(?:com|cn)/[^\s\"<>\\^`{|}，。；！？、【】《》]+)"
+    )
     LIVE_URL = compile(r"https?://live\.kuaishou\.com/\S+/\S+/(\S+)")
     PC_COMPLETE_URL = compile(r"(https?://\S*kuaishou\.(?:com|cn)/short-video/\S+)")
     REDIRECT_URL = compile(r"(https?://\S*chenzhongtech\.(?:com|cn)/fw/photo/\S+)")

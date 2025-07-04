@@ -47,6 +47,7 @@
 <h2>🖱 Application Execution</h2>
 <p>⭐ Mac OS/Windows 10+ users: Download pre-built packages from <a href="https://github.com/JoeanAmier/KS-Downloader/releases/latest">Releases</a> or <a href="https://github.com/JoeanAmier/KS-Downloader/actions">Actions</a>. Extract and double-click <code>main</code> to run!</p>
 <p>⭐ This project includes GitHub Actions for automatic builds - users can compile latest source code into executables anytime!</p>
+<p>⭐ For the automatic building executable files tutorial, please refer to the <code>Build of Executable File Guide</code> section of this document. If you need a more detailed step-by-step tutorial with illustrations, please <a href="https://mp.weixin.qq.com/s/TorfoZKkf4-x8IBNLImNuw">check out this article</a>!</p>
 <p><strong>Note: Mac OS executable <code>main</code> may require terminal execution. Limited by testing devices, Mac version hasn't been fully validated.</strong></p>
 <p>Default download path: <code>.\_internal\Download</code><br>Configuration file: <code>.\_internal\config.yaml</code></p>
 <h3>Update Methods</h3>
