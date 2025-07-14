@@ -7,7 +7,7 @@ from urllib.parse import (
     urlunparse,
 )
 from httpx import get
-from ..tools import capture_error_request, retry_request
+from ..tools import capture_error_request, retry_request, wait
 from ..variable import TIMEOUT
 
 if TYPE_CHECKING:
@@ -104,6 +104,7 @@ class Examiner:
                 url,
                 headers=self.pc_headers,
             )
+        await wait()
         response.raise_for_status()
         self.__update_cookie(
             response.cookies.items(),

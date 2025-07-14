@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 from httpx import get
-from ..tools import capture_error_request, retry_request
+from ..tools import capture_error_request, retry_request, wait
 from ..variable import TIMEOUT
 
 if TYPE_CHECKING:
@@ -42,5 +42,6 @@ class DetailPage:
                 url,
                 headers=headers,
             )
+        await wait()
         response.raise_for_status()
         return response.text

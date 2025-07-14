@@ -104,6 +104,7 @@
 <li>Windows 系统需要以管理员身份运行程序才能读取 Chromium、Chrome、Edge 浏览器 Cookie</li>
 <li>如果开启保存作品数据至文件功能，作品数据默认储存至 <code>./Data/DetailData.db</code> 文件</li>
 <li>程序设置、下载记录数据储存至 <code>./KS-Downloader.db</code> 文件</li>
+<li>项目内置请求延时机制，以避免请求频率过快，代码位置：<code>./source/tools/sleep.py</code></li>
 </ul>
 <h1>⚙️ 配置文件</h1>
 <p>项目根目录下的 <code>config.yaml</code> 文件，首次运行自动生成，可以自定义部分运行参数。</p>

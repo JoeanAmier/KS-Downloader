@@ -437,7 +437,7 @@ class Downloader:
         url: str,
         headers: dict,
         suffix: str = ...,
-    ) -> [int, str]:
+    ) -> tuple[int, str]:
         response = await self.client.head(
             url,
             headers=headers,
@@ -454,7 +454,7 @@ class Downloader:
         self,
         headers: dict,
         suffix: str,
-    ) -> [int, str]:
+    ) -> tuple[int, str]:
         suffix = (
             self.__extract_type(
                 headers.get("Content-Type"),

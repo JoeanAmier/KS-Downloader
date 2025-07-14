@@ -105,6 +105,7 @@
 <li>Windows requires admin privileges to read Chromium/Chrome/Edge cookies</li>
 <li>Work data stored in <code>./Data/DetailData.db</code> when enabled</li>
 <li>Settings and download records in <code>./KS-Downloader.db</code></li>
+<li>The project has a built-in request delay mechanism to avoid excessive request frequency. Code location: <code>./source/tools/sleep.py</code></li>
 </ul>
 
 <h1>⚙️ Configuration File</h1>

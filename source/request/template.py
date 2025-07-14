@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from ..tools import capture_error_request, retry_request
+from ..tools import capture_error_request, retry_request, wait
 from ..translation import _
 
 if TYPE_CHECKING:
@@ -102,6 +102,7 @@ class API:
             json=json,
             **kwargs,
         )
+        await wait()
         response.raise_for_status()
         return response.json()
 
@@ -120,6 +121,7 @@ class API:
             params=params,
             **kwargs,
         )
+        await wait()
         response.raise_for_status()
         return response.json()
 
