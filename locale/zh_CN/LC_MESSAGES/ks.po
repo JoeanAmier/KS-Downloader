@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KS-Downloader V1.5\n"
 "Report-Msgid-Bugs-To: <yonglelolu@foxmail.com>\n"
-"POT-Creation-Date: 2025-05-17 15:18+0800\n"
+"POT-Creation-Date: 2025-07-28 14:17+0800\n"
 "PO-Revision-Date: 2025-03-22 10:49+0800\n"
 "Last-Translator: <<yonglelolu@foxmail.com>>\n"
 "Language-Team: Chinese (simplified)\n"
@@ -17,75 +17,92 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:84
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:93
 msgid "请输入快手作品链接："
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:98
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:107
 msgid "读取并写入 Cookie 成功！"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:104
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:113
 msgid "请选择 KS-Downloader 功能"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:119
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:128
 msgid "启用"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:120
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:129
 msgid "禁用"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:123
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:132
 msgid "从浏览器读取 Cookie"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:124
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:133
 msgid "批量下载链接作品"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:126
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:135
 msgid "下载记录功能"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:129
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:138
 msgid "检查程序版本更新"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:130
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:139
 msgid "切换语言"
 msgstr "Switch to English"
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:155
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:164
 msgid "检测新版本失败"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:161
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:170
 msgid "修改设置成功！"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:176
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:185
 #, python-brace-format
 msgid "项目地址：{repo}"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:178
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:187
 #, python-brace-format
 msgid "开源协议：{licence}"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:185
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:200
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:424
 msgid "提取作品链接失败"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:192
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:220
 #, python-brace-format
 msgid "URL 解析失败：{url}"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:289
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:231
+msgid "获取作品数据失败"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:318
 msgid "是否已仔细阅读上述免责声明(YES/NO): "
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:407
+msgid "请求重定向链接成功！"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:412
+msgid "请求重定向链接失败！"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:434
+msgid "获取作品数据成功"
 msgstr ""
 
 #: C:\Users\You\PycharmProjects\KS-Downloader\source\config\config.py:51
@@ -219,12 +236,12 @@ msgstr ""
 msgid "未知"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\request\template.py:157
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\request\template.py:159
 #, python-brace-format
 msgid "{note}数据响应内容异常：{response}"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\request\template.py:171
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\request\template.py:173
 #, python-brace-format
 msgid "{note}数据响应内容为空"
 msgstr ""

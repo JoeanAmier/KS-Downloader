@@ -14,7 +14,6 @@
 <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/KS-Downloader/total?style=flat-square&color=ffdd59">
 <br>
 <p>🔥 <b>快手作品下载工具：</b>完全免费开源，基于 HTTPX 模块实现，下载快手无水印视频、图片文件！</p>
-<p>⭐ 本项目完全免费开源，无任何收费功能，请勿上当受骗！</p>
 </div>
 <hr>
 <h1>📑 项目功能</h1>
@@ -382,14 +381,6 @@ A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fo
 
 * [贡献者公约](https://www.contributor-covenant.org/zh-cn/version/2/1/code_of_conduct/)
 * [如何为开源做贡献](https://opensource.guide/zh-hans/how-to-contribute/)
-
-# 💰 项目赞助
-
-## JetBrains 工具
-
-![PyCharm logo](https://resources.jetbrains.com/storage/products/company/brand/logos/PyCharm.svg)
-
-**JetBrains** 支持全球开源社区认可的活跃项目，并为非商业开发提供免费许可证。
 
 # 💡 项目参考
 

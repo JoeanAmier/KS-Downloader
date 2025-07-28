@@ -14,7 +14,6 @@
 <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/KS-Downloader/total?style=flat-square&color=ffdd59">
 <br>
 <p>🔥 <b>KuaiShou Works Download Tool: </b>Completely free and open-source, based on HTTPX module, for downloading KuaiShou watermark-free video and image files!</p>
-<p>⭐ This project is completely free and open-source with no paid features. Beware of scams!</p>
 <p>⭐ Due to the author's limited energy, I was unable to update the English document in a timely manner, and the content may have become outdated, partial translation is machine translation, the translation result may be incorrect, Suggest referring to Chinese documentation. If you want to contribute to translation, we warmly welcome you.</p>
 </div>
 <hr>
@@ -392,14 +391,6 @@ repository to execute the build process
 <li><a href="https://www.contributor-covenant.org/version/2/1/code_of_conduct/">Contributor Covenant</a></li>
 <li><a href="https://opensource.guide/how-to-contribute/">How to Contribute to Open Source</a></li>
 </ul>
-
-# 💰 Project Sponsorship
-
-## JetBrains Tools
-
-![PyCharm logo](https://resources.jetbrains.com/storage/products/company/brand/logos/PyCharm.svg)
-
-<p><b>JetBrains</b> support active projects recognized within the global open-source community with complimentary licenses for non-commercial development.</p>
 
 # 💡 Project References
 
