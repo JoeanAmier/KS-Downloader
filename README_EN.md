@@ -48,10 +48,10 @@
 <p>⭐ This project includes GitHub Actions for automatic builds - users can compile latest source code into executables anytime!</p>
 <p>⭐ For the automatic building executable files tutorial, please refer to the <code>Build of Executable File Guide</code> section of this document. If you need a more detailed step-by-step tutorial with illustrations, please <a href="https://mp.weixin.qq.com/s/TorfoZKkf4-x8IBNLImNuw">check out this article</a>!</p>
 <p><strong>Note: Mac OS executable <code>main</code> may require terminal execution. Limited by testing devices, Mac version hasn't been fully validated.</strong></p>
-<p>Default download path: <code>.\_internal\Download</code><br>Configuration file: <code>.\_internal\config.yaml</code></p>
+<p>Default download path: <code>.\_internal\Volume\Download</code><br>Configuration file: <code>.\_internal\Volume\config.yaml</code></p>
 <h3>Update Methods</h3>
-<p> <strong>Method 1:</strong> Download and extract the new version, copy previous version's <code>KS-Downloader.db</code> and <code>config.yaml</code> to <code>_internal</code> folder.</p>
-<p> <strong>Method 2:</strong> Download new version (don't execute), overwrite all old files directly by copying entire contents.</p>
+<p> <strong>Method 1:</strong> Download and extract the files, then copy the old version of the <code>_internal\Volume</code> folder into the new version's <code>_internal</code> folder.</p>
+<p> <strong>Method 2:</strong> Download and extract the files (do not run the program), then copy all files and directly overwrite the old version.</p>
 <h2>⌨️ Source Code Execution</h2>
 <ol>
 <li>Install Python interpreter version <code>3.12</code></li>
