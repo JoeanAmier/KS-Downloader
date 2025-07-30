@@ -15,13 +15,20 @@ PROGRESS = "b bright_magenta"
 ERROR = "b bright_red"
 WARNING = "b bright_yellow"
 INFO = "b bright_green"
+DEBUG = "b dark_orange"
 
 
 class ColorConsole(Console):
     # LOG_FORMAT = "%(message)s"
     # DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
-    def __init__(self):
+    def __init__(
+        self,
+        debug_mode: bool = False,
+    ):
         super().__init__()
+        self.debug = self.init_debug(
+            debug_mode,
+        )
         # logging.basicConfig(
         #     level=logging.INFO,
         #     format=self.LOG_FORMAT,
@@ -61,3 +68,13 @@ class ColorConsole(Console):
     def error(self, message: str):
         self.print(message, style=ERROR)
         # self.log.error(message)
+
+    def init_debug(self, debug_mode: bool):
+        def debug(message: str):
+            self.print(message, style=DEBUG)
+            # self.log.debug(message)
+
+        def empty(*args, **kwargs):
+            pass
+
+        return debug if debug_mode else empty

@@ -14,4 +14,6 @@ RUN pip install --no-cache-dir -r /app/requirements.txt
 
 EXPOSE 5557
 
+VOLUME /app/Volume
+
 CMD ["python", "main.py"]

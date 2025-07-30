@@ -140,7 +140,7 @@ class Parameter:
         if r := self.__check_root_again(r):
             return r
         self.console.warning(
-            _("work_path 参数不是有效的文件夹路径，程序将使用项目根路径作为储存路径")
+            _("work_path 参数不是有效的文件夹路径，程序将使用 项目根路径/Volume 作为储存路径")
         )
         return self.root
 

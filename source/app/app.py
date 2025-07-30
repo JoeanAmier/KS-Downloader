@@ -58,7 +58,9 @@ class KS:
     ]
 
     def __init__(self):
-        self.console = ColorConsole()
+        self.console = ColorConsole(
+            self.VERSION_BETA,
+        )
         self.config_obj = Config(self.console)
         self.params = Parameter(
             console=self.console,
@@ -367,20 +369,20 @@ class KS:
     def set_language(language: str) -> None:
         switch_language(language)
 
-    async def run_server(
+    async def run_api_server(
         self,
         host="0.0.0.0",
         port=5556,
         log_level="info",
     ):
-        self.server = FastAPI(
+        api = FastAPI(
             debug=self.VERSION_BETA,
             title="KS-Downloader",
             version=__VERSION__,
         )
-        self.setup_routes()
+        self.setup_routes(api)
         config = APIConfig(
-            self.server,
+            api,
             host=host,
             port=port,
             log_level=log_level,
@@ -388,12 +390,15 @@ class KS:
         server = Server(config)
         await server.serve()
 
-    def setup_routes(self):
-        @self.server.get("/")
+    def setup_routes(
+        self,
+        server: FastAPI,
+    ):
+        @server.get("/")
         async def index():
             return RedirectResponse(url=REPOSITORY)
 
-        @self.server.post(
+        @server.post(
             "/share",
             response_model=UrlResponse,
         )
@@ -414,7 +419,7 @@ class KS:
                 urls=None,
             )
 
-        @self.server.post(
+        @server.post(
             "/detail/",
             response_model=ResponseModel,
         )

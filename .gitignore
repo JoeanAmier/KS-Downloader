@@ -1,12 +1,7 @@
 __pycache__/
 *.pyc
-/Download/
 /.venv/
 /.ruff_cache/
 /.idea/
-/Data/
-/Temp/
-*.yaml
-*.db
-*.txt
 !.github/workflows/*.yaml
+/Volume/

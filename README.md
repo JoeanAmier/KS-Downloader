@@ -71,8 +71,8 @@
 </ul>
 <li>创建容器</li>
 <ul>
-<li>TUI 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:5557 -v ks_downloader_volume:/app -it joeanamier/ks-downloader</code></li>
-<li>API 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:5557 -v ks_downloader_volume:/app -it joeanamier/ks-downloader python main.py server</code></li>
+<li>TUI 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:5557 -v ks_downloader_volume:/app/Volume -it joeanamier/ks-downloader</code></li>
+<li>API 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:5557 -v ks_downloader_volume:/app/Volume -it joeanamier/ks-downloader python main.py api</code></li>
 </ul>
 <li>运行容器
 <ul>
@@ -83,7 +83,7 @@
 </ol>
 <p>Docker 运行项目时不支持 <b>从浏览器读取 Cookie</b>，无法使用 <b>监听剪贴板</b> 功能，可以正常粘贴内容，其他功能如有异常请反馈！</p>
 <h2>🖥 服务器模式</h2>
-<p><b>启动：</b>运行命令：<code>python .\main.py server</code></p>
+<p><b>启动：</b>运行命令：<code>python .\main.py api</code></p>
 <p><b>关闭：</b>按下 <code>Ctrl</code> + <code>C</code> 关闭服务器</p>
 <p>访问 <code>http://127.0.0.1:5557/docs</code> 或者 <code>http://127.0.0.1:5557/redoc</code>；你会看到自动生成的交互式 API 文档！</p>
 <h1>🔗 支持链接</h1>

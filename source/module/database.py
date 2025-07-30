@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 from asyncio import CancelledError
 from contextlib import suppress
 from aiosqlite import Row, connect
-
+from shutil import move
 from ..static import PROJECT_ROOT
 
 if TYPE_CHECKING:
@@ -18,6 +18,7 @@ class Database:
         manager: "Manager",
     ):
         self.file = PROJECT_ROOT.joinpath(self.__FILE)
+        self.compatible()
         self.switch = manager.author_archive
         self.database = None
         self.cursor = None
@@ -169,3 +170,9 @@ class Database:
 
     async def __aexit__(self, exc_type, exc_value, traceback):
         await self.close()
+
+    def compatible(self):
+        if (
+            (old := PROJECT_ROOT.parent.joinpath(self.__FILE)).exists()
+        ) and not self.file.exists():
+            move(old, self.file)

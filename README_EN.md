@@ -71,8 +71,8 @@
 </li>
 <li>Create Container:</li>
 <ul>
-<li>TUI Mode: <code>docker run --name container_name(optional) -p HostPort:5557 -v ks_downloader_volume:/app -it joeanamier/ks-downloader</code></li>
-<li>API Mode: <code>docker run --name container_name(optional) -p HostPort:5557 -v ks_downloader_volume:/app -it joeanamier/ks-downloader python main.py server</code></li>
+<li>TUI Mode: <code>docker run --name container_name(optional) -p HostPort:5557 -v ks_downloader_volume:/app/Volume -it joeanamier/ks-downloader</code></li>
+<li>API Mode: <code>docker run --name container_name(optional) -p HostPort:5557 -v ks_downloader_volume:/app/Volume -it joeanamier/ks-downloader python main.py api</code></li>
 </ul>
 <li>Run Container:
 <ul>
@@ -83,7 +83,7 @@
 </ol>
 <p><b>Note:</b> Docker version doesn't support <b>browser cookie reading</b> and <b>clipboard monitoring</b>. Other features remain functional. Please report any anomalies.</p>
 <h2>🖥 Server Mode</h2>
-<p><b>Start:</b> Run the command: <code>python .\main.py server</code></p>
+<p><b>Start:</b> Run the command: <code>python .\main.py api</code></p>
 <p><b>Stop:</b> Press <code>Ctrl</code> + <code>C</code> to stop the server</p>
 <p>Open <code>http://127.0.0.1:5557/docs</code> or <code>http://127.0.0.1:5557/redoc</code>; you will see automatically generated interactive API documentation!</p>
 <h1>🔗 Supported Links</h1>

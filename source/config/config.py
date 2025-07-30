@@ -1,6 +1,6 @@
 from platform import system
 from typing import TYPE_CHECKING
-
+from shutil import move
 from yaml import dump, safe_load
 
 from ..static import PROJECT_ROOT
@@ -43,6 +43,7 @@ class Config:
         self.data = {}
 
     def read(self) -> dict:
+        self.compatible()
         if self.file.exists():
             try:
                 with self.file.open("r", encoding=self.encode) as file:
@@ -68,3 +69,9 @@ class Config:
                 default_flow_style=False,
                 allow_unicode=True,
             )
+
+    def compatible(self):
+        if (
+            (old := PROJECT_ROOT.parent.joinpath("config.yaml")).exists()
+        ) and not self.file.exists():
+            move(old, self.file)

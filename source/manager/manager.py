@@ -1,5 +1,5 @@
 from re import compile, sub
-from shutil import rmtree
+from shutil import rmtree, move
 from typing import TYPE_CHECKING
 
 from ..tools import base_client, remove_empty_directories
@@ -51,7 +51,8 @@ class Manager:
         self.path = work_path
         self.temp = self.root.joinpath("Temp")
         self.data = self.path.joinpath("Data")
-        self.folder = self.root.joinpath(folder_name)
+        self.folder = self.path.joinpath(folder_name)
+        self.compatible(folder_name)
         self.timeout = timeout
         self.client = base_client(
             user_agent=user_agent,
@@ -106,3 +107,23 @@ class Manager:
         await self.client.aclose()
         # self.__clear_temp()
         remove_empty_directories(self.root)
+
+    def compatible(self, folder_name:str):
+        if (
+            (old := self.root.parent.joinpath("Temp")).exists()
+        ) and not self.temp.exists():
+            move(old, self.temp)
+        if (
+            self.path == self.root
+            and (old := self.path.parent.joinpath("Data")).exists()
+            and not self.data.exists()
+        ):
+            move(old, self.data)
+        if (
+            self.path == self.root
+            and (old := self.path.parent.joinpath(folder_name)).exists()
+            and not self.folder.exists()
+        ):
+            move(old, self.folder)
+
+

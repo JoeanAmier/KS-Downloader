@@ -19,15 +19,15 @@ async def main():
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(dest="mode")
 
-    server_parser = subparsers.add_parser(
-        "server",
+    api_parser = subparsers.add_parser(
+        "api",
     )
-    server_parser.add_argument(
+    api_parser.add_argument(
         "--host",
         type=str,
         default="0.0.0.0",
     )
-    server_parser.add_argument(
+    api_parser.add_argument(
         "--port",
         type=int,
         default=5557,
@@ -40,8 +40,8 @@ async def main():
             print(
                 f"Error: Unrecognized arguments: {unknown}. Please check your input."
             )
-        if args.mode == "server":
-            await server(args.host, args.port)
+        if args.mode == "api":
+            await api_server(args.host, args.port)
         else:
             print("Unsupported command-line parameters")
 
@@ -51,13 +51,13 @@ async def terminal():
         await app.run()
 
 @capture_exit
-async def server(
+async def api_server(
     host="0.0.0.0",
     port=5557,
     log_level="info",
 ):
     async with KS() as app:
-        await app.run_server(
+        await app.run_api_server(
             host,
             port,
             log_level,
