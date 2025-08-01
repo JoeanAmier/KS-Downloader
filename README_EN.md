@@ -130,7 +130,7 @@
 <td align="center">work_path</td>
 <td align="center">str</td>
 <td align="center">Root path for work data/file storage</td>
-<td align="center">Project root directory</td>
+<td align="center">Project root path/Volume</td>
 </tr>
 <tr>
 <td align="center">folder_name</td>

@@ -128,7 +128,7 @@
 <td align="center">work_path</td>
 <td align="center">str</td>
 <td align="center">作品数据 / 文件保存根路径</td>
-<td align="center">项目根路径</td>
+<td align="center">项目根路径/Volume</td>
 </tr>
 <tr>
 <td align="center">folder_name</td>
