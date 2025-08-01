@@ -3,5 +3,5 @@ __pycache__/
 /.venv/
 /.ruff_cache/
 /.idea/
-!.github/workflows/*.yaml
+!/.github/
 /Volume/

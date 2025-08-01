@@ -2,7 +2,7 @@ from asyncio import Semaphore, gather
 from pathlib import Path
 from shutil import move
 from typing import TYPE_CHECKING
-
+from typing import Callable
 from aiofiles import open
 from httpx import HTTPError
 from rich.progress import (
@@ -20,6 +20,7 @@ from ..tools import (
     beautify_string,
     capture_error_request,
     retry_request,
+    FakeProgress,
 )
 from ..translation import _
 
@@ -39,7 +40,12 @@ class Downloader:
         "audio/mpeg": "mp3",
     }
 
-    def __init__(self, manager: "Manager", database: "Database"):
+    def __init__(
+        self,
+        manager: "Manager",
+        database: "Database",
+        server_mode: bool = False,
+    ):
         self.path = manager.path
         self.folder = manager.folder
         self.client = manager.client
@@ -56,6 +62,21 @@ class Downloader:
         self.semaphore = Semaphore(manager.max_workers)
         self.database = database
         self.name_format = manager.name_format
+        self.general_progress_object: Callable = self.init_general_progress(
+            server_mode,
+        )
+
+    def init_general_progress(
+        self,
+        server_mode: bool = False,
+    ) -> Callable:
+        if server_mode:
+            return self.__fake_progress_object
+        return self.__general_progress_object
+
+    @staticmethod
+    def __fake_progress_object():
+        return FakeProgress()
 
     def __general_progress_object(self) -> Progress:
         return Progress(
@@ -96,7 +117,7 @@ class Downloader:
         data: list[dict],
     ):
         tasks = []
-        with self.__general_progress_object() as progress:
+        with self.general_progress_object() as progress:
             for item in data:
                 if await self.database.has_download_data(i := item["detailID"]):
                     self.console.info(

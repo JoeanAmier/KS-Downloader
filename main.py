@@ -56,7 +56,7 @@ async def api_server(
     port=5557,
     log_level="info",
 ):
-    async with KS() as app:
+    async with KS(server_mode=True,) as app:
         await app.run_api_server(
             host,
             port,

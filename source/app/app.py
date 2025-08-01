@@ -57,7 +57,10 @@ class KS:
         # "kuaishou.cn",
     ]
 
-    def __init__(self):
+    def __init__(
+        self,
+        server_mode: bool = False,
+    ):
         self.console = ColorConsole(
             self.VERSION_BETA,
         )
@@ -78,7 +81,7 @@ class KS:
         self.detail_html = DetailPage(self.manager)
         self.extractor_api = APIExtractor(self.manager)
         self.extractor_html = HTMLExtractor(self.manager)
-        self.download = Downloader(self.manager, self.database)
+        self.download = Downloader(self.manager, self.database, server_mode,)
         self.running = True
         self.__function = None
 
