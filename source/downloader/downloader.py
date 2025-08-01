@@ -75,7 +75,7 @@ class Downloader:
         return self.__general_progress_object
 
     @staticmethod
-    def __fake_progress_object():
+    def __fake_progress_object(*args, **kwargs,):
         return FakeProgress()
 
     def __general_progress_object(self) -> Progress:
