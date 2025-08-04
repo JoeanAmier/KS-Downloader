@@ -141,8 +141,14 @@
 <tr>
 <td align="center">name_format</td>
 <td align="center">str</td>
-<td align="center"><sup><a href="#fields">#</a></sup>Filename format using space-separated fields. Supported fields: <code>作品类型</code>、<code>作者昵称</code>、<code>作者ID</code>、<code>作品描述</code>、<code>作品ID</code>、<code>发布日期</code></td>
+<td align="center"><sup><a href="#fields">#</a></sup>Works file name format, use spaces to separate fields; Supported fields: <code>作品类型</code>、<code>作者昵称</code>、<code>作者ID</code>、<code>作品描述</code>、<code>作品ID</code>、<code>发布日期</code></td>
 <td align="center"><code>发布日期 作者昵称 作品描述</code></td>
+</tr>
+<tr>
+<td align="center">name_length</td>
+<td align="center">int</td>
+<td align="center">Works file name length limit. Text exceeding the limit will be truncated. When setting a large value, please ensure the system supports this length</td>
+<td align="center"><code>128</code></td>
 </tr>
 <tr>
 <td align="center">cookie</td>

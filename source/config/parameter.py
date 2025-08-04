@@ -33,6 +33,7 @@ class Parameter:
         cookie: str,
         folder_name: str = "Download",
         name_format: str = "发布日期 作者昵称 作品描述",
+        name_length: int = 128,
         work_path: str = "",
         timeout=TIMEOUT,
         max_retry=RETRY,
@@ -55,6 +56,7 @@ class Parameter:
         self.proxy = self.__check_proxy(proxy)
         self.folder_name = self.__check_folder_name(folder_name)
         self.name_format = self.__check_name_format(name_format)
+        self.name_length = self.__check_name_length(name_length)
         self.work_path = self.__check_work_path(work_path)
         self.cookie = self.__check_cookie(cookie)
         self.cover = self.__check_cover(cover)
@@ -85,6 +87,7 @@ class Parameter:
             "chunk": self.chunk,
             "user_agent": self.user_agent,
             "name_format": self.name_format,
+            "name_length": self.name_length,
             "mapping_data": self.mapping_data,
             "author_archive": self.author_archive,
         }
@@ -140,7 +143,9 @@ class Parameter:
         if r := self.__check_root_again(r):
             return r
         self.console.warning(
-            _("work_path 参数不是有效的文件夹路径，程序将使用 项目根路径/Volume 作为储存路径")
+            _(
+                "work_path 参数不是有效的文件夹路径，程序将使用 项目根路径/Volume 作为储存路径"
+            )
         )
         return self.root
 
@@ -195,3 +200,12 @@ class Parameter:
                 )
                 return default
         return name_format
+
+    def __check_name_length(self, name_length: int) -> int:
+        if not isinstance(name_length, int):
+            self.console.warning(_("name_length 参数错误"))
+            return 128
+        if name_length >16:
+            return name_length
+        self.console.warning(_("name_length 参数过小"))
+        return 128

@@ -143,6 +143,12 @@
 <td align="center"><code>发布日期 作者昵称 作品描述</code></td>
 </tr>
 <tr>
+<td align="center">name_length</td>
+<td align="center">int</td>
+<td align="center">作品文件名称长度限制，超出限制的文本将被截断，设置过大的值时请确保系统支持此长度</td>
+<td align="center"><code>128</code></td>
+</tr>
+<tr>
 <td align="center">cookie</td>
 <td align="center">str</td>
 <td align="center">快手网页版 Cookie，<b>无需登录</b></td>

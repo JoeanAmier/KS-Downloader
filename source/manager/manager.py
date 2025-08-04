@@ -33,6 +33,7 @@ class Manager:
         work_path: "Path",
         folder_name: str,
         name_format: str,
+        name_length: int,
         cookie: str,
         cover: str,
         music: bool,
@@ -79,6 +80,7 @@ class Manager:
         }
         self.app_download_headers = APP_DOWNLOAD_HEADERS
         self.name_format = name_format
+        self.name_length = name_length
         self.max_retry = max_retry
         self.proxy = proxy
         self.cover = cover
@@ -108,7 +110,7 @@ class Manager:
         # self.__clear_temp()
         remove_empty_directories(self.root)
 
-    def compatible(self, folder_name:str):
+    def compatible(self, folder_name: str):
         if (
             (old := self.root.parent.joinpath("Temp")).exists()
         ) and not self.temp.exists():

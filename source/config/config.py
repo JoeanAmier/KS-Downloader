@@ -19,6 +19,7 @@ class Config:
         "work_path": "",
         "folder_name": "Download",
         "name_format": "发布日期 作者昵称 作品描述",
+        "name_length": 128,
         "cookie": "",
         "proxy": None,
         "data_record": False,

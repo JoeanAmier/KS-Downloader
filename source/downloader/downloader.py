@@ -62,6 +62,7 @@ class Downloader:
         self.semaphore = Semaphore(manager.max_workers)
         self.database = database
         self.name_format = manager.name_format
+        self.name_length = manager.name_length
         self.general_progress_object: Callable = self.init_general_progress(
             server_mode,
         )
@@ -387,7 +388,7 @@ class Downloader:
                     name.append(self.__get_detail_id(data))
         return beautify_string(
             "_".join(name),
-            length=128,
+            length=self.name_length,
         )
 
     @staticmethod
