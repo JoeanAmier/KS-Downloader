@@ -47,7 +47,7 @@ class Config:
         if self.file.exists():
             try:
                 with self.file.open("r", encoding=self.encode) as file:
-                    self.data = safe_load(file)
+                    self.data = self.supplement(safe_load(file))
             except UnicodeDecodeError as e:
                 self.console.error(_("配置文件编码错误：{error}").format(error=e))
                 self.console.warning(_("本次运作将会使用默认配置参数！"))
@@ -75,3 +75,13 @@ class Config:
             (old := PROJECT_ROOT.parent.joinpath("config.yaml")).exists()
         ) and not self.file.exists():
             move(old, self.file)
+
+    def supplement(self, data:dict,)->dict:
+        update = False
+        for key, value in self.default.items():
+            if key not in data:
+                data[key] = value
+                update = True
+        if update:
+            self.write(data)
+        return data
