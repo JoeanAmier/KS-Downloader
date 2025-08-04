@@ -18,6 +18,7 @@ from source.static import (
     VERSION_MINOR,
     __VERSION__,
 )
+from textwrap import dedent
 from source.tools import (
     ERROR,
     INFO,
@@ -81,7 +82,11 @@ class KS:
         self.detail_html = DetailPage(self.manager)
         self.extractor_api = APIExtractor(self.manager)
         self.extractor_html = HTMLExtractor(self.manager)
-        self.download = Downloader(self.manager, self.database, server_mode,)
+        self.download = Downloader(
+            self.manager,
+            self.database,
+            server_mode,
+        )
         self.running = True
         self.__function = None
 
@@ -397,12 +402,27 @@ class KS:
         self,
         server: FastAPI,
     ):
-        @server.get("/")
+        @server.get(
+            "/",
+            summary=_("跳转至项目 GitHub 仓库"),
+            description=_("重定向至项目 GitHub 仓库主页"),
+        )
         async def index():
             return RedirectResponse(url=REPOSITORY)
 
         @server.post(
             "/share",
+            summary=_("获取作品分享链接的重定向链接"),
+            description=_(
+                dedent(
+                    """
+                    **参数**:
+                            
+                    - **text**: 包含作品链接的文本；必需参数
+                    - **proxy**: 请求数据时使用的代理；可选参数
+                    """
+                )
+            ),
             response_model=UrlResponse,
         )
         async def share(extract: ShortUrl):
@@ -424,6 +444,18 @@ class KS:
 
         @server.post(
             "/detail/",
+            summary=_("获取作品数据"),
+            description=_(
+                dedent(
+                    """
+                    **参数**:
+                        
+                    - **text**: 作品链接，自动提取；必需参数
+                    - **cookie**: 请求数据时使用的 Cookie；可选参数
+                    - **proxy**: 请求数据时使用的代理；可选参数
+                    """
+                )
+            ),
             response_model=ResponseModel,
         )
         async def detail(extract: DetailModel):

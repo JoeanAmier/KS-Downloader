@@ -30,7 +30,7 @@ LABEL name="KS-Downloader" authors="JoeanAmier" repository="https://github.com/J
 # 从构建器阶段，将已经安装好的依赖包复制到最终镜像的系统路径中
 COPY --from=builder /install /usr/local
 
-# 复制你的应用程序代码和相关文件
+# 复制项目代码和相关文件
 COPY source /app/source
 COPY locale /app/locale
 COPY LICENSE /app/LICENSE
