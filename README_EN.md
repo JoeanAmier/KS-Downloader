@@ -71,8 +71,9 @@
 </li>
 <li>Create Container:</li>
 <ul>
-<li>TUI Mode: <code>docker run --name container_name(optional) -p HostPort:5557 -v ks_downloader_volume:/app/Volume -it joeanamier/ks-downloader</code></li>
-<li>API Mode: <code>docker run --name container_name(optional) -p HostPort:5557 -v ks_downloader_volume:/app/Volume -it joeanamier/ks-downloader python main.py api</code></li>
+<li>TUI Mode: <code>docker run --name container_name(optional) -p HostPort:5557 -v ks_downloader_volume:/app/Volume -it &lt;image name&gt;</code></li>
+<li>API Mode: <code>docker run --name container_name(optional) -p HostPort:5557 -v ks_downloader_volume:/app/Volume -it &lt;image name&gt; python main.py api</code></li>
+<br><b>Note:</b> The <code>&lt;image name&gt;</code> here must be consistent with the image name you used in the first step (<code>joeanamier/ks-downloader</code> or <code>ghcr.io/joeanamier/ks-downloader</code>)
 </ul>
 <li>Run Container:
 <ul>
@@ -102,8 +103,8 @@
 <h1>📜 Additional Notes</h1>
 <ul>
 <li>Windows requires admin privileges to read Chromium/Chrome/Edge cookies</li>
-<li>Work data stored in <code>./Data/DetailData.db</code> when enabled</li>
-<li>Settings and download records in <code>./KS-Downloader.db</code></li>
+<li>Work data stored in <code>./Volume/Data/DetailData.db</code> when enabled</li>
+<li>Settings and download records in <code>./Volume/KS-Downloader.db</code></li>
 <li>The project has a built-in request delay mechanism to avoid excessive request frequency. Code location: <code>./source/tools/sleep.py</code></li>
 </ul>
 

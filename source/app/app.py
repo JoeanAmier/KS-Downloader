@@ -406,6 +406,7 @@ class KS:
             "/",
             summary=_("跳转至项目 GitHub 仓库"),
             description=_("重定向至项目 GitHub 仓库主页"),
+            tags=["Project"],
         )
         async def index():
             return RedirectResponse(url=REPOSITORY)
@@ -423,6 +424,7 @@ class KS:
                     """
                 )
             ),
+            tags=["API"],
             response_model=UrlResponse,
         )
         async def share(extract: ShortUrl):
@@ -456,6 +458,7 @@ class KS:
                     """
                 )
             ),
+            tags=["API"],
             response_model=ResponseModel,
         )
         async def detail(extract: DetailModel):

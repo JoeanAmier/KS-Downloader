@@ -71,8 +71,9 @@
 </ul>
 <li>创建容器</li>
 <ul>
-<li>TUI 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:5557 -v ks_downloader_volume:/app/Volume -it joeanamier/ks-downloader</code></li>
-<li>API 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:5557 -v ks_downloader_volume:/app/Volume -it joeanamier/ks-downloader python main.py api</code></li>
+<li>TUI 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:5557 -v ks_downloader_volume:/app/Volume -it &lt;镜像名称&gt;</code></li>
+<li>API 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:5557 -v ks_downloader_volume:/app/Volume -it &lt;镜像名称&gt; python main.py api</code></li>
+<br><b>注意：</b>此处的 <code>&lt;镜像名称&gt;</code> 需与您在第一步中使用的镜像名称保持一致（<code>joeanamier/ks-downloader</code> 或 <code>ghcr.io/joeanamier/ks-downloader</code>）
 </ul>
 <li>运行容器
 <ul>
@@ -101,8 +102,8 @@
 <h1>📜 其他说明</h1>
 <ul>
 <li>Windows 系统需要以管理员身份运行程序才能读取 Chromium、Chrome、Edge 浏览器 Cookie</li>
-<li>如果开启保存作品数据至文件功能，作品数据默认储存至 <code>./Data/DetailData.db</code> 文件</li>
-<li>程序设置、下载记录数据储存至 <code>./KS-Downloader.db</code> 文件</li>
+<li>如果开启保存作品数据至文件功能，作品数据默认储存至 <code>./Volume/Data/DetailData.db</code> 文件</li>
+<li>程序设置、下载记录数据储存至 <code>./Volume/KS-Downloader.db</code> 文件</li>
 <li>项目内置请求延时机制，以避免请求频率过快，代码位置：<code>./source/tools/sleep.py</code></li>
 </ul>
 <h1>⚙️ 配置文件</h1>
