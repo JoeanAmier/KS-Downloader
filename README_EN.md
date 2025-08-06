@@ -50,8 +50,8 @@
 <p><strong>Note: Mac OS executable <code>main</code> may require terminal execution. Limited by testing devices, Mac version hasn't been fully validated.</strong></p>
 <p>Default download path: <code>.\_internal\Volume\Download</code><br>Configuration file: <code>.\_internal\Volume\config.yaml</code></p>
 <h3>Update Methods</h3>
-<p> <strong>Method 1:</strong> Download and extract the files, then copy the old version of the <code>_internal\Volume</code> folder into the new version's <code>_internal</code> folder.</p>
-<p> <strong>Method 2:</strong> Download and extract the files (do not run the program), then copy all files and directly overwrite the old version.</p>
+<p><strong>Method 1:</strong> Download and extract the files, then copy the old version of the <code>_internal\Volume</code> folder into the new version's <code>_internal</code> folder.</p>
+<p><strong>Method 2:</strong> Download and extract the files (do not run the program), then copy all files and directly overwrite the old version.</p>
 <h2>⌨️ Source Code Execution</h2>
 <ol>
 <li>Install Python interpreter version <code>3.12</code></li>
