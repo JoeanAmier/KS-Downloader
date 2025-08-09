@@ -110,13 +110,19 @@ class HTMLExtractor:
             "caption": data.safe_extract(
                 "caption",
             ),
-            "coverUrl": self._extract_cover_urls(data),
+            "coverUrl": (c := self._extract_cover_urls(data)),
             "duration": "00:00:00",
             "realLikeCount": data.safe_extract(
                 "likeCount",
                 -1,
             ),
-            "download": self._extract_download_urls(data),
+            "download": [c]
+            if bool(
+                data.safe_extract(
+                    "ext_params.single",
+                )
+            )
+            else self._extract_download_urls(data),
             "timestamp": APIExtractor.format_date(
                 data.safe_extract(
                     "timestamp",

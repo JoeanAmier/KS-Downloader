@@ -20,6 +20,7 @@ class Examiner:
     )
     LIVE_URL = compile(r"https?://live\.kuaishou\.com/\S+/\S+/(\S+)")
     PC_COMPLETE_URL = compile(r"(https?://\S*kuaishou\.(?:com|cn)/short-video/\S+)")
+    C_COMPLETE_URL = compile(r"(https?://\S*kuaishou\.(?:com|cn)/fw/photo/\S+)")
     REDIRECT_URL = compile(r"(https?://\S*chenzhongtech\.(?:com|cn)/fw/photo/\S+)")
 
     def __init__(self, manager: "Manager"):
@@ -57,6 +58,7 @@ class Examiner:
             for i in chain(
                 self.REDIRECT_URL.finditer(urls),
                 self.PC_COMPLETE_URL.finditer(urls),
+                self.C_COMPLETE_URL.finditer(urls),
             )
         ]
 
@@ -151,7 +153,7 @@ class Examiner:
                 params.get("userId", [""])[0],
                 params.get("photoId", [""])[0],
             )
-        elif "short-video" in url.path:
+        elif "short-video" in url.path or "fw/photo" in url.path:
             return (
                 True,
                 "",
