@@ -4,7 +4,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.joinpath("Volume")
 PROJECT_ROOT.mkdir(exist_ok=True)
 VERSION_MAJOR = 1
 VERSION_MINOR = 5
-VERSION_BETA = True
+VERSION_BETA = False
 __VERSION__ = f"{VERSION_MAJOR}.{VERSION_MINOR}.{'beta' if VERSION_BETA else 'stable'}"
 PROJECT_NAME = f"KS-Downloader V{VERSION_MAJOR}.{VERSION_MINOR} {
     'Beta' if VERSION_BETA else 'Stable'

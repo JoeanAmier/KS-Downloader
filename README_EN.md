@@ -36,12 +36,9 @@
 <li>✅ API integration</li>
 <li>☑️ Background clipboard monitoring</li>
 </ul>
-<p>⭐ Check KS-Downloader development plans and progress at <a href="https://github.com/users/JoeanAmier/projects/6">Projects</a></p>
 <h1>📸 Screenshots</h1>
-<p><b>🎥 Click images to watch demo video</b></p>
-<a href="https://www.bilibili.com/video/BV1RiZ9YcExr/"><img src="docs/项目运行截图EN1.png" alt=""></a>
-<hr>
-<a href="https://www.bilibili.com/video/BV1RiZ9YcExr/"><img src="docs/项目运行截图EN2.png" alt=""></a>
+<p><a href="https://www.bilibili.com/video/BV1LYtbzhESo/">前往 bilibili 观看演示</a>；<a href="https://youtu.be/twiy9cv5snA">前往 YouTube 观看演示</a></p>
+<img src="docs/项目截图EN.png" alt="">
 <h1>🥣 Usage Guide</h1>
 <h2>🖱 Application Execution</h2>
 <p>⭐ Mac OS/Windows 10+ users: Download pre-built packages from <a href="https://github.com/JoeanAmier/KS-Downloader/releases/latest">Releases</a> or <a href="https://github.com/JoeanAmier/KS-Downloader/actions">Actions</a>. Extract and double-click <code>main</code> to run!</p>
@@ -177,13 +174,13 @@
 <td align="center">4</td>
 </tr>
 <tr>
-<td align="center"><del>cover</del></td>
+<td align="center"><del>cover</del>（Deactivate）</td>
 <td align="center">str</td>
 <td align="center">Cover download format (JPEG/WEBP), empty string disables</td>
 <td align="center">Empty string</td>
 </tr>
 <tr>
-<td align="center"><del>music</del></td>
+<td align="center"><del>music</del>（Deactivate）</td>
 <td align="center">bool</td>
 <td align="center">Download works music track</td>
 <td align="center">false</td>
