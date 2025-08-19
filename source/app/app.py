@@ -211,10 +211,14 @@ class KS:
             self.console.warning(message)
             return message
         for url in urls:
-            await self.detail_one(
-                url,
-                download,
-            )
+            if isinstance(
+                m := await self.detail_one(
+                    url,
+                    download,
+                ),
+                str,
+            ):
+                self.console.warning(m)
 
     async def detail_one(
         self,
