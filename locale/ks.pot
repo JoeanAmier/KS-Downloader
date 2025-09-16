@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KS-Downloader V1.6\n"
 "Report-Msgid-Bugs-To: <yonglelolu@foxmail.com>\n"
-"POT-Creation-Date: 2025-08-09 09:32+0800\n"
+"POT-Creation-Date: 2025-09-16 12:27+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -76,48 +76,48 @@ msgid "开源协议：{licence}"
 msgstr ""
 
 #: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:210
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:467
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:471
 msgid "提取作品链接失败"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:230
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:234
 #, python-brace-format
 msgid "URL 解析失败：{url}"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:241
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:245
 msgid "获取作品数据失败"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:328
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:332
 msgid "是否已仔细阅读上述免责声明(YES/NO): "
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:407
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:411
 msgid "跳转至项目 GitHub 仓库"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:408
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:412
 msgid "重定向至项目 GitHub 仓库主页"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:416
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:420
 msgid "获取作品分享链接的重定向链接"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:437
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:441
 msgid "请求重定向链接成功！"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:442
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:446
 msgid "请求重定向链接失败！"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:449
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:453
 msgid "获取作品数据"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:477
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\app\app.py:481
 msgid "获取作品数据成功"
 msgstr ""
 
@@ -198,15 +198,15 @@ msgstr ""
 
 #: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:135
 #: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:201
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\extract\extractor.py:159
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\extract\extractor.py:308
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\extract\extractor.py:165
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\extract\extractor.py:314
 msgid "视频"
 msgstr ""
 
 #: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:143
 #: C:\Users\You\PycharmProjects\KS-Downloader\source\downloader\downloader.py:228
 #: C:\Users\You\PycharmProjects\KS-Downloader\source\extract\extractor.py:108
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\extract\extractor.py:311
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\extract\extractor.py:317
 msgid "图片"
 msgstr ""
 
@@ -257,7 +257,7 @@ msgstr ""
 msgid "获取网页内容失败"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\extract\extractor.py:344
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\extract\extractor.py:350
 msgid "未知"
 msgstr ""
 
@@ -327,16 +327,20 @@ msgstr ""
 msgid "未选择浏览器！"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\tools\browser.py:71
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\tools\browser.py:72
 msgid "浏览器名称或序号输入错误！"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\tools\browser.py:77
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\tools\browser.py:78
 msgid "获取 Cookie 失败，Cookie 数据为空！"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\KS-Downloader\source\tools\browser.py:79
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\tools\browser.py:80
 msgid "获取 Cookie 失败，未找到 Cookie 数据！"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\KS-Downloader\source\tools\browser.py:123
+msgid "从浏览器读取 Cookie 功能不支持当前平台！"
 msgstr ""
 
 #: C:\Users\You\PycharmProjects\KS-Downloader\source\tools\capture.py:14

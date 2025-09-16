@@ -58,6 +58,7 @@ class BrowserCookie:
                 console,
             )
         console.print(_("未选择浏览器！"))
+        return None
 
     @classmethod
     def get(
@@ -97,9 +98,14 @@ class BrowserCookie:
 
     @classmethod
     def __match_browser(cls, browser: str):
-        for i, j in cls.SUPPORT_BROWSER.items():
-            if i.lower() == browser.lower():
-                return j[0]
+        return next(
+            (
+                j[0]
+                for i, j in cls.SUPPORT_BROWSER.items()
+                if i.lower() == browser.lower()
+            ),
+            None,
+        )
 
 
 match platform:
@@ -114,4 +120,4 @@ match platform:
     case "win32":
         pass
     case _:
-        print("从浏览器读取 Cookie 功能不支持当前平台！")
+        print(_("从浏览器读取 Cookie 功能不支持当前平台！"))
