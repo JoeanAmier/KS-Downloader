@@ -9,7 +9,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ macos-latest, windows-latest, macos-13 ]
+        os: [ macos-latest-large, windows-latest, macos-latest ]
 
     steps:
       - name: 签出存储库
