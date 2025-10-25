@@ -43,7 +43,7 @@
 <p>⭐ Mac OS、Windows 10 及以上用户可前往 <a href="https://github.com/JoeanAmier/KS-Downloader/releases/latest">Releases</a> 或者 <a href="https://github.com/JoeanAmier/KS-Downloader/actions">Actions</a> 下载程序压缩包，解压后打开程序文件夹，双击运行 <code>main</code> 即可使用！</p>
 <p>⭐ 本项目包含自动构建可执行文件的 GitHub Actions，使用者可以随时使用 GitHub Actions 将最新源码构建为可执行文件！</p>
 <p>⭐ 自动构建可执行文件教程请查阅本文档的 <code>构建可执行文件指南</code> 部分；如果需要更加详细的图文教程，请 <a href="https://mp.weixin.qq.com/s/TorfoZKkf4-x8IBNLImNuw">查阅文章</a>！</p>
-<p><strong>注意：Mac OS 平台可执行文件 <code>main</code> 可能需要从终端命令行启动；受设备限制，Mac OS 平台可执行文件尚未经过测试，无法保证可用性！</strong></p>
+<p><strong>注意：由于 Mac OS 平台的可执行文件 <code>main</code> 未经过代码签名，首次运行时会受到系统安全限制。请先在终端执行 <code>xattr -cr main.app</code> 命令移除安全标记，执行一次后即可正常运行。</strong></p>
 <p>若通过此方式使用程序，文件默认下载路径为：<code>.\_internal\Volume\Download</code>；配置文件路径为：<code>.\_internal\Volume\config.yaml</code></p>
 <h3>程序更新</h3>
 <p><strong>方案一：</strong>下载并解压文件，将旧版本的 <code>_internal\Volume</code> 文件夹复制到新版本的 <code>_internal</code> 文件夹。</p>
@@ -99,6 +99,7 @@
 <h1>📜 其他说明</h1>
 <ul>
 <li>Windows 系统需要以管理员身份运行程序才能读取 Chromium、Chrome、Edge 浏览器 Cookie</li>
+<li><code>从浏览器读取 Cookie</code> 功能依赖的第三方模块已长期未更新，可能无法正常支持最新浏览器版本。若功能出现异常，请尝试手动获取 Cookie</li>
 <li>如果开启保存作品数据至文件功能，作品数据默认储存至 <code>./Volume/Data/DetailData.db</code> 文件</li>
 <li>程序设置、下载记录数据储存至 <code>./Volume/KS-Downloader.db</code> 文件</li>
 <li>项目内置请求延时机制，以避免请求频率过快，代码位置：<code>./source/tools/sleep.py</code></li>

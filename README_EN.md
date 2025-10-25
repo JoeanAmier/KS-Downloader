@@ -44,7 +44,7 @@
 <p>⭐ Mac OS/Windows 10+ users: Download pre-built packages from <a href="https://github.com/JoeanAmier/KS-Downloader/releases/latest">Releases</a> or <a href="https://github.com/JoeanAmier/KS-Downloader/actions">Actions</a>. Extract and double-click <code>main</code> to run!</p>
 <p>⭐ This project includes GitHub Actions for automatic builds - users can compile latest source code into executables anytime!</p>
 <p>⭐ For the automatic building executable files tutorial, please refer to the <code>Build of Executable File Guide</code> section of this document. If you need a more detailed step-by-step tutorial with illustrations, please <a href="https://mp.weixin.qq.com/s/TorfoZKkf4-x8IBNLImNuw">check out this article</a>!</p>
-<p><strong>Note: Mac OS executable <code>main</code> may require terminal execution. Limited by testing devices, Mac version hasn't been fully validated.</strong></p>
+<p><strong>Note: Due to the macOS platform's executable file <code>main</code> not being code-signed, it will be restricted by system security measures on first run. Please execute the command <code>xattr -cr main.app</code> in the terminal to remove the security flag, after which it can run normally.</strong></p>
 <p>Default download path: <code>.\_internal\Volume\Download</code><br>Configuration file: <code>.\_internal\Volume\config.yaml</code></p>
 <h3>Update Methods</h3>
 <p><strong>Method 1:</strong> Download and extract the files, then copy the old version of the <code>_internal\Volume</code> folder into the new version's <code>_internal</code> folder.</p>
@@ -100,6 +100,7 @@
 <h1>📜 Additional Notes</h1>
 <ul>
 <li>Windows requires admin privileges to read Chromium/Chrome/Edge cookies</li>
+<li>The <code>Browser Cookie Reading</code> feature relies on a third-party module that has not been updated for a long time and may not properly support the latest browser versions. If the feature malfunctions, please try obtaining the cookies manually</li>
 <li>Work data stored in <code>./Volume/Data/DetailData.db</code> when enabled</li>
 <li>Settings and download records in <code>./Volume/KS-Downloader.db</code></li>
 <li>The project has a built-in request delay mechanism to avoid excessive request frequency. Code location: <code>./source/tools/sleep.py</code></li>

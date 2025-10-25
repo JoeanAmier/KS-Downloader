@@ -184,16 +184,16 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "aiofiles", specifier = ">=24.1.0" },
+    { name = "aiofiles", specifier = ">=25.1.0" },
     { name = "aiosqlite", specifier = ">=0.21.0" },
-    { name = "emoji", specifier = ">=2.14.1" },
-    { name = "fastapi", specifier = ">=0.115.12" },
+    { name = "emoji", specifier = ">=2.15.0" },
+    { name = "fastapi", specifier = ">=0.119.0" },
     { name = "httpx", extras = ["socks"], specifier = ">=0.28.1" },
-    { name = "lxml", specifier = ">=5.3.1" },
-    { name = "pyyaml", specifier = ">=6.0.2" },
-    { name = "rich", specifier = ">=13.9.4" },
+    { name = "lxml", specifier = ">=6.0.2" },
+    { name = "pyyaml", specifier = ">=6.0.3" },
+    { name = "rich", specifier = ">=14.2.0" },
     { name = "rookiepy", specifier = ">=0.5.6" },
-    { name = "uvicorn", extras = ["standard"], specifier = ">=0.34.3" },
+    { name = "uvicorn", extras = ["standard"], specifier = ">=0.37.0" },
 ]
 
 [[package]]
