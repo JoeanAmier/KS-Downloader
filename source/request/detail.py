@@ -1,12 +1,12 @@
 from typing import TYPE_CHECKING
 
-from .template import API
+from .template import APILive
 
 if TYPE_CHECKING:
     from ..manager import Manager
 
 
-class Detail(API):
+class Detail(APILive):
     def __init__(
         self,
         manager: "Manager",
@@ -25,7 +25,7 @@ class Detail(API):
             "principalId": self.user_id,
         }
         self.note = "作品"
-        self.api = f"{API.DOMAIN}/live_api/profile/feedbyid"
+        self.api = f"{self.DOMAIN}/live_api/profile/feedbyid"
 
     async def run(
         self,

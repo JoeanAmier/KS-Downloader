@@ -320,6 +320,9 @@ class KS:
     async def user(self):
         pass
 
+    async def user_one(self, user_id: str, p_cursor: str = None):
+        pass
+
     async def disclaimer(self):
         if self.config["Disclaimer"]:
             return True

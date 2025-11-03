@@ -7,7 +7,7 @@ if TYPE_CHECKING:
     from ..manager import Manager
 
 
-class API:
+class APILive:
     DOMAIN: str = "https://live.kuaishou.com"
 
     def __init__(
@@ -171,3 +171,19 @@ class API:
             self.items.extend(items[start:end])
         else:
             self.console.warning(_("{note}数据响应内容为空").format(note=self.note))
+
+
+class API(APILive):
+    DOMAIN: str = "https://www.kuaishou.com"
+
+    def __init__(
+        self,
+        manager: "Manager",
+        *args,
+        **kwargs,
+    ):
+        super().__init__(
+            manager,
+            *args,
+            **kwargs,
+        )
