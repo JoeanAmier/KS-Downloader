@@ -12,13 +12,13 @@ dependencies = [
     "aiofiles>=25.1.0",
     "aiosqlite>=0.21.0",
     "emoji>=2.15.0",
-    "fastapi>=0.119.0",
+    "fastapi>=0.121.0",
     "httpx[socks]>=0.28.1",
     "lxml>=6.0.2",
     "pyyaml>=6.0.3",
     "rich>=14.2.0",
     "rookiepy>=0.5.6",
-    "uvicorn[standard]>=0.37.0",
+    "uvicorn[standard]>=0.38.0",
 ]
 
 [project.urls]

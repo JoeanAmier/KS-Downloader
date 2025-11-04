@@ -6,7 +6,7 @@ aiosqlite==0.21.0
     # via ks-downloader (pyproject.toml)
 emoji==2.15.0
     # via ks-downloader (pyproject.toml)
-fastapi==0.119.0
+fastapi==0.121.0
     # via ks-downloader (pyproject.toml)
 httpx[socks]==0.28.1
     # via ks-downloader (pyproject.toml)
@@ -18,5 +18,5 @@ rich==14.2.0
     # via ks-downloader (pyproject.toml)
 rookiepy==0.5.6
     # via ks-downloader (pyproject.toml)
-uvicorn[standard]==0.37.0
+uvicorn[standard]==0.38.0
     # via ks-downloader (pyproject.toml)
