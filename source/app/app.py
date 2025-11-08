@@ -98,6 +98,16 @@ class KS:
         if await self.disclaimer():
             await self.__main_menu()
 
+    async def __user_enquire(self):
+        while self.running:
+            text = self.console.input(_("请输入快手账号链接："))
+            if not text:
+                break
+            if text.upper() == "Q":
+                self.running = False
+                break
+            await self.user(text)
+
     async def __detail_enquire(self):
         while self.running:
             text = self.console.input(_("请输入快手作品链接："))
@@ -140,6 +150,7 @@ class KS:
         }
         self.__function = (
             (_("从浏览器读取 Cookie"), self.__read_cookie),
+            # (_("批量下载账号作品"), self.__user_enquire),
             (_("批量下载链接作品"), self.__detail_enquire),
             (
                 tip[self.config["Record"]] + _("下载记录功能"),
@@ -202,7 +213,7 @@ class KS:
         self,
         detail: str,
         download: bool = True,
-    ):
+    ) -> None:
         urls = await self.examiner.run(
             detail,
         )
@@ -219,6 +230,7 @@ class KS:
                 str,
             ):
                 self.console.warning(m)
+        return None
 
     async def detail_one(
         self,
@@ -317,11 +329,38 @@ class KS:
             type_,
         )
 
-    async def user(self):
-        pass
+    async def user(
+        self,
+        text: str,
+        download: bool = True,
+    ) -> None:
+        urls = await self.examiner.run(
+            text,
+            "user",
+        )
+        if not urls:
+            message = _("提取账号链接失败")
+            self.console.warning(message)
+            return message
+        for url in urls:
+            if isinstance(
+                m := await self.user_one(
+                    url,
+                    download=download,
+                ),
+                str,
+            ):
+                self.console.warning(m)
+        return None
 
-    async def user_one(self, user_id: str, p_cursor: str = None):
-        pass
+    async def user_one(
+        self,
+        user_url: str,
+        p_cursor: str = None,
+        download: bool = False,
+        proxy: str = "",
+        cookie: str = "",
+    ): ...
 
     async def disclaimer(self):
         if self.config["Disclaimer"]:

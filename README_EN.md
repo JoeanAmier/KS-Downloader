@@ -20,6 +20,8 @@
 <h1>📑 Project Features</h1>
 <ul>
 <li>✅ Download watermark-free KuaiShou works</li>
+
+[//]: # (<li>✅ Batch download of account works files</li>)
 <li>☑️ Download works cover images</li>
 <li>☑️ Download works music files</li>
 <li>✅ Auto-skip downloaded files</li>
@@ -90,7 +92,7 @@
 <li><code>https://v.kuaishou.com/share-code</code></li>
 <li><code>https://www.kuaishou.com/short-video/worksID</code></li>
 <li><code>https://kuaishou.cn/short-video/worksID</code></li>
-<li><code>https://live.kuaishou.com/u/author-id/worksID</code></li>
+<li><del><code>https://live.kuaishou.com/u/author-id/worksID</code></del></li>
 <br/>
 <p><b>Recommend using share links; Multiple URLs supported (space separated).</b></p>
 </ul>

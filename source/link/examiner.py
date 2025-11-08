@@ -6,6 +6,8 @@ from urllib.parse import (
     urlparse,
     urlunparse,
 )
+
+from click.testing import Result
 from httpx import get
 from ..tools import capture_error_request, retry_request, wait
 from ..variable import TIMEOUT
@@ -15,13 +17,23 @@ if TYPE_CHECKING:
 
 
 class Examiner:
-    SHORT_URL = compile(
-        r"(https?://\S*kuaishou\.(?:com|cn)/[^\s\"<>\\^`{|}，。；！？、【】《》]+)"
+    URL = compile(r"(https?://[^\s\"<>\\^`{|}，。；！？、【】《》]+)")
+
+    F_SHORT_URL = compile(
+        r"(https?://\S*kuaishou\.(?:com|cn)/f/[^\s/\"<>\\^`{|}，。；！？、【】《》]+)"
     )
-    LIVE_URL = compile(r"https?://live\.kuaishou\.com/\S+/\S+/(\S+)")
-    PC_COMPLETE_URL = compile(r"(https?://\S*kuaishou\.(?:com|cn)/short-video/\S+)")
-    C_COMPLETE_URL = compile(r"(https?://\S*kuaishou\.(?:com|cn)/fw/photo/\S+)")
-    REDIRECT_URL = compile(r"(https?://\S*chenzhongtech\.(?:com|cn)/fw/photo/\S+)")
+    V_SHORT_URL = compile(
+        r"(https?://v\.kuaishou\.(?:com|cn)/[^\s/\"<>\\^`{|}，。；！？、【】《》]+)"
+    )
+
+    LIVE_DETAIL_URL = compile(r"https?://live\.kuaishou\.com/\S+/\S+/(\S+)")
+    PC_DETAIL_URL = compile(r"(https?://\S*kuaishou\.(?:com|cn)/short-video/\S+)")
+    C_DETAIL_URL = compile(r"(https?://\S*kuaishou\.(?:com|cn)/fw/photo/\S+)")
+    REDIRECT_DETAIL_URL = compile(
+        r"(https?://\S*chenzhongtech\.(?:com|cn)/fw/photo/\S+)"
+    )
+
+    USER_URL = compile(r"(https?://(?:www|live)\.kuaishou\.com/profile/[^/\s]+)")
 
     def __init__(self, manager: "Manager"):
         self.client = manager.client
@@ -40,49 +52,60 @@ class Examiner:
         )
         match type_:
             case "detail":
-                return self.__validate_links(
+                return self.__validate_detail_links(
                     urls,
                 )
             case "user":
-                pass
+                return self.__validate_user_links(
+                    urls,
+                )
             case "":
                 return urls.split()
         raise ValueError
 
-    def __validate_links(
+    def __validate_detail_links(
         self,
         urls: str,
     ) -> list[str]:
         return [
             i.group()
             for i in chain(
-                self.REDIRECT_URL.finditer(urls),
-                self.PC_COMPLETE_URL.finditer(urls),
-                self.C_COMPLETE_URL.finditer(urls),
+                self.REDIRECT_DETAIL_URL.finditer(urls),
+                self.PC_DETAIL_URL.finditer(urls),
+                self.C_DETAIL_URL.finditer(urls),
+                # self.LIVE_DETAIL_URL.finditer(urls),
             )
         ]
+
+    def __validate_user_links(
+        self,
+        urls: str,
+    ) -> list[str]:
+        return self.USER_URL.findall(urls)
 
     async def __request_redirect(
         self,
         text: str,
         proxy: str = "",
     ) -> str:
-        if not (urls := self.PC_COMPLETE_URL.findall(text)):
-            urls = self._convert_live(text) or self.SHORT_URL.findall(text)
+        urls = self.URL.findall(text)
         result = []
         for i in urls:
-            result.append(
-                await self.__request_url(
-                    i,
-                    proxy,
+            if (u := self.F_SHORT_URL.search(i)) or (u := self.V_SHORT_URL.search(i)):
+                result.append(
+                    await self.__request_url(
+                        u.group(),
+                        proxy,
+                    )
                 )
-            )
+            else:
+                result.append(i)
         return " ".join(i for i in result if i)
 
     def _convert_live(self, text: str) -> list[str]:
         return [
             f"https://www.kuaishou.com/short-video/{i}"
-            for i in self.LIVE_URL.findall(text)
+            for i in self.LIVE_DETAIL_URL.findall(text)
         ]
 
     @retry_request
@@ -140,6 +163,8 @@ class Examiner:
                 return self._extract_params_detail(
                     url,
                 )
+            case _:
+                raise ValueError
 
     def _extract_params_detail(
         self,

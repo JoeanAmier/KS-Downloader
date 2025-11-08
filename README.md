@@ -19,6 +19,8 @@
 <h1>📑 项目功能</h1>
 <ul>
 <li>✅ 下载快手无水印作品文件</li>
+
+[//]: # (<li>✅ 批量下载账号作品文件</li>)
 <li>☑️ 下载快手作品封面图片</li>
 <li>☑️ 下载快手作品音乐文件</li>
 <li>✅ 自动跳过已下载的作品文件</li>
@@ -90,7 +92,7 @@
 <li><code>https://v.kuaishou.com/分享码</code></li>
 <li><code>https://www.kuaishou.com/short-video/作品ID</code></li>
 <li><code>https://kuaishou.cn/short-video/作品ID</code></li>
-<li><code>https://live.kuaishou.com/u/作者ID/作品ID</code></li>
+<li><del><code>https://live.kuaishou.com/u/作者ID/作品ID</code></del></li>
 <br/>
 <p><b>推荐使用分享链接；支持单次输入多个作品链接，链接之间使用空格分隔。</b></p>
 </ul>
