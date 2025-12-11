@@ -46,18 +46,26 @@
 <p>⭐ Mac OS/Windows 10+ users: Download pre-built packages from <a href="https://github.com/JoeanAmier/KS-Downloader/releases/latest">Releases</a> or <a href="https://github.com/JoeanAmier/KS-Downloader/actions">Actions</a>. Extract and double-click <code>main</code> to run!</p>
 <p>⭐ This project includes GitHub Actions for automatic builds - users can compile latest source code into executables anytime!</p>
 <p>⭐ For the automatic building executable files tutorial, please refer to the <code>Build of Executable File Guide</code> section of this document. If you need a more detailed step-by-step tutorial with illustrations, please <a href="https://mp.weixin.qq.com/s/TorfoZKkf4-x8IBNLImNuw">check out this article</a>!</p>
-<p><strong>Note: Due to the macOS platform's executable file <code>main</code> not being code-signed, it will be restricted by system security measures on first run. Please execute the command <code>xattr -cr main.app</code> in the terminal to remove the security flag, after which it can run normally.</strong></p>
+<p><strong>Note: Due to the macOS platform's executable file <code>main</code> not being code-signed, it will be restricted by system security measures on first run. Please execute the command <code>xattr -cr project_folder_path</code> in the terminal to remove the security flag, after which it can run normally.</strong></p>
 <p>Default download path: <code>.\_internal\Volume\Download</code><br>Configuration file: <code>.\_internal\Volume\config.yaml</code></p>
 <h3>Update Methods</h3>
 <p><strong>Method 1:</strong> Download and extract the files, then copy the old version of the <code>_internal\Volume</code> folder into the new version's <code>_internal</code> folder.</p>
 <p><strong>Method 2:</strong> Download and extract the files (do not run the program), then copy all files and directly overwrite the old version.</p>
 <h2>⌨️ Source Code Execution</h2>
 <ol>
-<li>Install Python interpreter version <code>3.12</code></li>
-<li>Download latest source code from repository or <a href="https://github.com/JoeanAmier/KS-Downloader/releases/latest">Releases</a></li>
-<li>Open terminal and navigate to project root directory</li>
-<li>Install dependencies: <code>pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt</code></li>
-<li>Execute <code>main.py</code> to start</li>
+<li>Install the <code>3.12</code> version of the <a href="https://www.python.org/">Python</a> interpreter</li>
+<li>Download the latest source code or the source code released in <a href="https://github.com/JoeanAmier/KS-Downloader/releases/latest">Releases</a> to your local machine</li>
+<ol><b>Install project dependencies using pip</b>
+<li>Run the <code>python -m venv venv</code> command to create a virtual environment (optional)</li>
+<li>Run the <code>.\venv\Scripts\activate.ps1</code> or <code>venv\Scripts\activate</code> command to activate the virtual environment (optional)</li>
+<li>Run the <code>pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt</code> command to install the required modules for the program</li>
+<li>Run the <code>python .\main.py</code> or <code>python main.py</code> command to start KS-Downloader</li>
+</ol>
+<ol><b>Install project dependencies using uv (recommended)</b>
+<li>Run the <code>uv venv</code> command to create a virtual environment</li>
+<li>Run the <code>uv sync</code> command to synchronize environment dependencies</li>
+<li>Run the <code>uv run main.py</code> command to start KS-Downloader</li>
+</ol>
 </ol>
 <h2>⌨️ Docker Execution</h2>
 <ol>
