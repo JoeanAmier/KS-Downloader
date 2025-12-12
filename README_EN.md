@@ -409,13 +409,11 @@ repository to execute the build process
 
 # 💡 Project References
 
-* https://github.com/moyada/stealer
 * https://github.com/encode/httpx/
 * https://github.com/Textualize/rich
 * https://github.com/Tinche/aiofiles
 * https://github.com/omnilib/aiosqlite
 * https://github.com/pyinstaller/pyinstaller
-* https://github.com/thewh1teagle/rookie
 * https://github.com/lxml/lxml
 * https://github.com/yaml/pyyaml
 * https://github.com/carpedm20/emoji/
