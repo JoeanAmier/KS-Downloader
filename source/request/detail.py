@@ -10,10 +10,16 @@ class Detail(APILive):
     def __init__(
         self,
         manager: "Manager",
-        user_id: str,
-        detail_id: str,
+        cookie: str = "",
+        proxy: str = "",
+        user_id: str = ...,
+        detail_id: str = ...,
     ):
-        super().__init__(manager)
+        super().__init__(
+            manager,
+            cookie,
+            proxy,
+        )
         self.user_id = user_id
         self.detail_id = detail_id
         self.extract_keys = (

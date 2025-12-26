@@ -10,14 +10,14 @@ class User(API):
     def __init__(
         self,
         manager: "Manager",
-        user_id: str,
-        p_cursor: str,
-        *args,
-        **kwargs,
+        cookie: str = "",
+        proxy: str = "",
+        user_id: str = ...,
+        cursor: str = "",
     ):
-        super().__init__(manager)
+        super().__init__(manager, cookie, proxy)
         self.user_id = user_id
-        self.p_cursor = p_cursor
+        self.cursor = cursor
         self.extract_keys = ("feeds",)
         self.note = "发布"
         self.api = f"{self.DOMAIN}/rest/v/profile/feed"
@@ -29,6 +29,6 @@ class User(API):
     ) -> dict:
         return {
             "user_id": self.user_id,
-            "pcursor": self.p_cursor,
+            "pcursor": self.cursor,
             "page": "profile",
         }

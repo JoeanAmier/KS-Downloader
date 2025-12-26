@@ -13,6 +13,8 @@ class APILive:
     def __init__(
         self,
         manager: "Manager",
+        cookie: str = "",
+        proxy: str = "",
         *args,
         **kwargs,
     ):
@@ -20,32 +22,46 @@ class APILive:
         self.headers = manager.pc_data_headers
         self.console = manager.console
         self.retry = manager.max_retry
+        self.proxy = proxy
         self.note: str = ""
         self.extract_keys: tuple[str, ...] = ()
         self.finished = False
         self.items: list[dict] = []
+        self.result = {"data": self.items}
+        self.cursor: str = ""
+        self.max_batch = 9999
         self.api: str = ""
+        self.__set_cookie(cookie)
+
+    def __set_cookie(self, cookie: str):
+        pass
 
     async def run(
         self,
-        *args,
-        **kwargs,
     ):
-        return self.items
+        await self.run_batch()
+        return self.result | {"cursor": self.cursor}
 
     async def run_single(
         self,
         *args,
         **kwargs,
-    ):
-        pass
+    ) -> None:
+        await self.get_data(
+            self.api,
+            params=self.generate_params(),
+            data=self.generate_data(),
+            method="POST",
+        )
 
     async def run_batch(
         self,
         *args,
         **kwargs,
-    ):
-        pass
+    ) -> None:
+        while not self.finished and self.max_batch > 0:
+            await self.run_single(*args, **kwargs)
+            self.max_batch -= 1
 
     async def get_data(
         self,
@@ -55,8 +71,6 @@ class APILive:
         data=None,
         json=None,
         method="GET",
-        *args,
-        **kwargs,
     ):
         match method:
             case "GET":
@@ -64,8 +78,9 @@ class APILive:
                     url,
                     params,
                     headers,
-                    *args,
-                    **kwargs,
+                )
+                self.deal_response(
+                    response,
                 )
             case "POST":
                 response = await self.__post_data(
@@ -74,14 +89,12 @@ class APILive:
                     headers,
                     data,
                     json,
-                    *args,
-                    **kwargs,
+                )
+                self.deal_response(
+                    response,
                 )
             case _:
                 raise ValueError(f"Invalid method: {method}")
-        self.deal_response(
-            response,
-        )
 
     @retry_request
     @capture_error_request
@@ -93,7 +106,7 @@ class APILive:
         data: dict = None,
         json: dict = None,
         **kwargs,
-    ):
+    ) -> dict:
         response = await self.client.post(
             url,
             headers=headers or self.headers,
@@ -114,7 +127,7 @@ class APILive:
         params: dict = None,
         headers: dict = None,
         **kwargs,
-    ):
+    ) -> dict:
         response = await self.client.get(
             url,
             headers=headers or self.headers,
@@ -142,24 +155,44 @@ class APILive:
     def deal_response(
         self,
         response: dict | None,
-        *args,
-        **kwargs,
+    ) -> None:
+        if cursor := response.get("pcursor"):
+            self.cursor = cursor
+            self.deal_items_response(
+                response,
+            )
+        else:
+            self.finished = True
+            msg = _("{note}数据响应内容异常：{response}").format(
+                note=self.note, response=response
+            )
+            self.console.error(msg)
+            self.result["message"] = msg
+
+    def deal_items_response(
+        self,
+        response: dict | None,
     ) -> None:
         try:
             for key in self.extract_keys:
                 response = response[key]
-            self.add_item(
-                response,
-            )
+            if not response:
+                msg = _("{note}数据响应内容为空").format(note=self.note)
+                self.console.warning(msg)
+                self.result["message"] = msg
+            else:
+                self.add_item(
+                    response,
+                )
         except (
             KeyError,
             IndexError,
         ):
-            self.console.error(
-                _("{note}数据响应内容异常：{response}").format(
-                    note=self.note, response=response
-                )
+            msg = _("{note}数据响应内容异常：{response}").format(
+                note=self.note, response=response
             )
+            self.console.error(msg)
+            self.result["message"] = msg
 
     def add_item(
         self,
@@ -167,10 +200,7 @@ class APILive:
         start: int = None,
         end: int = None,
     ) -> None:
-        if items:
-            self.items.extend(items[start:end])
-        else:
-            self.console.warning(_("{note}数据响应内容为空").format(note=self.note))
+        self.items.extend(items[start:end])
 
 
 class API(APILive):
@@ -179,11 +209,15 @@ class API(APILive):
     def __init__(
         self,
         manager: "Manager",
+        cookie: str = "",
+        proxy: str = "",
         *args,
         **kwargs,
     ):
         super().__init__(
             manager,
+            cookie,
+            proxy,
             *args,
             **kwargs,
         )

@@ -33,7 +33,7 @@ class Examiner:
         r"(https?://\S*chenzhongtech\.(?:com|cn)/fw/photo/\S+)"
     )
 
-    USER_URL = compile(r"(https?://(?:www|live)\.kuaishou\.com/profile/[^/\s]+)")
+    USER_URL = compile(r"(https?://(?:www|live)\.kuaishou\.com/profile/([^/\s]+))")
 
     def __init__(self, manager: "Manager"):
         self.client = manager.client
@@ -45,7 +45,9 @@ class Examiner:
         self.console = manager.console
         self.retry = manager.max_retry
 
-    async def run(self, text: str, type_="detail", proxy: str = ""):
+    async def run(
+        self, text: str, type_="detail", proxy: str = ""
+    ) -> list[str] | list[tuple[str, str]]:
         urls = await self.__request_redirect(
             text,
             proxy,
@@ -80,8 +82,9 @@ class Examiner:
     def __validate_user_links(
         self,
         urls: str,
-    ) -> list[str]:
-        return self.USER_URL.findall(urls)
+    ) -> list[tuple[str, str]]:
+        urls = self.USER_URL.finditer(urls)
+        return [(i.group(1), i.group(2)) for i in urls]
 
     async def __request_redirect(
         self,

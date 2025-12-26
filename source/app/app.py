@@ -1,14 +1,14 @@
 from uvicorn import Config as APIConfig
 from uvicorn import Server
-from source.config import Config, Parameter
-from source.downloader import Downloader
-from source.extract import APIExtractor, HTMLExtractor
-from source.link import DetailPage, Examiner
-from source.manager import Manager
-from source.module import Database, choose
-from source.record import RecordManager
-from source.request import Detail
-from source.static import (
+from ..config import Config, Parameter
+from ..downloader import Downloader
+from ..extract import APIExtractor, HTMLExtractor
+from ..link import DetailPage, Examiner
+from ..manager import Manager
+from ..module import Database, choose
+from ..record import RecordManager
+from ..request import Detail, User
+from ..static import (
     DISCLAIMER_TEXT,
     LICENCE,
     PROJECT_NAME,
@@ -19,7 +19,7 @@ from source.static import (
     __VERSION__,
 )
 from textwrap import dedent
-from source.tools import (
+from ..tools import (
     ERROR,
     INFO,
     MASTER,
@@ -30,10 +30,10 @@ from source.tools import (
     Mapping,
     Version,
 )
-from source.translation import _, switch_language
+from ..translation import _, switch_language
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
-from source.model import (
+from ..model import (
     DetailModel,
     ResponseModel,
     ShortUrl,
@@ -334,18 +334,19 @@ class KS:
         text: str,
         download: bool = True,
     ) -> None:
-        urls = await self.examiner.run(
+        items: list[tuple[str, str]] = await self.examiner.run(
             text,
             "user",
         )
-        if not urls:
+        if not any(items):
             message = _("提取账号链接失败")
             self.console.warning(message)
             return message
-        for url in urls:
+        for url, id_ in items:
             if isinstance(
                 m := await self.user_one(
                     url,
+                    id_,
                     download=download,
                 ),
                 str,
@@ -356,11 +357,18 @@ class KS:
     async def user_one(
         self,
         user_url: str,
-        p_cursor: str = None,
+        user_id: str,
+        cursor: str = "",
         download: bool = False,
         proxy: str = "",
         cookie: str = "",
-    ): ...
+    ):
+        response = await User(
+            self.manager,
+            user_id,
+            cursor,
+        ).run()
+        print(response)
 
     async def disclaimer(self):
         if self.config["Disclaimer"]:
