@@ -2,11 +2,11 @@
 #    uv pip compile pyproject.toml --no-deps --no-strip-extras -o requirements.txt
 aiofiles==25.1.0
     # via ks-downloader (pyproject.toml)
-aiosqlite==0.21.0
+aiosqlite==0.22.1
     # via ks-downloader (pyproject.toml)
 emoji==2.15.0
     # via ks-downloader (pyproject.toml)
-fastapi==0.124.2
+fastapi==0.128.0
     # via ks-downloader (pyproject.toml)
 httpx[socks]==0.28.1
     # via ks-downloader (pyproject.toml)
@@ -14,9 +14,9 @@ lxml==6.0.2
     # via ks-downloader (pyproject.toml)
 pyyaml==6.0.3
     # via ks-downloader (pyproject.toml)
-rich==14.2.0
+rich==14.3.1
     # via ks-downloader (pyproject.toml)
 rookiepy==0.5.6
     # via ks-downloader (pyproject.toml)
-uvicorn[standard]==0.38.0
+uvicorn[standard]==0.40.0
     # via ks-downloader (pyproject.toml)
