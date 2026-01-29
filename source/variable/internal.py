@@ -1,5 +1,5 @@
 PC_USERAGENT = (
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 "
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 "
     "Safari/537.36"
 )
 
@@ -9,15 +9,17 @@ APP_USERAGENT = (
 )
 
 PC_PAGE_HEADERS = {
-    "Connection": "keep-alive",
-    "Referer": "https://www.kuaishou.cn/new-reco",
+    "Origin": "https://www.kuaishou.com",
+    "Referer": "https://www.kuaishou.com/new-reco",
     "User-Agent": PC_USERAGENT,
 }
 
 PC_DATA_HEADERS = {
-    "Connection": "keep-alive",
-    "content-type": "application/json",
-    "Referer": "https://www.kuaishou.cn",
+    "Accept": "application/json",
+    "Accept-Language": "zh-CN,zh;q=0.9",
+    "Content-Type": "application/json",
+    "Origin": "https://www.kuaishou.com",
+    "Referer": "https://www.kuaishou.com/new-reco?source=NewReco",
     "User-Agent": PC_USERAGENT,
 }
 
@@ -26,13 +28,13 @@ PC_DOWNLOAD_HEADERS = {
 }
 
 APP_HEADERS = {
-    "Connection": "keep-alive",
     "User-Agent": APP_USERAGENT,
 }
 
 APP_DATA_HEADERS = {
-    "Connection": "keep-alive",
-    "content-type": "application/json",
+    "Accept": "application/json",
+    "Accept-Language": "zh-CN,zh;q=0.9",
+    "Content-Type": "application/json",
     "Origin": "https://v.m.chenzhongtech.com",
     "Referer": "https://v.m.chenzhongtech.com/",
     "User-Agent": APP_USERAGENT,

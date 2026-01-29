@@ -1,3 +1,4 @@
+from json import dumps
 from typing import TYPE_CHECKING
 
 from ..tools import capture_error_request, retry_request, wait
@@ -19,7 +20,7 @@ class APILive:
         **kwargs,
     ):
         self.client = manager.client
-        self.headers = manager.pc_data_headers
+        self.headers = manager.pc_data_headers.copy()
         self.console = manager.console
         self.retry = manager.max_retry
         self.proxy = proxy
@@ -39,8 +40,12 @@ class APILive:
     async def run(
         self,
     ):
+        # self.set_referer()
         await self.run_batch()
         return self.result | {"cursor": self.cursor}
+
+    # def set_referer(self, referer: str = None) -> None:
+    #     self.headers["Referer"] = referer or self.DOMAIN
 
     async def run_single(
         self,
@@ -111,7 +116,7 @@ class APILive:
             url,
             headers=headers or self.headers,
             params=params,
-            data=data,
+            data=dumps(data, separators=(",", ":")),
             json=json,
             **kwargs,
         )

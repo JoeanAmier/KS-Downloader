@@ -22,6 +22,11 @@ class User(API):
         self.note = "发布"
         self.api = f"{self.DOMAIN}/rest/v/profile/feed"
 
+    # def set_referer(self, referer: str = None) -> None:
+    #     super().set_referer(
+    #         f"https://www.kuaishou.com/profile/{self.user_id}?source=NewReco"
+    #     )
+
     def generate_data(
         self,
         *args,

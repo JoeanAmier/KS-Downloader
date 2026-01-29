@@ -71,8 +71,8 @@ class KS:
             cleaner=self.cleaner,
             **self.config_obj.read(),
         )
-        self.config = None
-        self.option = None
+        self.config: dict | None = None
+        self.option: dict | None = None
         self.record = RecordManager()
         self.manager = Manager(**self.params.run())
         self.database = Database(self.manager)
@@ -365,6 +365,8 @@ class KS:
     ):
         response = await User(
             self.manager,
+            cookie,
+            proxy,
             user_id,
             cursor,
         ).run()

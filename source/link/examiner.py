@@ -33,7 +33,7 @@ class Examiner:
         r"(https?://\S*chenzhongtech\.(?:com|cn)/fw/photo/\S+)"
     )
 
-    USER_URL = compile(r"(https?://(?:www|live)\.kuaishou\.com/profile/([^/\s]+))")
+    USER_URL = compile(r"(https?://(?:www|live)\.kuaishou\.com/profile/([^?/\s]+))")
 
     def __init__(self, manager: "Manager"):
         self.client = manager.client
