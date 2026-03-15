@@ -430,17 +430,17 @@ class KS:
         async def share(extract: ShortUrl):
             if urls := await self.examiner.run(
                 extract.text,
-                type_="",
+                type_="detail",
                 proxy=extract.proxy,
             ):
                 return UrlResponse(
                     message=_("请求重定向链接成功！"),
-                    params=extract,
+                    params=extract.model_dump(),
                     urls=urls,
                 )
             return UrlResponse(
                 message=_("请求重定向链接失败！"),
-                params=extract,
+                params=extract.model_dump(),
                 urls=None,
             )
 
@@ -468,9 +468,15 @@ class KS:
                 data = None
                 self.console.warning(message)
             else:
+                # 优先使用 chenzhongtech.com 的 URL，因为它包含 INIT_STATE 数据
+                target_url = urls[0]
+                for url in urls:
+                    if "chenzhongtech.com" in url:
+                        target_url = url
+                        break
                 if isinstance(
                     data := await self.detail_one(
-                        urls[0], proxy=extract.proxy, cookie=extract.cookie
+                        target_url, False, extract.proxy, extract.cookie
                     ),
                     dict,
                 ):
@@ -478,4 +484,4 @@ class KS:
                 else:
                     message = data
                     data = None
-            return ResponseModel(message=message, params=extract, data=data)
+            return ResponseModel(message=message, params=extract.model_dump(), data=data)

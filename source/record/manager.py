@@ -15,6 +15,7 @@ class RecordManager:
         ("realLikeCount", "点赞数量", "INTEGER"),
         ("shareCount", "分享数量", "INTEGER"),
         ("commentCount", "评论数量", "INTEGER"),
+        ("collectionCount", "收藏数量", "INTEGER"),
         ("timestamp", "发布日期", "TEXT"),
         ("viewCount", "浏览数量", "TEXT"),
         ("download", "下载地址", "TEXT"),

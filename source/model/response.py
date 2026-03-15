@@ -4,7 +4,7 @@ from pydantic import BaseModel, computed_field
 
 class ResponseModel(BaseModel):
     message: str
-    params: BaseModel
+    params: dict
     data: dict | None
 
     @computed_field

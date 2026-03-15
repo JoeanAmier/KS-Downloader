@@ -17,6 +17,13 @@ class DetailPage:
     async def run(self, url: str, proxy: str = "", cookie: str = "") -> str:
         return await self.request_url(url, proxy, cookie)
 
+    def _get_mobile_headers(self, cookie: str = "") -> dict:
+        """获取移动版请求 headers，使用简单 UA 避免被重定向到 PC 版"""
+        return {
+            "User-Agent": "Mozilla/5.0",
+            "Accept": "*/*",
+        }
+
     @retry_request
     @capture_error_request
     async def request_url(
@@ -25,7 +32,11 @@ class DetailPage:
         proxy: str = "",
         cookie: str = "",
     ) -> str:
-        headers = self.headers.copy()
+        # 移动版 URL 使用简单 headers 避免被重定向
+        if "chenzhongtech.com" in url or "gifshow.com" in url:
+            headers = self._get_mobile_headers(cookie)
+        else:
+            headers = self.headers.copy()
         if cookie:
             headers["Cookie"] = cookie
         if proxy:
