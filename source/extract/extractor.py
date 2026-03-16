@@ -1,5 +1,5 @@
 from datetime import datetime
-from re import compile
+from re import compile, DOTALL
 from time import localtime, strftime
 from types import SimpleNamespace
 from typing import TYPE_CHECKING
@@ -7,6 +7,7 @@ from urllib.parse import parse_qs
 
 from lxml.etree import HTML
 from yaml import safe_load
+import json
 
 from ..tools import Namespace
 from ..translation import _
@@ -19,7 +20,7 @@ class HTMLExtractor:
     SCRIPT = "//script/text()"
     WEB_KEYWORD = "window.__APOLLO_STATE__="
     APP_KEYWORD = "window.INIT_STATE = "
-    PHOTO_REGEX = compile(r"\"photo\":(\{\".*\"}),\"serialInfo\"")
+    PHOTO_REGEX = compile(r'"photo":(\{.*?\}),"serialInfo"', DOTALL)
 
     def __init__(self, manager: "Manager"):
         self.date_format = "%Y-%m-%d_%H:%M:%S"
@@ -73,15 +74,28 @@ class HTMLExtractor:
         web: bool,
     ) -> dict:
         if web:
-            text = text.lstrip(self.WEB_KEYWORD if web else self.APP_KEYWORD)
+            text = text.lstrip(self.WEB_KEYWORD)
             text = text.replace(
                 ";(function(){var s;(s=document.currentScript||document.scripts["
                 "document.scripts.length-1]).parentNode.removeChild(s);}());",
                 "",
             )
+            return safe_load(text)
         else:
-            text = text[1] if (text := self.PHOTO_REGEX.search(text)) else ""
-        return safe_load(text)
+            # 移动版：解析整个 INIT_STATE 来同时获取 photo 和 counts
+            init_state_text = text.lstrip(self.APP_KEYWORD)
+            try:
+                init_state = json.loads(init_state_text)
+                # 找到包含 photo 的 key，同时获取 photo 和 counts
+                for key, value in init_state.items():
+                    if isinstance(value, dict) and "photo" in value:
+                        result = value["photo"].copy()
+                        if "counts" in value:
+                            result["_counts"] = value["counts"]
+                        return result
+                return {}
+            except json.JSONDecodeError:
+                return {}
 
     def __extract_detail(
         self,
@@ -89,14 +103,11 @@ class HTMLExtractor:
         id_: str,
         web: bool,
     ) -> dict:
-        return (
-            self.__extract_detail_web(data, id_)
-            if web
-            else self.__extract_detail_app(
-                data,
-                id_,
-            )
-        )
+        if web:
+            return self.__extract_detail_web(data, id_)
+        else:
+            # 移动版：data 已经是 photo 对象
+            return self.__extract_detail_app(data, id_)
 
     def __extract_detail_app(
         self,
@@ -140,6 +151,10 @@ class HTMLExtractor:
             ),
             "commentCount": data.safe_extract(
                 "commentCount",
+                -1,
+            ),
+            "collectionCount": data.safe_extract(
+                "_counts.collectionCount",
                 -1,
             ),
             "userSex": APIExtractor.USER_SEX.get(
@@ -220,6 +235,19 @@ class HTMLExtractor:
         data: Namespace,
         index=0,
     ) -> list[str]:
+        # 优先处理视频作品的 mainMvUrls
+        main_mv_urls = data.safe_extract("mainMvUrls", [])
+        if main_mv_urls:
+            # 处理 SimpleNamespace 对象
+            urls = []
+            for item in main_mv_urls:
+                if hasattr(item, 'url'):
+                    urls.append(item.url)
+                elif isinstance(item, dict) and item.get('url'):
+                    urls.append(item['url'])
+            return urls
+
+        # 处理图片作品的 atlas
         if not (cdn := data.safe_extract("ext_params.atlas.cdn", [])):
             return []
         cdn = cdn[index]

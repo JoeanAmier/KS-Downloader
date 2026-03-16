@@ -22,6 +22,7 @@ class Examiner:
     PC_COMPLETE_URL = compile(r"(https?://\S*kuaishou\.(?:com|cn)/short-video/\S+)")
     C_COMPLETE_URL = compile(r"(https?://\S*kuaishou\.(?:com|cn)/fw/photo/\S+)")
     REDIRECT_URL = compile(r"(https?://\S*chenzhongtech\.(?:com|cn)/fw/photo/\S+)")
+    GIFSHOW_URL = compile(r"(https?://\S*gifshow\.(?:com|cn)/fw/photo/\S+)")
 
     def __init__(self, manager: "Manager"):
         self.client = manager.client
@@ -53,14 +54,47 @@ class Examiner:
         self,
         urls: str,
     ) -> list[str]:
-        return [
-            i.group()
-            for i in chain(
-                self.REDIRECT_URL.finditer(urls),
-                self.PC_COMPLETE_URL.finditer(urls),
-                self.C_COMPLETE_URL.finditer(urls),
-            )
-        ]
+        """从各种URL格式中提取photoId，并构造统一的四种格式URL."""
+        photo_ids = set()
+
+        # 从各种URL格式中提取photoId
+        for pattern in [
+            self.REDIRECT_URL,
+            self.GIFSHOW_URL,
+            self.PC_COMPLETE_URL,
+            self.C_COMPLETE_URL,
+        ]:
+            for match in pattern.finditer(urls):
+                url_str = match.group()
+                url = urlparse(url_str)
+                params = parse_qs(url.query)
+
+                if "chenzhongtech" in (url.hostname or ""):
+                    # chenzhongtech域名: photoId在查询参数中
+                    photo_id = params.get("photoId", [""])[0]
+                elif "gifshow" in (url.hostname or ""):
+                    # gifshow域名: photoId在路径最后
+                    photo_id = url.path.split("/")[-1]
+                elif "short-video" in url.path or "fw/photo" in url.path:
+                    # kuaishou域名: photoId在路径最后
+                    photo_id = url.path.split("/")[-1]
+                else:
+                    continue
+
+                if photo_id:
+                    photo_ids.add(photo_id)
+
+        # 构造统一的四种格式URL
+        result = []
+        for photo_id in photo_ids:
+            result.extend([
+                f"https://m.gifshow.com/fw/photo/{photo_id}",
+                f"https://v.m.chenzhongtech.com/fw/photo/{photo_id}",
+                f"https://chenzhongtech.com/fw/photo/{photo_id}",
+                f"https://1.gifshow.com/fw/photo/{photo_id}",
+            ])
+
+        return result
 
     async def __request_redirect(
         self,
@@ -147,13 +181,14 @@ class Examiner:
     ) -> tuple[bool | None, str, str]:
         url = urlparse(url)
         params = parse_qs(url.query)
-        if "chenzhongtech" in url.hostname:
+        if "chenzhongtech" in url.hostname or "gifshow" in url.hostname:
+            # chenzhongtech 和 gifshow 域名都是移动版页面
             return (
                 False,
                 params.get("userId", [""])[0],
-                params.get("photoId", [""])[0],
+                url.path.split("/")[-1],
             )
-        elif "short-video" in url.path or "fw/photo" in url.path:
+        elif "short-video" in url.path:
             return (
                 True,
                 "",

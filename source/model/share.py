@@ -11,7 +11,7 @@ class ShortUrl(BaseModel):
 class UrlResponse(BaseModel):
     message: str
     urls: list[str] | None
-    params: ShortUrl
+    params: dict
 
     @computed_field
     @property
