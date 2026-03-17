@@ -16,5 +16,5 @@ pyyaml==6.0.3
     # via ks-downloader (pyproject.toml)
 rich==14.3.1
     # via ks-downloader (pyproject.toml)
-uvicorn[standard]==0.40.0
+uvicorn[standard]==0.42.0
     # via ks-downloader (pyproject.toml)
