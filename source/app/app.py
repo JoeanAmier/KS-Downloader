@@ -24,7 +24,7 @@ from ..tools import (
     INFO,
     MASTER,
     WARNING,
-    BrowserCookie,
+    # BrowserCookie,
     Cleaner,
     ColorConsole,
     Mapping,
@@ -118,13 +118,13 @@ class KS:
                 break
             await self.detail(text)
 
-    async def __read_cookie(self):
-        if c := BrowserCookie.run(
-            self.DOMAINS,
-            self.console,
-        ):
-            self.config_obj.write(self.config_obj.read() | {"cookie": c})
-            self.console.print(_("读取并写入 Cookie 成功！"), style=INFO)
+    # async def __read_cookie(self):
+    #     if c := BrowserCookie.run(
+    #         self.DOMAINS,
+    #         self.console,
+    #     ):
+    #         self.config_obj.write(self.config_obj.read() | {"cookie": c})
+    #         self.console.print(_("读取并写入 Cookie 成功！"), style=INFO)
 
     async def __main_menu(self):
         while self.running:
@@ -149,7 +149,7 @@ class KS:
             1: _("禁用"),
         }
         self.__function = (
-            (_("从浏览器读取 Cookie"), self.__read_cookie),
+            # (_("从浏览器读取 Cookie"), self.__read_cookie),
             # (_("批量下载账号作品"), self.__user_enquire),
             (_("批量下载链接作品"), self.__detail_enquire),
             (

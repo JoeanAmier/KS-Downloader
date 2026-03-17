@@ -30,7 +30,7 @@
 <li>✅ 支持文件断点续传下载</li>
 <li>✅ 作品文件储存至单独文件夹</li>
 <li>✅ 自定义作品文件名称格式</li>
-<li>✅ 从浏览器读取 Cookie</li>
+<li>☑️ 从浏览器读取 Cookie</li>
 <li>✅ 支持设置作者别名</li>
 <li>✅ 按作者归档保存作品</li>
 <li>✅ 自动更新作者昵称</li>
@@ -61,8 +61,7 @@
 <li>运行 <code>python .\main.py</code> 或者 <code>python main.py</code> 命令启动 KS-Downloader</li>
 </ol>
 <ol><b>使用 uv 安装项目依赖（推荐）</b>
-<li>运行 <code>uv venv</code> 命令创建虚拟环境</li>
-<li>运行 <code>uv sync</code> 命令同步环境依赖</li>
+<li>运行 <code>uv sync --no-dev</code> 命令同步环境依赖</li>
 <li>运行 <code>uv run main.py</code> 命令启动 KS-Downloader</li>
 </ol>
 </ol>

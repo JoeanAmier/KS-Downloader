@@ -31,7 +31,7 @@
 <li>✅ Resumable downloads</li>
 <li>✅ Dedicated storage folders</li>
 <li>✅ Custom filename formats</li>
-<li>✅ Browser cookie extraction</li>
+<li>☑️ Browser cookie extraction</li>
 <li>✅ Author alias configuration</li>
 <li>✅ Archive works by author</li>
 <li>✅ Automatic author nickname updates</li>
@@ -62,8 +62,7 @@
 <li>Run the <code>python .\main.py</code> or <code>python main.py</code> command to start KS-Downloader</li>
 </ol>
 <ol><b>Install project dependencies using uv (recommended)</b>
-<li>Run the <code>uv venv</code> command to create a virtual environment</li>
-<li>Run the <code>uv sync</code> command to synchronize environment dependencies</li>
+<li>Run the <code>uv sync --no-dev</code> command to synchronize environment dependencies</li>
 <li>Run the <code>uv run main.py</code> command to start KS-Downloader</li>
 </ol>
 </ol>
