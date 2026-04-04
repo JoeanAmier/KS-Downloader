@@ -1,12 +1,15 @@
 from asyncio import sleep
-from random import uniform
+from random import lognormvariate
+from math import log
 
 
-async def wait(min_delay: float | int = 1, max_delay: float | int = 2) -> None:
-    """Sleep for a random amount of time between min_delay and max_delay seconds.
+def get_wait_time(
+    avg_delay: float | int = 6.0,
+    sigma: float = 0.6,
+) -> float:
+    mu = log(avg_delay) - (sigma**2 / 2)
+    return max(0.5, lognormvariate(mu, sigma))
 
-    Args:
-        min_delay: Minimum delay in seconds. Defaults to 1.
-        max_delay: Maximum delay in seconds. Defaults to 2.5.
-    """
-    await sleep(uniform(min_delay, max_delay))
+
+async def wait() -> None:
+    await sleep(get_wait_time())
