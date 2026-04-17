@@ -10,7 +10,7 @@ fastapi==0.135.3
     # via ks-downloader (pyproject.toml)
 httpx[socks]==0.28.1
     # via ks-downloader (pyproject.toml)
-lxml==6.0.3
+lxml==6.0.4
     # via ks-downloader (pyproject.toml)
 pyyaml==6.0.3
     # via ks-downloader (pyproject.toml)
