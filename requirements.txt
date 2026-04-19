@@ -14,7 +14,7 @@ lxml==6.0.4
     # via ks-downloader (pyproject.toml)
 pyyaml==6.0.3
     # via ks-downloader (pyproject.toml)
-rich==14.3.3
+rich==15.0.0
     # via ks-downloader (pyproject.toml)
 uvicorn[standard]==0.44.0
     # via ks-downloader (pyproject.toml)
