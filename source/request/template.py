@@ -22,7 +22,7 @@ class APILive:
         self.client = manager.client
         self.headers = manager.pc_data_headers.copy()
         self.console = manager.console
-        self.retry = manager.max_retry
+        self.max_retry = manager.max_retry
         self.proxy = proxy
         self.note: str = ""
         self.extract_keys: tuple[str, ...] = ()

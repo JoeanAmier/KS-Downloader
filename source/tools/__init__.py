@@ -22,3 +22,4 @@ from .version import Version
 from .mapping import Mapping
 from .sleep import wait
 from .progress import FakeProgress
+from .cookie import cookie_str_to_dict, cookie_dict_to_str

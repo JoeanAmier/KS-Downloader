@@ -4,7 +4,7 @@ from shutil import move
 from typing import TYPE_CHECKING
 from typing import Callable
 from aiofiles import open
-from httpx import HTTPError
+from curl_cffi.requests.exceptions import RequestException
 from rich.progress import (
     BarColumn,
     DownloadColumn,
@@ -49,16 +49,16 @@ class Downloader:
         self.path = manager.path
         self.folder = manager.folder
         self.client = manager.client
-        self.headers = manager.pc_download_headers
+        self.impersonate = manager.impersonate
         self.cleaner = manager.cleaner
-        self.cover = manager.cover
-        self.music = manager.music
+        self.download_cover = manager.download_cover
+        self.download_music = manager.download_music
         self.console = manager.console
-        self.retry = manager.max_retry
+        self.max_retry = manager.max_retry
         self.temp = manager.temp
         self.folder_mode = manager.folder_mode
         self.author_archive = manager.author_archive
-        self.chunk = manager.chunk
+        self.download_chunk = manager.download_chunk
         self.semaphore = Semaphore(manager.max_workers)
         self.database = database
         self.name_format = manager.name_format
@@ -76,7 +76,10 @@ class Downloader:
         return self.__general_progress_object
 
     @staticmethod
-    def __fake_progress_object(*args, **kwargs,):
+    def __fake_progress_object(
+        *args,
+        **kwargs,
+    ):
         return FakeProgress()
 
     def __general_progress_object(self) -> Progress:
@@ -167,7 +170,7 @@ class Downloader:
         data: dict,
         progress: Progress,
     ):
-        if not self.music or not (m := data.get("audioUrls")):
+        if not self.download_music or not (m := data.get("audioUrls")):
             return
         file = self.__generate_path(nickname, filename)
         if not self.__file_exists(file, "m4a"):
@@ -237,7 +240,7 @@ class Downloader:
         data: dict,
         progress: Progress,
     ):
-        match self.cover:
+        match self.download_cover:
             case "WEBP":
                 if not self.__file_exists(path, "webp"):
                     tasks.append(
@@ -254,7 +257,7 @@ class Downloader:
                 if not self.__file_exists(path, "jpeg"):
                     tasks.append(
                         self.__download_file(
-                            data.get("coverUrls"),
+                            data.get("coverUrls", ""),
                             path,
                             progress,
                             data["detailID"],
@@ -283,11 +286,8 @@ class Downloader:
                     _("【{type}】{name} 下载链接为空").format(type=tip, name=text)
                 )
                 return True
-            headers = self.headers.copy()
-            # length, suffix = await self.__head_file(url, headers, suffix, )
             temp = self.temp.joinpath(f"{path.name}.{suffix}")
-            position = self.__update_headers_range(
-                headers,
+            headers, position = self.__deal_headers_range(
                 temp,
             )
             try:
@@ -316,12 +316,12 @@ class Downloader:
                         completed=position,
                     )
                     async with open(temp, "ab") as f:
-                        async for chunk in response.aiter_bytes(self.chunk):
+                        async for chunk in response.aiter_content(self.download_chunk):
                             await f.write(chunk)
                             progress.update(task_id, advance=len(chunk))
-            except HTTPError as e:
+            except RequestException as e:
                 await self.database.delete_download_data(id_)
-                raise HTTPError(repr(e)) from e
+                raise RequestException(repr(e)) from e
             self.move(temp, path)
             self.console.info(
                 _("【{type}】{name} 下载完成").format(type=tip, name=text)
@@ -454,24 +454,6 @@ class Downloader:
         root.mkdir(exist_ok=True)
         return root.joinpath(filename)
 
-    async def __head_file(
-        self,
-        url: str,
-        headers: dict,
-        suffix: str = ...,
-    ) -> tuple[int, str]:
-        response = await self.client.head(
-            url,
-            headers=headers,
-        )
-        if response.status_code == 405:
-            return 0, suffix
-        response.raise_for_status()
-        return self._extract_content(
-            response.headers,
-            suffix,
-        )
-
     def _extract_content(
         self,
         headers: dict,
@@ -493,15 +475,10 @@ class Downloader:
     def __get_resume_byte_position(file: Path) -> int:
         return file.stat().st_size if file.is_file() else 0
 
-    def __update_headers_range(
+    def __deal_headers_range(
         self,
-        headers: dict,
         file: Path,
-        length: int = 0,
-    ) -> int:
+    ) -> tuple[dict[str, str], int]:
         position = self.__get_resume_byte_position(file)
-        # if length and position >= length:
-        #     self.delete(file)
-        #     position = 0
-        headers["Range"] = f"bytes={position}-"
-        return position
+        headers = {"Range": f"bytes={position}-"}
+        return headers, position

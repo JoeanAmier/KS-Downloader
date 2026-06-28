@@ -1,14 +1,12 @@
 from itertools import chain
-from re import compile
-from typing import TYPE_CHECKING, Any
+from re import compile, Match
+from typing import TYPE_CHECKING, Any, Iterator
 from urllib.parse import (
     parse_qs,
     urlparse,
     urlunparse,
 )
-
-from click.testing import Result
-from httpx import get
+from curl_cffi.requests import get
 from ..tools import capture_error_request, retry_request, wait
 from ..variable import TIMEOUT
 
@@ -36,14 +34,10 @@ class Examiner:
     USER_URL = compile(r"(https?://(?:www|live)\.kuaishou\.com/profile/([^?/\s]+))")
 
     def __init__(self, manager: "Manager"):
+        self.impersonate = manager.impersonate
         self.client = manager.client
-        self.cookie = manager.cookie
-        # self.app_headers = manager.app_headers
-        # self.app_data_headers = manager.app_data_headers
-        self.pc_headers = manager.pc_headers
-        self.pc_data_headers = manager.pc_data_headers
         self.console = manager.console
-        self.retry = manager.max_retry
+        self.max_retry = manager.max_retry
 
     async def run(
         self, text: str, type_="detail", proxy: str = ""
@@ -83,7 +77,7 @@ class Examiner:
         self,
         urls: str,
     ) -> list[tuple[str, str]]:
-        urls = self.USER_URL.finditer(urls)
+        urls: Iterator[Match[str]] = self.USER_URL.finditer(urls)
         return [(i.group(1), i.group(2)) for i in urls]
 
     async def __request_redirect(
@@ -121,36 +115,19 @@ class Examiner:
         if proxy:
             response = get(
                 url,
-                headers=self.pc_headers,
                 proxy=proxy,
-                follow_redirects=True,
+                allow_redirects=True,
                 verify=False,
                 timeout=TIMEOUT,
+                impersonate=self.impersonate,
             )
         else:
             response = await self.client.get(
                 url,
-                headers=self.pc_headers,
             )
         await wait()
         response.raise_for_status()
-        self.__update_cookie(
-            response.cookies.items(),
-        )
         return str(response.url)
-
-    def __update_cookie(
-        self,
-        cookies,
-    ) -> None:
-        if self.cookie:
-            return
-        if cookies := self.__format_cookie(cookies):
-            self.cookie = cookies
-            # self.app_headers["Cookie"] = cookies
-            # self.app_data_headers["Cookie"] = cookies
-            self.pc_headers["Cookie"] = cookies
-            self.pc_data_headers["Cookie"] = cookies
 
     @staticmethod
     def __format_cookie(cookies):

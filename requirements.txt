@@ -4,11 +4,11 @@ aiofiles==25.1.0
     # via ks-downloader (pyproject.toml)
 aiosqlite==0.22.1
     # via ks-downloader (pyproject.toml)
+curl-cffi==0.15.0
+    # via ks-downloader (pyproject.toml)
 emoji==2.15.0
     # via ks-downloader (pyproject.toml)
 fastapi==0.136.3
-    # via ks-downloader (pyproject.toml)
-httpx[socks]==0.28.1
     # via ks-downloader (pyproject.toml)
 lxml==6.1.1
     # via ks-downloader (pyproject.toml)

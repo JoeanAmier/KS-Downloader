@@ -1,25 +1,20 @@
-from httpx import AsyncClient, AsyncHTTPTransport, Limits
+from curl_cffi.requests import AsyncSession
 
-from source.variable import PC_USERAGENT, TIMEOUT
+from source.variable import PC_IMPERSONATE, TIMEOUT
 
 
 def base_client(
-    user_agent=PC_USERAGENT,
+    impersonate=PC_IMPERSONATE,
     timeout=TIMEOUT,
     proxy=None,
     **kwargs,
-) -> AsyncClient:
-    return AsyncClient(
-        headers={
-            "User-Agent": user_agent,
-        },
+) -> AsyncSession:
+    return AsyncSession(
         timeout=timeout,
         verify=False,
-        limits=Limits(max_connections=10),
-        follow_redirects=True,
-        mounts={
-            "http://": AsyncHTTPTransport(proxy=proxy),
-            "https://": AsyncHTTPTransport(proxy=proxy),
-        },
+        max_clients=10,
+        allow_redirects=True,
+        impersonate=impersonate,
+        proxy=proxy,
         **kwargs,
     )

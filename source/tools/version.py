@@ -20,7 +20,7 @@ class Version:
     def __init__(self, manager: "Manager"):
         self.client = manager.client
         self.console = manager.console
-        self.retry = manager.max_retry
+        self.max_retry = manager.max_retry
 
     @staticmethod
     def compare_versions(

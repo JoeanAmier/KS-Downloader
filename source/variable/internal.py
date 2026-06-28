@@ -1,17 +1,10 @@
-PC_USERAGENT = (
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 "
-    "Safari/537.36"
-)
+PC_IMPERSONATE = "chrome146"
 
-APP_USERAGENT = (
-    "Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) "
-    "Version/16.6 Mobile/15E148 Safari/604.1"
-)
+APP_IMPERSONATE ="chrome131_android"
 
 PC_PAGE_HEADERS = {
     "Origin": "https://www.kuaishou.com",
     "Referer": "https://www.kuaishou.com/new-reco",
-    "User-Agent": PC_USERAGENT,
 }
 
 PC_DATA_HEADERS = {
@@ -20,15 +13,6 @@ PC_DATA_HEADERS = {
     "Content-Type": "application/json",
     "Origin": "https://www.kuaishou.com",
     "Referer": "https://www.kuaishou.com/new-reco?source=NewReco",
-    "User-Agent": PC_USERAGENT,
-}
-
-PC_DOWNLOAD_HEADERS = {
-    "User-Agent": PC_USERAGENT,
-}
-
-APP_HEADERS = {
-    "User-Agent": APP_USERAGENT,
 }
 
 APP_DATA_HEADERS = {
@@ -37,11 +21,6 @@ APP_DATA_HEADERS = {
     "Content-Type": "application/json",
     "Origin": "https://v.m.chenzhongtech.com",
     "Referer": "https://v.m.chenzhongtech.com/",
-    "User-Agent": APP_USERAGENT,
-}
-
-APP_DOWNLOAD_HEADERS = {
-    "User-Agent": APP_USERAGENT,
 }
 
 TIMEOUT = 10

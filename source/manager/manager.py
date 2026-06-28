@@ -4,11 +4,6 @@ from typing import TYPE_CHECKING
 
 from ..tools import base_client, remove_empty_directories
 from ..variable import (
-    APP_DATA_HEADERS,
-    APP_DOWNLOAD_HEADERS,
-    APP_HEADERS,
-    PC_DATA_HEADERS,
-    PC_DOWNLOAD_HEADERS,
     PC_PAGE_HEADERS,
 )
 
@@ -34,16 +29,15 @@ class Manager:
         folder_name: str,
         name_format: str,
         name_length: int,
-        cookie: str,
-        cover: str,
-        music: bool,
+        cookies: dict,
+        download_cover: str,
+        download_music: bool,
         data_record: bool,
-        chunk: int,
-        user_agent: str,
+        download_chunk: int,
+        impersonate: str,
         folder_mode: bool,
         author_archive: bool,
         max_workers: int,
-        *args,
         **kwargs,
     ):
         self.console = console
@@ -55,40 +49,30 @@ class Manager:
         self.folder = self.path.joinpath(folder_name)
         self.compatible(folder_name)
         self.timeout = timeout
+        self.cookies = cookies
+        self.impersonate = impersonate
         self.client = base_client(
-            user_agent=user_agent,
+            impersonate=impersonate,
+            timeout=timeout,
+            proxy=proxy,
+            cookies=cookies,
+            headers=PC_PAGE_HEADERS,
+        )
+        self.client_download = base_client(
+            impersonate=impersonate,
             timeout=timeout,
             proxy=proxy,
         )
-        self.cookie = cookie
-        self.pc_headers = PC_PAGE_HEADERS | {
-            "Cookie": cookie,
-            "User-Agent": user_agent,
-        }
-        self.pc_data_headers = PC_DATA_HEADERS | {
-            "Cookie": cookie,
-            "User-Agent": user_agent,
-        }
-        self.pc_download_headers = PC_DOWNLOAD_HEADERS
-        self.app_headers = APP_HEADERS | {
-            "Cookie": cookie,
-            "User-Agent": user_agent,
-        }
-        self.app_data_headers = APP_DATA_HEADERS | {
-            "Cookie": cookie,
-            "User-Agent": user_agent,
-        }
-        self.app_download_headers = APP_DOWNLOAD_HEADERS
         self.name_format = name_format
         self.name_length = name_length
         self.max_retry = max_retry
         self.proxy = proxy
-        self.cover = cover
-        self.music = music
+        self.download_cover = download_cover
+        self.download_music = download_music
         self.data_record = data_record
         self.folder_mode = folder_mode
         self.author_archive = author_archive
-        self.chunk = chunk
+        self.download_chunk = download_chunk
         self.mapping_data = mapping_data
         self.max_workers = max_workers
         self.__create_folder()
@@ -106,7 +90,8 @@ class Manager:
         return sub(r"_+", "_", name).strip("_")
 
     async def close(self):
-        await self.client.aclose()
+        await self.client.close()
+        await self.client_download.close()
         # self.__clear_temp()
         remove_empty_directories(self.root)
 
@@ -127,5 +112,3 @@ class Manager:
             and not self.folder.exists()
         ):
             move(old, self.folder)
-
-

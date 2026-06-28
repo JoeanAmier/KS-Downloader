@@ -159,7 +159,7 @@
 <td align="center"><code>128</code></td>
 </tr>
 <tr>
-<td align="center">cookie</td>
+<td align="center">cookies</td>
 <td align="center">str</td>
 <td align="center">KuaiShou web interface Cookie <b>(no login required)</b></td>
 <td align="center">Dynamically fetched</td>
@@ -184,13 +184,13 @@
 <td align="center">4</td>
 </tr>
 <tr>
-<td align="center"><del>cover</del>（Deactivate）</td>
+<td align="center"><del>download_cover</del>（Deactivate）</td>
 <td align="center">str</td>
 <td align="center">Cover download format (JPEG/WEBP), empty string disables</td>
 <td align="center">Empty string</td>
 </tr>
 <tr>
-<td align="center"><del>music</del>（Deactivate）</td>
+<td align="center"><del>download_music</del>（Deactivate）</td>
 <td align="center">bool</td>
 <td align="center">Download works music track</td>
 <td align="center">false</td>
@@ -208,13 +208,13 @@
 <td align="center">10</td>
 </tr>
 <tr>
-<td align="center">user_agent</td>
+<td align="center">impersonate</td>
 <td align="center">str</td>
-<td align="center">浏览器 User Agent</td>
-<td align="center">默认 UA</td>
+<td align="center">Browser information, refer to <a href="https://curl-cffi.readthedocs.io/en/latest/impersonate/targets.html">curl_cffi documentation</a></td>
+<td align="center">chrome146</td>
 </tr>
 <tr>
-<td align="center">chunk</td>
+<td align="center">download_chunk</td>
 <td align="center">int</td>
 <td align="center">Download chunk size in bytes</td>
 <td align="center">2097152 (2 MB)</td>
@@ -408,7 +408,7 @@ repository to execute the build process
 
 # 💡 Project References
 
-* https://github.com/encode/httpx/
+* https://github.com/lexiforest/curl_cffi
 * https://github.com/Textualize/rich
 * https://github.com/Tinche/aiofiles
 * https://github.com/omnilib/aiosqlite

@@ -155,7 +155,7 @@
 <td align="center"><code>128</code></td>
 </tr>
 <tr>
-<td align="center">cookie</td>
+<td align="center">cookies</td>
 <td align="center">str</td>
 <td align="center">快手网页版 Cookie，<b>无需登录</b></td>
 <td align="center">动态获取</td>
@@ -179,13 +179,13 @@
 <td align="center">4</td>
 </tr>
 <tr>
-<td align="center"><del>cover</del>（停用）</td>
+<td align="center"><del>download_cover</del>（停用）</td>
 <td align="center">str</td>
 <td align="center">作品封面下载格式，支持：<code>JPEG</code>、<code>WEBP</code>；设置为空字符串代表不下载</td>
 <td align="center">空字符串</td>
 </tr>
 <tr>
-<td align="center"><del>music</del>（停用）</td>
+<td align="center"><del>download_music</del>（停用）</td>
 <td align="center">bool</td>
 <td align="center">是否下载作品音乐</td>
 <td align="center">false</td>
@@ -203,13 +203,13 @@
 <td align="center">10</td>
 </tr>
 <tr>
-<td align="center">user_agent</td>
+<td align="center">impersonate</td>
 <td align="center">str</td>
-<td align="center">浏览器 User Agent</td>
-<td align="center">默认 UA</td>
+<td align="center">浏览器信息，参考 <a href="https://curl-cffi.readthedocs.io/en/latest/impersonate/targets.html">curl_cffi 文档</a></td>
+<td align="center">chrome146</td>
 </tr>
 <tr>
-<td align="center">chunk</td>
+<td align="center">download_chunk</td>
 <td align="center">int</td>
 <td align="center">下载文件时，每次从服务器获取的数据块大小，单位：字节</td>
 <td align="center">2097152(2 MB)</td>
@@ -396,7 +396,7 @@ A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fo
 
 # 💡 项目参考
 
-* https://github.com/encode/httpx/
+* https://github.com/lexiforest/curl_cffi
 * https://github.com/Textualize/rich
 * https://github.com/Tinche/aiofiles
 * https://github.com/omnilib/aiosqlite

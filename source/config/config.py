@@ -5,7 +5,7 @@ from yaml import dump, safe_load
 
 from ..static import PROJECT_ROOT
 from ..translation import _
-from ..variable import PC_USERAGENT, RETRY, TIMEOUT
+from ..variable import PC_IMPERSONATE, RETRY, TIMEOUT
 
 if TYPE_CHECKING:
     from ..tools import ColorConsole
@@ -20,18 +20,25 @@ class Config:
         "folder_name": "Download",
         "name_format": "发布日期 作者昵称 作品描述",
         "name_length": 128,
-        "cookie": "",
+        "cookies": "",
         "proxy": None,
         "data_record": False,
         "max_workers": 4,
-        "cover": "",
-        "music": False,
+        "download_cover": "",
+        "download_music": False,
         "max_retry": RETRY,
         "timeout": TIMEOUT,
-        "chunk": 2 * 1024 * 1024,
-        "user_agent": PC_USERAGENT,
+        "download_chunk": 2 * 1024 * 1024,
+        "impersonate": PC_IMPERSONATE,
         "folder_mode": False,
         "author_archive": False,
+    }
+    key_mapping = {
+        # "new_key": "old_key",
+        "cookies": "cookie",
+        "download_cover": "cover",
+        "download_music": "music",
+        "download_chunk": "chunk",
     }
     encode = "UTF-8-SIG" if system() == "Windows" else "UTF-8"
 
@@ -48,7 +55,9 @@ class Config:
         if self.file.exists():
             try:
                 with self.file.open("r", encoding=self.encode) as file:
-                    self.data = self.supplement(safe_load(file))
+                    data = safe_load(file)
+                data = self.migrate_keys(data)
+                self.data = self.supplement(data)
             except UnicodeDecodeError as e:
                 self.console.error(_("配置文件编码错误：{error}").format(error=e))
                 self.console.warning(_("本次运作将会使用默认配置参数！"))
@@ -62,7 +71,7 @@ class Config:
         self.console.info(_("已创建默认配置文件"))
         self.write(self.default)
 
-    def write(self, data: dict = None) -> None:
+    def write(self, data: dict | None = None) -> None:
         with self.file.open("w", encoding=self.encode) as file:
             dump(
                 data or self.data,
@@ -77,12 +86,30 @@ class Config:
         ) and not self.file.exists():
             move(old, self.file)
 
-    def supplement(self, data:dict,)->dict:
+    def supplement(
+        self,
+        data: dict,
+    ) -> dict:
         update = False
         for key, value in self.default.items():
             if key not in data:
                 data[key] = value
                 update = True
+        if update:
+            self.write(data)
+        return data
+
+    def migrate_keys(self, data: dict) -> dict:
+        """将旧 key 的值迁移到新 key"""
+        if not data:
+            return data
+
+        update = False
+        for new_key, old_key in self.key_mapping.items():
+            if old_key in data and new_key not in data:
+                data[new_key] = data.pop(old_key)
+                update = True
+
         if update:
             self.write(data)
         return data

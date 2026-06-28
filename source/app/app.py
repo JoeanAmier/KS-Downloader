@@ -74,7 +74,7 @@ class KS:
         self.config: dict | None = None
         self.option: dict | None = None
         self.record = RecordManager()
-        self.manager = Manager(**self.params.run())
+        self.manager = Manager(**vars(self.params))
         self.database = Database(self.manager)
         self.mapping = Mapping(self.manager, self.database)
         self.version = Version(self.manager)
