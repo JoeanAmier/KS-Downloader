@@ -130,7 +130,7 @@ class Examiner:
         return str(response.url)
 
     @staticmethod
-    def __format_cookie(cookies):
+    def __format_cookies(cookies):
         return "; ".join([f"{key}={value}" for key, value in cookies])
 
     def extract_params(

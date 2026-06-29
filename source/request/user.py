@@ -10,12 +10,12 @@ class User(API):
     def __init__(
         self,
         manager: "Manager",
-        cookie: str = "",
+        cookies: str = "",
         proxy: str = "",
         user_id: str = ...,
         cursor: str = "",
     ):
-        super().__init__(manager, cookie, proxy)
+        super().__init__(manager, cookies, proxy)
         self.user_id = user_id
         self.cursor = cursor
         self.extract_keys = ("feeds",)

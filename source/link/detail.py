@@ -14,8 +14,8 @@ class DetailPage:
         self.console = manager.console
         self.max_retry = manager.max_retry
 
-    async def run(self, url: str, proxy: str = "", cookie: str= "") -> str:
-        return await self.request_url(url, proxy, cookie)
+    async def run(self, url: str, proxy: str = "", cookies: str = "") -> str:
+        return await self.request_url(url, proxy, cookies)
 
     @retry_request
     @capture_error_request
@@ -23,12 +23,12 @@ class DetailPage:
         self,
         url: str,
         proxy: str = "",
-        cookie: str = "",
+        cookies: str = "",
     ) -> str:
-        if proxy or cookie:
+        if proxy or cookies:
             response = get(
                 url,
-                headers=PC_PAGE_HEADERS | {"Cookie": cookie},
+                headers=PC_PAGE_HEADERS | {"Cookie": cookies},
                 proxy=proxy,
                 allow_redirects=True,
                 verify=False,

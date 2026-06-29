@@ -123,7 +123,7 @@ class KS:
     #         self.DOMAINS,
     #         self.console,
     #     ):
-    #         self.config_obj.write(self.config_obj.read() | {"cookie": c})
+    #         self.config_obj.write(self.config_obj.read() | {"cookies": c})
     #         self.console.print(_("读取并写入 Cookie 成功！"), style=INFO)
 
     async def __main_menu(self):
@@ -237,7 +237,7 @@ class KS:
         url: str,
         download: bool = False,
         proxy: str = "",
-        cookie: str = "",
+        cookies: str = "",
     ) -> dict | str:
         web, user_id, detail_id = self.examiner.extract_params(
             url,
@@ -251,7 +251,7 @@ class KS:
             url,
             web,
             proxy,
-            cookie,
+            cookies,
         )
         if not data:
             return _("获取作品数据失败")
@@ -300,9 +300,9 @@ class KS:
         url: str,
         web: bool,
         proxy: str = "",
-        cookie: str = "",
+        cookies: str = "",
     ) -> dict | None:
-        if html := await self.detail_html.run(url, proxy, cookie):
+        if html := await self.detail_html.run(url, proxy, cookies):
             return self.extractor_html.run(
                 html,
                 detail_id,
@@ -361,11 +361,11 @@ class KS:
         cursor: str = "",
         download: bool = False,
         proxy: str = "",
-        cookie: str = "",
+        cookies: str = "",
     ):
         response = await User(
             self.manager,
-            cookie,
+            cookies,
             proxy,
             user_id,
             cursor,
@@ -509,7 +509,7 @@ class KS:
                     **参数**:
                         
                     - **text**: 作品链接，自动提取；必需参数
-                    - **cookie**: 请求数据时使用的 Cookie；可选参数
+                    - **cookies**: 请求数据时使用的 Cookie；可选参数
                     - **proxy**: 请求数据时使用的代理；可选参数
                     """
                 )
@@ -526,7 +526,7 @@ class KS:
             else:
                 if isinstance(
                     data := await self.detail_one(
-                        urls[0], proxy=extract.proxy, cookie=extract.cookie
+                        urls[0], proxy=extract.proxy, cookies=extract.cookies
                     ),
                     dict,
                 ):

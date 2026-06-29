@@ -13,7 +13,7 @@
 <img alt="Static Badge" src="https://img.shields.io/badge/Docker-badc58?style=flat-square&logo=docker">
 <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/KS-Downloader/total?style=flat-square&color=ffdd59">
 <br>
-<p>🔥 <b>快手作品下载工具：</b>完全免费开源，基于 HTTPX 模块实现，下载快手无水印视频、图片文件！</p>
+<p>🔥 <b>快手作品下载工具：</b>完全免费开源，基于 curl_cffi 库实现，下载快手无水印视频、图片文件！</p>
 </div>
 <hr>
 <h1>📑 项目功能</h1>
@@ -52,7 +52,7 @@
 <p><strong>方案二：</strong>下载并解压文件（不要运行程序），复制全部文件，直接覆盖旧版本文件。</p>
 <h2>⌨️ 源码运行</h2>
 <ol>
-<li>安装 <code>3.12</code> 版本的 <a href="https://www.python.org/">Python</a> 解释器</li>
+<li>安装不低于 <code>3.12</code> 版本的 <a href="https://www.python.org/">Python</a> 解释器</li>
 <li>下载最新的源码或 <a href="https://github.com/JoeanAmier/KS-Downloader/releases/latest">Releases</a> 发布的源码至本地</li>
 <ol><b>使用 pip 安装项目依赖</b>
 <li>运行 <code>python -m venv venv</code> 命令创建虚拟环境（可选）</li>
@@ -105,8 +105,8 @@
 <p>⭐ 推荐使用 <a href="https://learn.microsoft.com/zh-cn/windows/terminal/install">Windows 终端</a> （Windows 11 默认终端）运行程序以便获得最佳显示效果！</p>
 <h1>📜 其他说明</h1>
 <ul>
-<li>Windows 系统需要以管理员身份运行程序才能读取 Chromium、Chrome、Edge 浏览器 Cookie</li>
-<li><code>从浏览器读取 Cookie</code> 功能依赖的第三方模块已长期未更新，可能无法正常支持最新浏览器版本。若功能出现异常，请尝试手动获取 Cookie</li>
+<li><del>Windows 系统需要以管理员身份运行程序才能读取 Chromium、Chrome、Edge 浏览器 Cookie</del></li>
+<li><del><code>从浏览器读取 Cookie</code> 功能依赖的第三方模块已长期未更新，可能无法正常支持最新浏览器版本。若功能出现异常，请尝试手动获取 Cookie</del></li>
 <li>如果开启保存作品数据至文件功能，作品数据默认储存至 <code>./Volume/Data/DetailData.db</code> 文件</li>
 <li>程序设置、下载记录数据储存至 <code>./Volume/KS-Downloader.db</code> 文件</li>
 <li>项目内置请求延时机制，以避免请求频率过快，代码位置：<code>./source/tools/sleep.py</code></li>
@@ -205,7 +205,7 @@
 <tr>
 <td align="center">impersonate</td>
 <td align="center">str</td>
-<td align="center">浏览器信息，参考 <a href="https://curl-cffi.readthedocs.io/en/latest/impersonate/targets.html">curl_cffi 文档</a></td>
+<td align="center">浏览器信息，设置时参考 <a href="https://curl-cffi.readthedocs.io/en/latest/impersonate/targets.html">curl_cffi 文档</a></td>
 <td align="center">chrome146</td>
 </tr>
 <tr>

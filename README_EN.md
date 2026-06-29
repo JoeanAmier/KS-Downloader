@@ -13,7 +13,7 @@
 <img alt="Static Badge" src="https://img.shields.io/badge/Docker-badc58?style=flat-square&logo=docker">
 <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/KS-Downloader/total?style=flat-square&color=ffdd59">
 <br>
-<p>🔥 <b>KuaiShou Works Download Tool: </b>Completely free and open-source, based on HTTPX module, for downloading KuaiShou watermark-free video and image files!</p>
+<p>🔥 <b>KuaiShou Works Download Tool: </b>Completely free and open-source, based on curl_cffi module, for downloading KuaiShou watermark-free video and image files!</p>
 <p>⭐ Due to the author's limited energy, I was unable to update the English document in a timely manner, and the content may have become outdated, partial translation is machine translation, the translation result may be incorrect, Suggest referring to Chinese documentation. If you want to contribute to translation, we warmly welcome you.</p>
 </div>
 <hr>
@@ -53,7 +53,7 @@
 <p><strong>Method 2:</strong> Download and extract the files (do not run the program), then copy all files and directly overwrite the old version.</p>
 <h2>⌨️ Source Code Execution</h2>
 <ol>
-<li>Install the <code>3.12</code> version of the <a href="https://www.python.org/">Python</a> interpreter</li>
+<li>Install <a href="https://www.python.org/">Python</a> interpreter version not lower than <code>3.12</code></li>
 <li>Download the latest source code or the source code released in <a href="https://github.com/JoeanAmier/KS-Downloader/releases/latest">Releases</a> to your local machine</li>
 <ol><b>Install project dependencies using pip</b>
 <li>Run the <code>python -m venv venv</code> command to create a virtual environment (optional)</li>
@@ -108,8 +108,8 @@
 
 <h1>📜 Additional Notes</h1>
 <ul>
-<li>Windows requires admin privileges to read Chromium/Chrome/Edge cookies</li>
-<li>The <code>Browser Cookie Reading</code> feature relies on a third-party module that has not been updated for a long time and may not properly support the latest browser versions. If the feature malfunctions, please try obtaining the cookies manually</li>
+<li><del>Windows requires admin privileges to read Chromium/Chrome/Edge cookies</del></li>
+<li><del>The <code>Browser Cookie Reading</code> feature relies on a third-party module that has not been updated for a long time and may not properly support the latest browser versions. If the feature malfunctions, please try obtaining the cookies manually</del></li>
 <li>Work data stored in <code>./Volume/Data/DetailData.db</code> when enabled</li>
 <li>Settings and download records in <code>./Volume/KS-Downloader.db</code></li>
 <li>The project has a built-in request delay mechanism to avoid excessive request frequency. Code location: <code>./source/tools/sleep.py</code></li>
@@ -210,7 +210,7 @@
 <tr>
 <td align="center">impersonate</td>
 <td align="center">str</td>
-<td align="center">Browser information, refer to <a href="https://curl-cffi.readthedocs.io/en/latest/impersonate/targets.html">curl_cffi documentation</a></td>
+<td align="center">Browser information, refer to <a href="https://curl-cffi.readthedocs.io/en/latest/impersonate/targets.html">curl_cffi documentation</a> when setting</td>
 <td align="center">chrome146</td>
 </tr>
 <tr>

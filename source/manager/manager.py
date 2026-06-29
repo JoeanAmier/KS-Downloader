@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING
 from ..tools import base_client, remove_empty_directories
 from ..variable import (
     PC_PAGE_HEADERS,
+    PC_DATA_HEADERS,
 )
 
 if TYPE_CHECKING:
@@ -58,6 +59,13 @@ class Manager:
             cookies=cookies,
             headers=PC_PAGE_HEADERS,
         )
+        # self.client_api = base_client(
+        #     impersonate=impersonate,
+        #     timeout=timeout,
+        #     proxy=proxy,
+        #     cookies=cookies,
+        #     headers=PC_DATA_HEADERS,
+        # )
         self.client_download = base_client(
             impersonate=impersonate,
             timeout=timeout,
@@ -91,6 +99,7 @@ class Manager:
 
     async def close(self):
         await self.client.close()
+        # await self.client_api.close()
         await self.client_download.close()
         # self.__clear_temp()
         remove_empty_directories(self.root)

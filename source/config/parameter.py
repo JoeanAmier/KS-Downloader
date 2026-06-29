@@ -143,11 +143,11 @@ class Parameter:
         )
         return "Download"
 
-    def __check_cookies(self, cookie: str | dict) -> dict:
-        if isinstance(cookie, str):
-            return cookie_str_to_dict(cookie)
-        elif isinstance(cookie, dict):
-            return cookie
+    def __check_cookies(self, cookies: str | dict) -> dict:
+        if isinstance(cookies, str):
+            return cookie_str_to_dict(cookies)
+        elif isinstance(cookies, dict):
+            return cookies
         self.console.warning(_("cookies 参数错误"))
         return {}
 

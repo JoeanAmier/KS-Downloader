@@ -1,6 +1,7 @@
 from json import dumps
 from typing import TYPE_CHECKING
-
+from ..variable import PC_DATA_HEADERS
+from curl_cffi.requests import post, get
 from ..tools import capture_error_request, retry_request, wait
 from ..translation import _
 
@@ -14,13 +15,15 @@ class APILive:
     def __init__(
         self,
         manager: "Manager",
-        cookie: str = "",
+        cookies: str | dict = "",
         proxy: str = "",
         *args,
         **kwargs,
     ):
-        self.client = manager.client
-        self.headers = manager.pc_data_headers.copy()
+        self.client = manager.client  # client_api
+        self.timeout = manager.timeout
+        self.cookies = cookies
+        self.impersonate = manager.impersonate
         self.console = manager.console
         self.max_retry = manager.max_retry
         self.proxy = proxy
@@ -32,10 +35,6 @@ class APILive:
         self.cursor: str = ""
         self.max_batch = 9999
         self.api: str = ""
-        self.__set_cookie(cookie)
-
-    def __set_cookie(self, cookie: str):
-        pass
 
     async def run(
         self,
@@ -71,34 +70,49 @@ class APILive:
     async def get_data(
         self,
         url,
-        headers=None,
         params=None,
         data=None,
         json=None,
         method="GET",
     ):
-        match method:
-            case "GET":
+        match (method, any((self.cookies, self.proxy))):
+            case ("GET", False):
                 response = await self.__get_data(
                     url,
                     params,
-                    headers,
                 )
                 self.deal_response(
                     response,
                 )
-            case "POST":
+            case ("POST", False):
                 response = await self.__post_data(
                     url,
                     params,
-                    headers,
                     data,
                     json,
                 )
                 self.deal_response(
                     response,
                 )
-            case _:
+            case ("POST", True):
+                response = await self.__post_data_disposable(
+                    url,
+                    params,
+                    data,
+                    json,
+                )
+                self.deal_response(
+                    response,
+                )
+            case ("GET", True):
+                response = await self.__get_data_disposable(
+                    url,
+                    params,
+                )
+                self.deal_response(
+                    response,
+                )
+            case __:
                 raise ValueError(f"Invalid method: {method}")
 
     @retry_request
@@ -106,15 +120,13 @@ class APILive:
     async def __post_data(
         self,
         url: str,
-        params: dict = None,
-        headers: dict = None,
-        data: dict = None,
-        json: dict = None,
+        params: dict | None = None,
+        data: dict | None = None,
+        json: dict | None = None,
         **kwargs,
     ) -> dict:
         response = await self.client.post(
             url,
-            headers=headers or self.headers,
             params=params,
             data=dumps(data, separators=(",", ":")),
             json=json,
@@ -126,17 +138,63 @@ class APILive:
 
     @retry_request
     @capture_error_request
+    async def __post_data_disposable(
+        self,
+        url: str,
+        params: dict | None = None,
+        data: dict | None = None,
+        json: dict | None = None,
+        **kwargs,
+    ) -> dict:
+        response = post(
+            url,
+            params=params,
+            data=dumps(data, separators=(",", ":")),
+            json=json,
+            timeout=self.timeout,
+            headers=PC_DATA_HEADERS | {"Cookie": self.cookies},
+            verify=False,
+            proxy=self.proxy,
+            impersonate=self.impersonate,
+            **kwargs,
+        )
+        await wait()
+        response.raise_for_status()
+        return response.json()
+
+    @retry_request
+    @capture_error_request
     async def __get_data(
         self,
         url: str,
-        params: dict = None,
-        headers: dict = None,
+        params: dict | None = None,
         **kwargs,
     ) -> dict:
         response = await self.client.get(
             url,
-            headers=headers or self.headers,
             params=params,
+            **kwargs,
+        )
+        await wait()
+        response.raise_for_status()
+        return response.json()
+
+    @retry_request
+    @capture_error_request
+    async def __get_data_disposable(
+        self,
+        url: str,
+        params: dict | None = None,
+        **kwargs,
+    ) -> dict:
+        response = get(
+            url,
+            params=params,
+            timeout=self.timeout,
+            headers=PC_DATA_HEADERS | {"Cookie": self.cookies},
+            verify=False,
+            proxy=self.proxy,
+            impersonate=self.impersonate,
             **kwargs,
         )
         await wait()
@@ -161,7 +219,7 @@ class APILive:
         self,
         response: dict | None,
     ) -> None:
-        if cursor := response.get("pcursor"):
+        if cursor := response.get("pcursor", ""):
             self.cursor = cursor
             self.deal_items_response(
                 response,
@@ -202,8 +260,8 @@ class APILive:
     def add_item(
         self,
         items: list[dict],
-        start: int = None,
-        end: int = None,
+        start: int | None = None,
+        end: int | None = None,
     ) -> None:
         self.items.extend(items[start:end])
 
@@ -214,14 +272,14 @@ class API(APILive):
     def __init__(
         self,
         manager: "Manager",
-        cookie: str = "",
+        cookies: str = "",
         proxy: str = "",
         *args,
         **kwargs,
     ):
         super().__init__(
             manager,
-            cookie,
+            cookies,
             proxy,
             *args,
             **kwargs,
