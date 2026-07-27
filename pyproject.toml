@@ -1,6 +1,6 @@
 [project]
 name = "KS-Downloader"
-version = "1.6"
+version = "1.7"
 description = "快手（KuaiShou）作品视频/图片下载工具"
 authors = [
     { name = "JoeanAmier", email = "yonglelolu@foxmail.com" },
