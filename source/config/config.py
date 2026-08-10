@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 from shutil import move
 from yaml import dump, safe_load
 
-from ..static import PROJECT_ROOT
+from ..static import VOLUME
 from ..translation import _
 from ..variable import PC_IMPERSONATE, RETRY, TIMEOUT
 
@@ -47,7 +47,7 @@ class Config:
         console: "ColorConsole",
     ):
         self.console = console
-        self.file = PROJECT_ROOT.joinpath("config.yaml")
+        self.file = VOLUME.joinpath("config.yaml")
         self.data = {}
 
     def read(self) -> dict:
@@ -82,7 +82,7 @@ class Config:
 
     def compatible(self):
         if (
-            (old := PROJECT_ROOT.parent.joinpath("config.yaml")).exists()
+            (old := VOLUME.parent.joinpath("config.yaml")).exists()
         ) and not self.file.exists():
             move(old, self.file)
 

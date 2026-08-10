@@ -5,7 +5,7 @@ from curl_cffi.requests import get
 from curl_cffi.requests.exceptions import RequestException, Timeout
 from typing import get_args
 from curl_cffi.requests import BrowserTypeLiteral
-from ..static import PROJECT_ROOT
+from ..static import VOLUME
 from ..translation import _
 from ..variable import PC_IMPERSONATE, RETRY, TIMEOUT
 from ..tools import cookie_str_to_dict
@@ -51,7 +51,7 @@ class Parameter:
         max_workers=4,
         **kwargs,
     ):
-        self.root = PROJECT_ROOT
+        self.root = VOLUME
         self.cleaner = cleaner
         self.console = console
         self.mapping_data = mapping_data or {}

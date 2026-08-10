@@ -3,7 +3,7 @@ from asyncio import CancelledError
 from contextlib import suppress
 from aiosqlite import Row, connect
 from shutil import move
-from ..static import PROJECT_ROOT
+from ..static import VOLUME
 
 if TYPE_CHECKING:
     from ..manager import Manager
@@ -17,7 +17,7 @@ class Database:
         self,
         manager: "Manager",
     ):
-        self.file = PROJECT_ROOT.joinpath(self.__FILE)
+        self.file = VOLUME.joinpath(self.__FILE)
         self.compatible()
         self.switch = manager.author_archive
         self.database = None
@@ -173,6 +173,6 @@ class Database:
 
     def compatible(self):
         if (
-            (old := PROJECT_ROOT.parent.joinpath(self.__FILE)).exists()
+            (old := VOLUME.parent.joinpath(self.__FILE)).exists()
         ) and not self.file.exists():
             move(old, self.file)

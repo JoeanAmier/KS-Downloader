@@ -1,5 +1,5 @@
 from .internal import (
-    PROJECT_ROOT,
+    VOLUME,
     VERSION_MINOR,
     VERSION_MAJOR,
     VERSION_BETA,
