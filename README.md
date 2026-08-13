@@ -391,7 +391,7 @@ A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fo
 <b>在使用本项目的代码和功能之前，请您认真考虑并接受以上免责声明。如果您对上述声明有任何疑问或不同意，请不要使用本项目的代码和功能。如果您使用了本项目的代码和功能，则视为您已完全理解并接受上述免责声明，并自愿承担使用本项目的一切风险和后果。</b>
 <h1>⭐ Star 趋势</h1>
 <p>
-<img alt="Star History Chart" src="https://api.star-history.com/svg?repos=JoeanAmier/KS-Downloader&amp;type=Timeline"/>
+<img alt="Star History Chart" src="https://api.star-history.com/chart?repos=JoeanAmier/KS-Downloader&type=timeline&legend=bottom-right&sealed_token=ghQhcaubuYgoInTgly7T_SSPbU0bQuSnGu6QkGvYZmzQPc9-Baa9iiAWObNar2fsQspHFdkwwfYZe1BtlRqFLYC7OTyW54x6GoWB2ahv_27mPlBPE6J7IcerSaiH70WaS2lAVGJpC1dGjQNvg4aWTww3OsTWr63dNCl_lhA6-YyvdOERuKd44w7M_227" />
 </p>
 
 # 💡 项目参考
@@ -400,7 +400,7 @@ A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fo
 * https://github.com/Textualize/rich
 * https://github.com/Tinche/aiofiles
 * https://github.com/omnilib/aiosqlite
-* https://github.com/pyinstaller/pyinstaller
+* https://github.com/marcelotduarte/cx_Freeze/
 * https://github.com/lxml/lxml
 * https://github.com/yaml/pyyaml
 * https://github.com/carpedm20/emoji/

@@ -402,7 +402,7 @@ repository to execute the build process
 <b>Before using the code and functionalities of this project, please carefully consider and accept the above disclaimer. If you have any questions or disagree with the statement, please do not use the code and functionalities of this project. If you use the code and functionalities of this project, it is considered that you fully understand and accept the above disclaimer, and willingly assume all risks and consequences associated with the use of this project.</b>
 <h1>⭐ Star History</h1>
 <p>
-<img alt="Star History Chart" src="https://api.star-history.com/svg?repos=JoeanAmier/KS-Downloader&amp;type=Timeline"/>
+<img alt="Star History Chart" src="https://api.star-history.com/chart?repos=JoeanAmier/KS-Downloader&type=timeline&legend=bottom-right&sealed_token=ghQhcaubuYgoInTgly7T_SSPbU0bQuSnGu6QkGvYZmzQPc9-Baa9iiAWObNar2fsQspHFdkwwfYZe1BtlRqFLYC7OTyW54x6GoWB2ahv_27mPlBPE6J7IcerSaiH70WaS2lAVGJpC1dGjQNvg4aWTww3OsTWr63dNCl_lhA6-YyvdOERuKd44w7M_227" />
 </p>
 
 # 💡 Project References
@@ -411,7 +411,7 @@ repository to execute the build process
 * https://github.com/Textualize/rich
 * https://github.com/Tinche/aiofiles
 * https://github.com/omnilib/aiosqlite
-* https://github.com/pyinstaller/pyinstaller
+* https://github.com/marcelotduarte/cx_Freeze/
 * https://github.com/lxml/lxml
 * https://github.com/yaml/pyyaml
 * https://github.com/carpedm20/emoji/
