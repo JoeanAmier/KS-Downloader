@@ -236,7 +236,7 @@ class KS:
         self,
         url: str,
         download: bool = False,
-        proxy: str = "",
+        proxy: str | None = None,
         cookies: str = "",
     ) -> dict | str:
         web, user_id, detail_id = self.examiner.extract_params(
@@ -299,7 +299,7 @@ class KS:
         detail_id: str,
         url: str,
         web: bool,
-        proxy: str = "",
+        proxy: str | None = None,
         cookies: str = "",
     ) -> dict | None:
         if html := await self.detail_html.run(url, proxy, cookies):
@@ -360,7 +360,7 @@ class KS:
         user_id: str,
         cursor: str = "",
         download: bool = False,
-        proxy: str = "",
+        proxy: str | None = None,
         cookies: str = "",
     ):
         response = await User(

@@ -25,7 +25,7 @@ class Manager:
         mapping_data: dict,
         timeout: int,
         max_retry: int,
-        proxy: dict,
+        proxy: str,
         work_path: "Path",
         folder_name: str,
         name_format: str,
@@ -69,7 +69,7 @@ class Manager:
         self.client_download = base_client(
             impersonate=impersonate,
             timeout=timeout,
-            proxy=proxy,
+            # proxy=proxy,
         )
         self.name_format = name_format
         self.name_length = name_length

@@ -5,7 +5,7 @@ from pydantic import BaseModel, computed_field
 
 class ShortUrl(BaseModel):
     text: str
-    proxy: str = ""
+    proxy: str | None = None
 
 
 class UrlResponse(BaseModel):

@@ -16,7 +16,7 @@ class APILive:
         self,
         manager: "Manager",
         cookies: str | dict = "",
-        proxy: str = "",
+        proxy: str | None = None,
         *args,
         **kwargs,
     ):
@@ -273,7 +273,7 @@ class API(APILive):
         self,
         manager: "Manager",
         cookies: str = "",
-        proxy: str = "",
+        proxy: str | None = None,
         *args,
         **kwargs,
     ):

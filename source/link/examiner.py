@@ -36,11 +36,12 @@ class Examiner:
     def __init__(self, manager: "Manager"):
         self.impersonate = manager.impersonate
         self.client = manager.client
+        self.proxy = manager.proxy
         self.console = manager.console
         self.max_retry = manager.max_retry
 
     async def run(
-        self, text: str, type_="detail", proxy: str = ""
+        self, text: str, type_="detail", proxy: str | None = None
     ) -> list[str] | list[tuple[str, str]]:
         urls = await self.__request_redirect(
             text,
@@ -83,7 +84,7 @@ class Examiner:
     async def __request_redirect(
         self,
         text: str,
-        proxy: str = "",
+        proxy: str | None = None
     ) -> str:
         urls = self.URL.findall(text)
         result = []
@@ -110,21 +111,12 @@ class Examiner:
     async def __request_url(
         self,
         url: str,
-        proxy: str = "",
+        proxy: str | None = None
     ) -> str:
-        if proxy:
-            response = get(
-                url,
-                proxy=proxy,
-                allow_redirects=True,
-                verify=False,
-                timeout=TIMEOUT,
-                impersonate=self.impersonate,
-            )
-        else:
-            response = await self.client.get(
-                url,
-            )
+        response = await self.client.get(
+            url,
+            proxy=self.proxy if proxy is None else proxy,
+        )
         await wait()
         response.raise_for_status()
         return str(response.url)

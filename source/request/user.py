@@ -11,7 +11,7 @@ class User(API):
         self,
         manager: "Manager",
         cookies: str = "",
-        proxy: str = "",
+        proxy: str | None = None,
         user_id: str = ...,
         cursor: str = "",
     ):

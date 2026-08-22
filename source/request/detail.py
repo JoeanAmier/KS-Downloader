@@ -11,7 +11,7 @@ class Detail(APILive):
         self,
         manager: "Manager",
         cookies: str = "",
-        proxy: str = "",
+        proxy: str | None = None,
         user_id: str = ...,
         detail_id: str = ...,
     ):
