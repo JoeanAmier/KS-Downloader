@@ -7,33 +7,32 @@
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/JoeanAmier/KS-Downloader?style=flat-square&color=fda7df">
 <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/JoeanAmier/KS-Downloader?style=flat-square&color=a29bfe">
 <br>
-<img alt="Static Badge" src="https://img.shields.io/badge/Python-3.12-b8e994?style=flat-square&logo=python&labelColor=3dc1d3">
+<img alt="Static Badge" src="https://img.shields.io/badge/Python-≥3.12-b8e994?style=flat-square&logo=python&labelColor=3dc1d3">
 <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/JoeanAmier/KS-Downloader?style=flat-square&color=48dbfb">
 <img src="https://img.shields.io/badge/Sourcery-enabled-884898?style=flat-square&color=1890ff" alt="">
 <img alt="Static Badge" src="https://img.shields.io/badge/Docker-badc58?style=flat-square&logo=docker">
 <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/KS-Downloader/total?style=flat-square&color=ffdd59">
 <br>
-<p>🔥 <b>KuaiShou Works Download Tool: </b>Completely free and open-source, based on curl_cffi module, for downloading KuaiShou watermark-free video and image files!</p>
-<p>⭐ Due to the author's limited energy, I was unable to update the English document in a timely manner, and the content may have become outdated, partial translation is machine translation, the translation result may be incorrect, Suggest referring to Chinese documentation. If you want to contribute to translation, we warmly welcome you.</p>
+<p>🔥 <b>KuaiShou Posts Download Tool: </b>Completely free and open-source, based on curl_cffi module, for downloading KuaiShou video and image files!</p>
 </div>
 <hr>
 <h1>📑 Project Features</h1>
 <ul>
-<li>✅ Download watermark-free KuaiShou works</li>
+<li>✅ Download KuaiShou posts</li>
 
-[//]: # (<li>✅ Batch download of account works files</li>)
-<li>☑️ Download works cover images</li>
-<li>☑️ Download works music files</li>
+[//]: # (<li>✅ Batch download of account posts files</li>)
+<li>☑️ Download posts cover images</li>
+<li>☑️ Download posts music files</li>
 <li>✅ Auto-skip downloaded files</li>
 <li>✅ File integrity verification</li>
-<li>✅ Persistent works metadata storage</li>
-<li>✅ Track downloaded works IDs</li>
+<li>✅ Persistent posts metadata storage</li>
+<li>✅ Track downloaded posts IDs</li>
 <li>✅ Resumable downloads</li>
 <li>✅ Dedicated storage folders</li>
 <li>✅ Custom filename formats</li>
 <li>☑️ Browser cookie extraction</li>
 <li>✅ Author alias configuration</li>
-<li>✅ Archive works by author</li>
+<li>✅ Archive posts by author</li>
 <li>✅ Automatic author nickname updates</li>
 <li>✅ API integration</li>
 <li>☑️ Background clipboard monitoring</li>
@@ -97,9 +96,9 @@
 <ul>
 <li><code>https://www.kuaishou.com/f/share-code</code></li>
 <li><code>https://v.kuaishou.com/share-code</code></li>
-<li><code>https://www.kuaishou.com/short-video/worksID</code></li>
-<li><code>https://kuaishou.cn/short-video/worksID</code></li>
-<li><del><code>https://live.kuaishou.com/u/author-id/worksID</code></del></li>
+<li><code>https://www.kuaishou.com/short-video/postsID</code></li>
+<li><code>https://kuaishou.cn/short-video/postsID</code></li>
+<li><del><code>https://live.kuaishou.com/u/author-id/postsID</code></del></li>
 <br/>
 <p><b>Recommend using share links; Multiple URLs supported (space separated).</b></p>
 </ul>
@@ -143,19 +142,19 @@
 <tr>
 <td align="center">folder_name</td>
 <td align="center">str</td>
-<td align="center">Storage folder name for works files</td>
+<td align="center">Storage folder name for posts files</td>
 <td align="center">Download</td>
 </tr>
 <tr>
 <td align="center">name_format</td>
 <td align="center">str</td>
-<td align="center"><sup><a href="#fields">#</a></sup>Works file name format, use spaces to separate fields; Supported fields: <code>作品类型</code>、<code>作者昵称</code>、<code>作者ID</code>、<code>作品描述</code>、<code>作品ID</code>、<code>发布日期</code></td>
+<td align="center"><sup><a href="#fields">#</a></sup>Posts file name format, use spaces to separate fields; Supported fields: <code>作品类型</code>、<code>作者昵称</code>、<code>作者ID</code>、<code>作品描述</code>、<code>作品ID</code>、<code>发布日期</code></td>
 <td align="center"><code>发布日期 作者昵称 作品描述</code></td>
 </tr>
 <tr>
 <td align="center">name_length</td>
 <td align="center">int</td>
-<td align="center">Works file name length limit. Text exceeding the limit will be truncated. When setting a large value, please ensure the system supports this length</td>
+<td align="center">Posts file name length limit. Text exceeding the limit will be truncated. When setting a large value, please ensure the system supports this length</td>
 <td align="center"><code>128</code></td>
 </tr>
 <tr>
@@ -173,7 +172,7 @@
 <tr>
 <td align="center">data_record</td>
 <td align="center">bool</td>
-<td align="center">Save works data to file (SQLite format)</td>
+<td align="center">Save posts data to file (SQLite format)</td>
 <td align="center">false</td>
 </tr>
 <tr>
@@ -192,7 +191,7 @@
 <tr>
 <td align="center"><del>download_music</del>（Deactivate）</td>
 <td align="center">bool</td>
-<td align="center">Download works music track</td>
+<td align="center">Download posts music track</td>
 <td align="center">false</td>
 </tr>
 <tr>
@@ -228,7 +227,7 @@
 <tr>
 <td align="center">author_archive</td>
 <td align="center">bool</td>
-<td align="center"><sup><a href="#author_archive">#</a></sup>Whether to store each author's works in separate folders; Folder name format: <code>authorID_authorNickname</code></td>
+<td align="center"><sup><a href="#author_archive">#</a></sup>Whether to store each author's posts in separate folders; Folder name format: <code>authorID_authorNickname</code></td>
 <td align="center">false</td>
 </tr>
 </tbody>
@@ -237,9 +236,9 @@
 <div id="fields">
 <p>name_format instructions (Currently only supports Chinese values) :</p>
 <ul>
-<li><code>作品ID</code>: Works ID</li>
-<li><code>作品描述</code>: Works Description</li>
-<li><code>作品类型</code>: Works Type</li>
+<li><code>作品ID</code>: Posts ID</li>
+<li><code>作品描述</code>: Posts Description</li>
+<li><code>作品类型</code>: Posts Type</li>
 <li><code>发布时间</code>: Publish Time</li>
 <li><code>作者昵称</code>: Author Nickname</li>
 <li><code>作者ID</code>: Author ID</li>
@@ -247,7 +246,7 @@
 </div>
 <hr>
 <div id="author_archive">
-<p>When <code>author_archive</code> is set to <code>true</code>, the program will store each author's works in dedicated folders. If an author's nickname changes, the program automatically updates the nickname portion in existing downloaded filenames!</p>
+<p>When <code>author_archive</code> is set to <code>true</code>, the program will store each author's posts in dedicated folders. If an author's nickname changes, the program automatically updates the nickname portion in existing downloaded filenames!</p>
 <p>Additionally, you can configure author aliases through the <code>mapping_data</code> parameter. When an alias is set, the program will use your custom alias instead of the original nickname in filenames!</p>
 </div>
 
@@ -396,7 +395,7 @@ repository to execute the build process
 <li>The author of this project will not provide a paid version of the KS-Downloader project, nor will they offer any commercial services related to the KS-Downloader project.</li>
 <li>Any secondary development, modification, or compilation based on this project is unrelated to the original author. The original author assumes no liability for any consequences resulting from such secondary development. Users bear full responsibility for all outcomes arising from such modifications.</li>
 <li>This project grants no patent licenses; if the use of this project leads to patent disputes or infringement, the user bears all associated risks and responsibilities. Without written authorization from the author or rights holder, users may not use this project for any commercial promotion, marketing, or re-licensing.</li>
-<li>The author reserves the right to terminate service to any user who violates this disclaimer at any time and may require them to destroy all obtained code and derivative works.</li>
+<li>The author reserves the right to terminate service to any user who violates this disclaimer at any time and may require them to destroy all obtained code and derivative posts.</li>
 <li>The author reserves the right to update this disclaimer at any time without prior notice. Continued use of the project constitutes acceptance of the revised terms.</li>
 </ol>
 <b>Before using the code and functionalities of this project, please carefully consider and accept the above disclaimer. If you have any questions or disagree with the statement, please do not use the code and functionalities of this project. If you use the code and functionalities of this project, it is considered that you fully understand and accept the above disclaimer, and willingly assume all risks and consequences associated with the use of this project.</b>

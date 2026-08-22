@@ -7,18 +7,18 @@
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/JoeanAmier/KS-Downloader?style=flat-square&color=fda7df">
 <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/JoeanAmier/KS-Downloader?style=flat-square&color=a29bfe">
 <br>
-<img alt="Static Badge" src="https://img.shields.io/badge/Python-3.12-b8e994?style=flat-square&logo=python&labelColor=3dc1d3">
+<img alt="Static Badge" src="https://img.shields.io/badge/Python-≥3.12-b8e994?style=flat-square&logo=python&labelColor=3dc1d3">
 <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/JoeanAmier/KS-Downloader?style=flat-square&color=48dbfb">
 <img src="https://img.shields.io/badge/Sourcery-enabled-884898?style=flat-square&color=1890ff" alt="">
 <img alt="Static Badge" src="https://img.shields.io/badge/Docker-badc58?style=flat-square&logo=docker">
 <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/KS-Downloader/total?style=flat-square&color=ffdd59">
 <br>
-<p>🔥 <b>快手作品下载工具：</b>完全免费开源，基于 curl_cffi 库实现，下载快手无水印视频、图片文件！</p>
+<p>🔥 <b>快手作品下载工具：</b>完全免费开源，基于 curl_cffi 库实现，下载快手视频、图片文件！</p>
 </div>
 <hr>
 <h1>📑 项目功能</h1>
 <ul>
-<li>✅ 下载快手无水印作品文件</li>
+<li>✅ 下载快手作品文件</li>
 
 [//]: # (<li>✅ 批量下载账号作品文件</li>)
 <li>☑️ 下载快手作品封面图片</li>
