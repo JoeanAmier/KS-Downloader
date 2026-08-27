@@ -39,6 +39,7 @@ class Downloader:
         "audio/mp4": "m4a",
         "audio/mpeg": "mp3",
     }
+    WRITE_BUFFER_SIZE = 1024 * 1024 * 50
 
     def __init__(
         self,
@@ -315,10 +316,16 @@ class Downloader:
                         total=length or None,
                         completed=position,
                     )
+                    buffer = bytearray()
                     async with open(temp, "ab") as f:
                         async for chunk in response.aiter_content(self.download_chunk):
-                            await f.write(chunk)
+                            buffer.extend(chunk)
+                            if len(buffer) >= self.WRITE_BUFFER_SIZE:
+                                await f.write(bytes(buffer))
+                                buffer.clear()
                             progress.update(task_id, advance=len(chunk))
+                        if buffer:
+                            await f.write(bytes(buffer))
             except RequestException as e:
                 await self.database.delete_download_data(id_)
                 raise RequestException(repr(e)) from e
