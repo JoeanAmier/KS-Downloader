@@ -6,12 +6,12 @@
 <img alt="GitHub forks" src="https://img.shields.io/github/forks/JoeanAmier/KS-Downloader?style=flat-square&color=55efc4">
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/JoeanAmier/KS-Downloader?style=flat-square&color=fda7df">
 <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/JoeanAmier/KS-Downloader?style=flat-square&color=a29bfe">
+<img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/KS-Downloader/total?style=flat-square&color=ffdd59">
 <br>
 <img alt="Static Badge" src="https://img.shields.io/badge/Python-≥3.12-b8e994?style=flat-square&logo=python&labelColor=3dc1d3">
 <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/JoeanAmier/KS-Downloader?style=flat-square&color=48dbfb">
 <img src="https://img.shields.io/badge/Sourcery-enabled-884898?style=flat-square&color=1890ff" alt="">
-<img alt="Static Badge" src="https://img.shields.io/badge/Docker-badc58?style=flat-square&logo=docker">
-<img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/KS-Downloader/total?style=flat-square&color=ffdd59">
+<img alt="Docker Pulls" src="https://img.shields.io/docker/pulls/joeanamier/ks-downloader?style=flat-square&color=badc58">
 <br>
 <p>🔥 <b>KuaiShou Posts Download Tool: </b>Completely free and open-source, based on curl_cffi module, for downloading KuaiShou video and image files!</p>
 </div>
@@ -400,9 +400,13 @@ repository to execute the build process
 </ol>
 <b>Before using the code and functionalities of this project, please carefully consider and accept the above disclaimer. If you have any questions or disagree with the statement, please do not use the code and functionalities of this project. If you use the code and functionalities of this project, it is considered that you fully understand and accept the above disclaimer, and willingly assume all risks and consequences associated with the use of this project.</b>
 <h1>⭐ Star History</h1>
-<p>
-<img alt="Star History Chart" src="https://api.star-history.com/chart?repos=joeanamier/ks-downloader&type=timeline&legend=bottom-right" />
-</p>
+<a href="https://www.star-history.com/?repos=joeanamier%2Fks-downloader&type=timeline&releases=&legend=bottom-right">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=joeanamier/ks-downloader&type=timeline&theme=dark&legend=bottom-right" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=joeanamier/ks-downloader&type=timeline&legend=bottom-right" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=joeanamier/ks-downloader&type=timeline&legend=bottom-right" />
+ </picture>
+</a>
 
 # 💡 Project References
 
